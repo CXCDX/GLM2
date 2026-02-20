@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ef">
+<title>Glame — Hesabım</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;
+  --ink:#0f0e0e;
+  --i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);
+  --i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);
+  --g:#b8892a;--g2:#d4a030;--r:#be3535;
+  --brd:2px solid var(--ink);--brdg:2px solid var(--g);
+  --d:'Playfair Display',Georgia,serif;
+  --b:'Figtree',sans-serif;
+  --m:'DM Mono',monospace;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --nav-h:72px;--top-h:60px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;min-height:100dvh}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+#cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+#curr.x{width:52px;height:52px;border-color:var(--g)}
+@media(hover:none){#cur,#curr{display:none}}
+
+/* ── ANN ── */
+.ann{height:34px;background:var(--ink);overflow:hidden;display:flex;align-items:center}
+.ann-track{display:flex;white-space:nowrap;animation:marquee 38s linear infinite}
+.ann-item{padding:0 32px;font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+.ann-item b{color:var(--g2);font-weight:400}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(247,244,239,.96);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-back{display:flex;align-items:center;gap:8px;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);transition:color .2s;cursor:pointer}
+.nav-back:hover{color:var(--ink)}
+.nav-back svg{transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+
+/* ── MAIN LAYOUT ── */
+.auth-layout{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100dvh - 34px - 68px)}
+
+/* LEFT — decorative panel */
+.auth-left{background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:72px 64px;position:relative;overflow:hidden;border-right:var(--brd)}
+.auth-left-bg{position:absolute;inset:0;pointer-events:none}
+/* orbital decoration */
+.orb{position:absolute;border-radius:50%;border:1px solid rgba(247,244,239,.07)}
+.orb1{width:480px;height:480px;top:-80px;right:-120px}
+.orb2{width:320px;height:320px;bottom:40px;left:-80px}
+.orb3{width:180px;height:180px;top:40%;right:10%;border-color:rgba(184,137,42,.15)}
+/* glow */
+.auth-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(184,137,42,.08) 0%,transparent 70%);top:30%;left:20%;pointer-events:none}
+.auth-brand{position:relative;z-index:2}
+.auth-brand-logo{font-family:var(--d);font-size:28px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,244,239,.9);margin-bottom:48px}
+.auth-brand-logo em{font-style:italic;color:var(--g);font-weight:400}
+.auth-tagline{font-family:var(--d);font-size:clamp(32px,3vw,48px);font-weight:900;color:rgba(247,244,239,.9);line-height:.97;letter-spacing:-.025em;margin-bottom:20px}
+.auth-tagline em{font-style:italic;font-weight:400;color:var(--g)}
+.auth-desc{font-size:15px;color:rgba(247,244,239,.35);line-height:1.7;max-width:320px}
+.auth-perks{position:relative;z-index:2;display:flex;flex-direction:column;gap:16px}
+.auth-perk{display:flex;align-items:center;gap:14px;font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+.auth-perk-dot{width:6px;height:6px;border-radius:50%;background:var(--g);flex-shrink:0}
+.auth-device{position:absolute;bottom:72px;right:48px;z-index:2;opacity:.25}
+
+/* RIGHT — form panel */
+.auth-right{display:flex;flex-direction:column;justify-content:center;padding:72px 64px;overflow-y:auto}
+
+/* TABS */
+.auth-tabs{display:flex;gap:0;border:var(--brd);margin-bottom:44px;align-self:flex-start}
+.auth-tab{font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:13px 28px;border:none;background:none;cursor:pointer;color:var(--i70);border-right:var(--brd);transition:all .25s;position:relative}
+.auth-tab:last-child{border-right:none}
+.auth-tab.active{background:var(--ink);color:var(--w)}
+.auth-tab:not(.active):hover{background:var(--w3);color:var(--ink)}
+
+/* PANELS */
+.auth-panel{display:none}
+.auth-panel.active{display:block}
+.auth-h{font-family:var(--d);font-size:clamp(30px,2.8vw,40px);font-weight:900;line-height:1.0;letter-spacing:-.02em;margin-bottom:8px}
+.auth-h em{font-style:italic;font-weight:400;color:var(--g)}
+.auth-sub{font-size:14px;color:var(--i70);line-height:1.65;margin-bottom:36px;max-width:340px}
+
+/* FORM */
+.fgroup{margin-bottom:20px}
+.flabel{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--i70);margin-bottom:8px;display:block}
+.finput{width:100%;height:52px;border:var(--brd);background:transparent;padding:0 16px;font-size:15px;font-family:var(--b);color:var(--ink);outline:none;transition:border-color .25s;-webkit-appearance:none}
+.finput:focus{border-color:var(--g)}
+.finput::placeholder{color:var(--i40)}
+.finput.error{border-color:var(--r)}
+.ferr{font-family:var(--m);font-size:10px;letter-spacing:.1em;color:var(--r);margin-top:6px;display:none}
+.ferr.show{display:block}
+/* password toggle */
+.finput-wrap{position:relative}
+.fpeye{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--i40);padding:4px;transition:color .2s}
+.fpeye:hover{color:var(--ink)}
+/* row */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+/* checkbox */
+.fcheck{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;cursor:pointer}
+.fcheck-box{width:18px;height:18px;border:var(--brd);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.fcheck-box.on{background:var(--ink)}
+.fcheck-box.on svg{opacity:1}
+.fcheck-box svg{opacity:0;transition:opacity .2s;width:10px;height:10px;stroke:var(--w);stroke-width:2.5}
+.fcheck-text{font-size:13px;color:var(--i70);line-height:1.55}
+.fcheck-text a{color:var(--ink);border-bottom:1px solid var(--i15)}
+/* forgot */
+.fforgot{display:flex;justify-content:flex-end;margin-top:-12px;margin-bottom:24px}
+.fforgot a{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70);transition:color .2s}
+.fforgot a:hover{color:var(--g)}
+/* submit */
+.fsubmit{width:100%;height:54px;background:var(--ink);color:var(--w);border:var(--brd);cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;position:relative;overflow:hidden;transition:color .35s;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:10px}
+.fsubmit::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.fsubmit:hover::after{transform:translateX(0)}
+.fsubmit span,.fsubmit svg{position:relative;z-index:1}
+/* loading state */
+.fsubmit.loading{pointer-events:none}
+.fsubmit.loading span{opacity:0}
+.fsubmit.loading::before{content:'';position:absolute;width:18px;height:18px;border:2px solid rgba(247,244,239,.3);border-top-color:var(--w);border-radius:50%;animation:spin .7s linear infinite;z-index:2}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* divider */
+.fdiv{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.fdiv-line{flex:1;height:1px;background:var(--i08)}
+.fdiv-t{font-family:var(--m);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--i40)}
+/* social */
+.fsocial{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.fsoc-btn{height:50px;border:var(--brd);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);transition:all .25s}
+.fsoc-btn:hover{background:var(--w3);color:var(--ink)}
+.fsoc-icon{font-size:16px}
+/* bottom link */
+.fswitch{font-family:var(--m);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70);text-align:center}
+.fswitch a{color:var(--ink);border-bottom:1px solid var(--i15)}
+.fswitch a:hover{border-color:var(--g);color:var(--g)}
+
+/* ── STRENGTH METER ── */
+.pstr{margin-top:8px}
+.pstr-bars{display:flex;gap:4px;margin-bottom:5px}
+.pstr-bar{flex:1;height:2px;background:var(--i08);transition:background .3s}
+.pstr-bar.w{background:var(--r)}
+.pstr-bar.m{background:var(--g2)}
+.pstr-bar.s{background:#2d8a4e}
+.pstr-t{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--i40)}
+
+/* ── SUCCESS STATE ── */
+.auth-success{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 0}
+.auth-success.show{display:flex}
+.success-circle{width:72px;height:72px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:24px;animation:pop .5s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.success-circle svg{stroke:var(--w);width:28px;height:28px;stroke-width:2.5}
+.success-h{font-family:var(--d);font-size:28px;font-weight:900;margin-bottom:10px}
+.success-t{font-size:14px;color:var(--i70);line-height:1.65;max-width:280px;margin-bottom:32px}
+.success-btn{background:var(--ink);color:var(--w);font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:16px 36px;border:var(--brd);cursor:pointer;transition:background .25s}
+.success-btn:hover{background:var(--g)}
+
+/* ── DASHBOARD (logged-in state) ── */
+.dash{display:none;padding:52px 64px}
+.dash.show{display:block}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:52px;padding-bottom:32px;border-bottom:var(--brd)}
+.dash-welcome{font-family:var(--d);font-size:clamp(26px,2.5vw,36px);font-weight:900;line-height:1.05}
+.dash-welcome em{font-style:italic;font-weight:400;color:var(--g)}
+.dash-welcome-sub{font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);margin-top:6px}
+.dash-logout{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);border-bottom:1px solid var(--i15);cursor:pointer;transition:color .2s}
+.dash-logout:hover{color:var(--r)}
+/* stat cards */
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:var(--brd);margin-bottom:44px}
+.dstat{padding:28px 24px;border-right:var(--brd)}
+.dstat:last-child{border-right:none}
+.dstat-n{font-family:var(--d);font-size:36px;font-weight:900;font-style:italic;color:var(--g);line-height:1}
+.dstat-t{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);margin-top:7px}
+/* tabs */
+.dash-tabs{display:flex;gap:0;border-bottom:var(--brd);margin-bottom:44px}
+.dash-tab{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:16px 28px;border:none;background:none;cursor:pointer;color:var(--i70);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .25s}
+.dash-tab.active{color:var(--ink);border-bottom-color:var(--ink)}
+.dash-tab:hover:not(.active){color:var(--ink)}
+/* orders */
+.dash-panel{display:none}
+.dash-panel.active{display:block}
+.order-list{border:var(--brd)}
+.order-row{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:24px;padding:20px 24px;border-bottom:var(--brd);transition:background .2s;cursor:pointer}
+.order-row:last-child{border-bottom:none}
+.order-row:hover{background:var(--w3)}
+.order-img{width:52px;height:52px;background:var(--w2);border:var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.order-info-name{font-family:var(--d);font-size:16px;font-weight:700;margin-bottom:4px}
+.order-info-meta{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70)}
+.order-price{font-family:var(--d);font-size:18px;font-weight:700;text-align:right}
+.order-status{display:inline-flex;align-items:center;gap:6px;font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;margin-top:4px}
+.os-delivered{background:rgba(45,138,78,.1);color:#2d8a4e}
+.os-shipped{background:rgba(184,137,42,.1);color:var(--g)}
+.os-processing{background:rgba(15,14,14,.06);color:var(--i70)}
+/* profile form */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 28px}
+/* skin profile */
+.skin-prof{border:var(--brd);margin-bottom:28px}
+.skin-prof-h{padding:18px 24px;border-bottom:var(--brd);font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.skin-prof-edit{font-size:10px;letter-spacing:.12em;color:var(--g);cursor:pointer;border-bottom:1px solid var(--gt)}
+.skin-tags{display:flex;flex-wrap:wrap;gap:8px;padding:20px 24px}
+.skin-tag{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border:var(--brdg);color:var(--g)}
+/* addresses */
+.addr-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--brd);margin-bottom:28px}
+.addr-card{padding:24px;border-right:var(--brd);position:relative}
+.addr-card:last-child{border-right:none}
+.addr-def{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);background:rgba(184,137,42,.1);padding:3px 8px;display:inline-block;margin-bottom:10px}
+.addr-name{font-family:var(--d);font-size:16px;font-weight:700;margin-bottom:4px}
+.addr-t{font-size:13px;color:var(--i70);line-height:1.6}
+.addr-actions{display:flex;gap:12px;margin-top:14px}
+.addr-act{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);cursor:pointer;transition:color .2s;border-bottom:1px solid var(--i15)}
+.addr-act:hover{color:var(--g)}
+.addr-add{border:2px dashed var(--i15);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40);transition:all .3s;min-height:120px}
+.addr-add:hover{border-color:var(--g);color:var(--g)}
+
+/* MOBILE */
+@media(max-width:767px){
+  .ann{display:none}
+  .nav{padding:0 18px;height:var(--top-h)}
+  .auth-layout{grid-template-columns:1fr}
+  .auth-left{display:none}
+  .auth-right{padding:40px 24px 60px}
+  .frow{grid-template-columns:1fr}
+  .dash{padding:32px 20px}
+  .dash-stats{grid-template-columns:1fr 1fr}
+  .dstat:nth-child(2n){border-right:none}
+  .dstat:nth-child(n){border-bottom:var(--brd)}
+  .dstat:nth-last-child(-n+2){border-bottom:none}
+  .order-row{grid-template-columns:auto 1fr;grid-template-rows:auto auto}
+  .order-price{grid-column:2;grid-row:1;text-align:right}
+  .order-status{grid-column:2;grid-row:2}
+  .profile-grid{grid-template-columns:1fr}
+  .addr-grid{grid-template-columns:1fr}
+  .addr-card{border-right:none;border-bottom:var(--brd)}
+  .addr-card:last-child{border-bottom:none}
+  .fsocial{grid-template-columns:1fr}
+  body{padding-bottom:0}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curr"></div>
+
+<!-- ANN -->
+<div class="ann">
+  <div class="ann-track">
+    <span class="ann-item">İlk Siparişte %10 <b>GLAME10</b> · Ücretsiz Kargo 500 TL Üzeri · 30 Gün İade · İlk Siparişte %10 <b>GLAME10</b> · Ücretsiz Kargo 500 TL Üzeri · 30 Gün İade ·</span>
+    <span class="ann-item">İlk Siparişte %10 <b>GLAME10</b> · Ücretsiz Kargo 500 TL Üzeri · 30 Gün İade · İlk Siparişte %10 <b>GLAME10</b> · Ücretsiz Kargo 500 TL Üzeri · 30 Gün İade ·</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-back" onclick="history.back()">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Alışverişe Devam
+  </div>
+  <a href="glame-v8.html" class="logo">Gl<em>a</em>me</a>
+  <div style="width:160px;display:flex;justify-content:flex-end">
+    <span style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40)">Güvenli Bağlantı 🔒</span>
+  </div>
+</nav>
+
+<!-- AUTH LAYOUT -->
+<div class="auth-layout" id="authLayout">
+  <!-- LEFT DECORATIVE -->
+  <div class="auth-left">
+    <div class="auth-left-bg">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+      <div class="auth-glow"></div>
+    </div>
+    <div class="auth-brand">
+      <div class="auth-brand-logo">Gl<em>a</em>me</div>
+      <div class="auth-tagline">Cildinizin<br><em>kişisel</em><br>dünyası.</div>
+      <p class="auth-desc">Sipariş takibi, cilt profili, kişisel bakım rutini. Hepsi tek hesapta.</p>
+    </div>
+    <div class="auth-perks">
+      <div class="auth-perk"><span class="auth-perk-dot"></span>Siparişlerinizi takip edin</div>
+      <div class="auth-perk"><span class="auth-perk-dot"></span>Kişisel cilt profilinizi oluşturun</div>
+      <div class="auth-perk"><span class="auth-perk-dot"></span>Özel tekliflerden yararlanın</div>
+      <div class="auth-perk"><span class="auth-perk-dot"></span>İade süreçlerini yönetin</div>
+    </div>
+    <!-- device decoration -->
+    <div class="auth-device">
+      <div style="width:120px;height:120px;border-radius:50%;border:2px solid rgba(247,244,239,.2);display:flex;align-items:center;justify-content:center">
+        <div style="width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(190,53,53,.3) 0%,transparent 70%);border:1px solid rgba(247,244,239,.1)"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT FORM PANEL -->
+  <div class="auth-right" id="authRight">
+    <!-- TABS -->
+    <div class="auth-tabs" id="authTabs">
+      <button class="auth-tab active" onclick="showPanel('login')">Giriş Yap</button>
+      <button class="auth-tab" onclick="showPanel('register')">Üye Ol</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="auth-panel active" id="panel-login">
+      <h2 class="auth-h">Hoş <em>Geldiniz</em></h2>
+      <p class="auth-sub">Hesabınıza giriş yaparak siparişlerinizi takip edin ve kişisel bakım rutininize erişin.</p>
+
+      <div class="fgroup">
+        <label class="flabel">E-posta Adresi</label>
+        <input class="finput" type="email" id="l-email" placeholder="ornek@email.com" autocomplete="email">
+        <div class="ferr" id="l-email-err">Geçerli bir e-posta girin</div>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Şifre</label>
+        <div class="finput-wrap">
+          <input class="finput" type="password" id="l-pass" placeholder="Şifreniz" autocomplete="current-password" style="padding-right:48px">
+          <button class="fpeye" onclick="togglePass('l-pass',this)">
+            <svg id="eye-login" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="ferr" id="l-pass-err">Şifre en az 6 karakter olmalı</div>
+      </div>
+      <div class="fforgot"><a href="#" onclick="showPanel('forgot');return false">Şifremi Unuttum</a></div>
+
+      <button class="fsubmit" onclick="doLogin()"><span>Giriş Yap</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+
+      <div class="fdiv"><div class="fdiv-line"></div><span class="fdiv-t">veya</span><div class="fdiv-line"></div></div>
+      <div class="fsocial">
+        <button class="fsoc-btn"><span class="fsoc-icon">G</span>Google ile</button>
+        <button class="fsoc-btn"><span class="fsoc-icon">f</span>Facebook ile</button>
+      </div>
+      <p class="fswitch">Hesabınız yok mu? <a href="#" onclick="showPanel('register');return false">Üye Olun</a></p>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-panel" id="panel-register">
+      <h2 class="auth-h">Glame<br><em>Ailesine</em> Katılın</h2>
+      <p class="auth-sub">Ücretsiz hesap oluşturun. Kişisel cilt profilinizi oluşturun, siparişlerinizi yönetin.</p>
+
+      <div class="frow">
+        <div class="fgroup"><label class="flabel">Ad</label><input class="finput" type="text" id="r-name" placeholder="Adınız" autocomplete="given-name"></div>
+        <div class="fgroup"><label class="flabel">Soyad</label><input class="finput" type="text" id="r-surname" placeholder="Soyadınız" autocomplete="family-name"></div>
+      </div>
+      <div class="fgroup"><label class="flabel">E-posta</label><input class="finput" type="email" id="r-email" placeholder="ornek@email.com" autocomplete="email"><div class="ferr" id="r-email-err">Geçerli bir e-posta girin</div></div>
+      <div class="fgroup">
+        <label class="flabel">Şifre</label>
+        <div class="finput-wrap">
+          <input class="finput" type="password" id="r-pass" placeholder="En az 8 karakter" autocomplete="new-password" style="padding-right:48px" oninput="checkStrength(this.value)">
+          <button class="fpeye" onclick="togglePass('r-pass',this)">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="pstr" id="pstr">
+          <div class="pstr-bars"><div class="pstr-bar" id="pb1"></div><div class="pstr-bar" id="pb2"></div><div class="pstr-bar" id="pb3"></div><div class="pstr-bar" id="pb4"></div></div>
+          <div class="pstr-t" id="pstr-t">Şifre gücü</div>
+        </div>
+      </div>
+      <div class="fgroup"><label class="flabel">Doğum Tarihi (isteğe bağlı)</label><input class="finput" type="date" id="r-dob" autocomplete="bday"></div>
+
+      <div class="fcheck" onclick="toggleCheck(this)">
+        <div class="fcheck-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="fcheck-text">Glame'den kampanya ve özel teklifler almak istiyorum</div>
+      </div>
+      <div class="fcheck" onclick="toggleCheck(this)" id="terms-check">
+        <div class="fcheck-box on"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="fcheck-text"><a href="#">Kullanım Koşulları</a> ve <a href="#">Gizlilik Politikası</a>'nı okudum, kabul ediyorum</div>
+      </div>
+
+      <button class="fsubmit" onclick="doRegister()"><span>Hesap Oluştur</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+
+      <div class="fdiv"><div class="fdiv-line"></div><span class="fdiv-t">veya</span><div class="fdiv-line"></div></div>
+      <div class="fsocial">
+        <button class="fsoc-btn"><span class="fsoc-icon">G</span>Google ile</button>
+        <button class="fsoc-btn"><span class="fsoc-icon">f</span>Facebook ile</button>
+      </div>
+      <p class="fswitch">Zaten hesabınız var mı? <a href="#" onclick="showPanel('login');return false">Giriş Yapın</a></p>
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div class="auth-panel" id="panel-forgot">
+      <h2 class="auth-h">Şifre <em>Sıfırla</em></h2>
+      <p class="auth-sub">E-posta adresinize şifre sıfırlama bağlantısı göndereceğiz.</p>
+      <div class="fgroup"><label class="flabel">E-posta Adresi</label><input class="finput" type="email" id="f-email" placeholder="ornek@email.com"></div>
+      <button class="fsubmit" onclick="doForgot()"><span>Sıfırlama Bağlantısı Gönder</span></button>
+      <p class="fswitch" style="margin-top:0"><a href="#" onclick="showPanel('login');return false">← Giriş Sayfasına Dön</a></p>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="auth-success" id="authSuccess">
+      <div class="success-circle"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="success-h" id="successH">Hoş Geldiniz!</div>
+      <p class="success-t" id="successT">Hesabınız başarıyla oluşturuldu. Cilt profilinizi oluşturmak ister misiniz?</p>
+      <button class="success-btn" onclick="showDash()">Hesabıma Git →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD (shown after login) -->
+<div class="dash" id="dash">
+  <div class="dash-header">
+    <div>
+      <div class="dash-welcome">Merhaba, <em>Selin</em></div>
+      <div class="dash-welcome-sub">Son giriş: Bugün 14:32 · İstanbul</div>
+    </div>
+    <div class="dash-logout" onclick="doLogout()">Çıkış Yap</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="dash-stats">
+    <div class="dstat"><div class="dstat-n">3</div><div class="dstat-t">Toplam Sipariş</div></div>
+    <div class="dstat"><div class="dstat-n">2</div><div class="dstat-t">Aktif Ürün</div></div>
+    <div class="dstat"><div class="dstat-n">847</div><div class="dstat-t">Puan</div></div>
+    <div class="dstat"><div class="dstat-n">8<sup style="font-size:.45em">hf</sup></div><div class="dstat-t">Bakım Serisi</div></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="dash-tabs">
+    <button class="dash-tab active" onclick="setDashTab(this,'orders')">Siparişlerim</button>
+    <button class="dash-tab" onclick="setDashTab(this,'profile')">Profilim</button>
+    <button class="dash-tab" onclick="setDashTab(this,'skin')">Cilt Profilim</button>
+    <button class="dash-tab" onclick="setDashTab(this,'addresses')">Adreslerim</button>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="dash-panel active" id="dp-orders">
+    <div class="order-list">
+      <div class="order-row">
+        <div class="order-img"><div style="width:36px;height:36px;border-radius:50%;background:radial-gradient(circle,rgba(190,53,53,.2),transparent 70%);border:1px solid var(--ink)"></div></div>
+        <div><div class="order-info-name">Glame Glow Mask</div><div class="order-info-meta">Sipariş #GL-2024-847 · 14 Şub 2026<div class="order-status os-delivered">✓ Teslim Edildi</div></div></div>
+        <div class="order-price"><sub style="font-size:11px">₺</sub>5.000</div>
+      </div>
+      <div class="order-row">
+        <div class="order-img"><div style="width:16px;height:60px;border-radius:8px;background:linear-gradient(to right,rgba(15,14,14,.06),rgba(15,14,14,.1));border:1px solid var(--ink)"></div></div>
+        <div><div class="order-info-name">Dermaring Revive</div><div class="order-info-meta">Sipariş #GL-2024-623 · 2 Oca 2026<div class="order-status os-delivered">✓ Teslim Edildi</div></div></div>
+        <div class="order-price"><sub style="font-size:11px">₺</sub>3.500</div>
+      </div>
+      <div class="order-row">
+        <div class="order-img"><div style="width:24px;height:42px;border-radius:6px;background:linear-gradient(135deg,rgba(200,220,240,.45),rgba(130,165,205,.28));border:1px solid var(--ink)"></div></div>
+        <div><div class="order-info-name">Sapphire Freeze IPL</div><div class="order-info-meta">Sipariş #GL-2026-112 · 18 Şub 2026<div class="order-status os-shipped">⟳ Kargoda</div></div></div>
+        <div class="order-price"><sub style="font-size:11px">₺</sub>4.200</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="dash-panel" id="dp-profile">
+    <div class="profile-grid">
+      <div class="fgroup"><label class="flabel">Ad</label><input class="finput" type="text" value="Selin"></div>
+      <div class="fgroup"><label class="flabel">Soyad</label><input class="finput" type="text" value="Kaya"></div>
+      <div class="fgroup"><label class="flabel">E-posta</label><input class="finput" type="email" value="selin.kaya@gmail.com"></div>
+      <div class="fgroup"><label class="flabel">Telefon</label><input class="finput" type="tel" value="+90 532 000 0000"></div>
+      <div class="fgroup"><label class="flabel">Doğum Tarihi</label><input class="finput" type="date" value="1990-03-15"></div>
+      <div class="fgroup"><label class="flabel">Yeni Şifre</label><input class="finput" type="password" placeholder="Değiştirmek için girin"></div>
+    </div>
+    <button class="fsubmit" style="max-width:280px;margin-top:12px"><span>Değişiklikleri Kaydet</span></button>
+  </div>
+
+  <!-- SKIN PROFILE -->
+  <div class="dash-panel" id="dp-skin">
+    <div class="skin-prof">
+      <div class="skin-prof-h">Cilt Profiliniz <span class="skin-prof-edit">Düzenle →</span></div>
+      <div class="skin-tags">
+        <div class="skin-tag">Kombine Cilt</div>
+        <div class="skin-tag">Akne Eğilimli</div>
+        <div class="skin-tag">Hassas</div>
+        <div class="skin-tag">Leke</div>
+        <div class="skin-tag">Kırışıklık</div>
+        <div class="skin-tag">30–40 Yaş</div>
+      </div>
+    </div>
+    <div style="border:var(--brd);padding:32px 28px">
+      <div style="font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:18px">Mevcut Glame Protokolünüz</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--i08)"><div style="width:36px;height:36px;border-radius:50%;background:radial-gradient(circle,rgba(190,53,53,.2),transparent);border:1px solid var(--ink)"></div><div><div style="font-family:var(--d);font-size:15px;font-weight:700">Glow Mask</div><div style="font-family:var(--m);font-size:10px;letter-spacing:.1em;color:var(--i70);margin-top:2px">Pazartesi · Çarşamba · Cuma · 20dk</div></div></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0"><div style="width:16px;height:36px;border-radius:8px;background:linear-gradient(to right,rgba(15,14,14,.06),rgba(15,14,14,.1));border:1px solid var(--ink)"></div><div><div style="font-family:var(--d);font-size:15px;font-weight:700">Dermaring Revive</div><div style="font-family:var(--m);font-size:10px;letter-spacing:.1em;color:var(--i70);margin-top:2px">Salı · Perşembe · Cumartesi · 15dk</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADDRESSES -->
+  <div class="dash-panel" id="dp-addresses">
+    <div class="addr-grid">
+      <div class="addr-card">
+        <div class="addr-def">Varsayılan</div>
+        <div class="addr-name">Selin Kaya</div>
+        <div class="addr-t">Nişantaşı Mah. Abdi İpekçi Cad.<br>No:45 D:8, Şişli / İstanbul<br>34367</div>
+        <div class="addr-actions"><span class="addr-act">Düzenle</span><span class="addr-act">Sil</span></div>
+      </div>
+      <div class="addr-card">
+        <div class="addr-name">İş Adresi</div>
+        <div class="addr-t">Büyükdere Cad. Levent Ofis<br>No:200 Kat:12, Levent / İstanbul<br>34394</div>
+        <div class="addr-actions"><span class="addr-act">Varsayılan Yap</span><span class="addr-act">Düzenle</span></div>
+      </div>
+      <div class="addr-add">+ Yeni Adres Ekle</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),curr=document.getElementById('curr');
+let mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia('(hover:hover)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
+  document.querySelectorAll('a,button,input').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});
+}
+
+/* PANEL SWITCH */
+function showPanel(p){
+  document.querySelectorAll('.auth-panel').forEach(x=>x.classList.remove('active'));
+  document.getElementById('authSuccess').classList.remove('show');
+  document.getElementById('panel-'+p).classList.add('active');
+  const tabs=document.getElementById('authTabs');
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+  if(p==='login') document.querySelectorAll('.auth-tab')[0].classList.add('active');
+  if(p==='register') document.querySelectorAll('.auth-tab')[1].classList.add('active');
+  tabs.style.display=(p==='forgot')?'none':'flex';
+}
+
+/* LOGIN */
+function doLogin(){
+  const email=document.getElementById('l-email');
+  const pass=document.getElementById('l-pass');
+  let ok=true;
+  if(!email.value.includes('@')){email.classList.add('error');document.getElementById('l-email-err').classList.add('show');ok=false;}
+  else{email.classList.remove('error');document.getElementById('l-email-err').classList.remove('show');}
+  if(pass.value.length<6){pass.classList.add('error');document.getElementById('l-pass-err').classList.add('show');ok=false;}
+  else{pass.classList.remove('error');document.getElementById('l-pass-err').classList.remove('show');}
+  if(!ok)return;
+  const btn=document.querySelector('#panel-login .fsubmit');
+  btn.classList.add('loading');
+  setTimeout(()=>{btn.classList.remove('loading');showDash();},1500);
+}
+
+/* REGISTER */
+function doRegister(){
+  const email=document.getElementById('r-email');
+  if(!email.value.includes('@')){email.classList.add('error');document.getElementById('r-email-err').classList.add('show');return;}
+  email.classList.remove('error');document.getElementById('r-email-err').classList.remove('show');
+  const btn=document.querySelector('#panel-register .fsubmit');
+  btn.classList.add('loading');
+  setTimeout(()=>{
+    btn.classList.remove('loading');
+    document.querySelectorAll('.auth-panel').forEach(x=>x.classList.remove('active'));
+    document.getElementById('authTabs').style.display='none';
+    document.getElementById('successH').textContent='Hesabınız Oluşturuldu!';
+    document.getElementById('successT').textContent='Glame ailesine hoş geldiniz. Cilt profilinizi oluşturmak ister misiniz?';
+    document.getElementById('authSuccess').classList.add('show');
+  },1600);
+}
+
+/* FORGOT */
+function doForgot(){
+  const btn=document.querySelector('#panel-forgot .fsubmit');
+  btn.classList.add('loading');
+  setTimeout(()=>{
+    btn.classList.remove('loading');
+    document.querySelectorAll('.auth-panel').forEach(x=>x.classList.remove('active'));
+    document.getElementById('authTabs').style.display='none';
+    document.getElementById('successH').textContent='E-posta Gönderildi';
+    document.getElementById('successT').textContent='Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Gelen kutunuzu kontrol edin.';
+    document.getElementById('authSuccess').classList.add('show');
+  },1200);
+}
+
+/* SHOW DASHBOARD */
+function showDash(){
+  document.getElementById('authLayout').style.display='none';
+  document.getElementById('dash').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function doLogout(){
+  document.getElementById('dash').classList.remove('show');
+  document.getElementById('authLayout').style.display='grid';
+  showPanel('login');
+}
+
+/* DASH TABS */
+function setDashTab(btn,panel){
+  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('dp-'+panel).classList.add('active');
+}
+
+/* TOGGLE PASS VISIBILITY */
+function togglePass(id,btn){
+  const inp=document.getElementById(id);
+  inp.type=inp.type==='password'?'text':'password';
+  btn.style.opacity=inp.type==='text'?.5:1;
+}
+
+/* CHECKBOX */
+function toggleCheck(el){
+  el.querySelector('.fcheck-box').classList.toggle('on');
+}
+
+/* PASSWORD STRENGTH */
+function checkStrength(v){
+  const bars=[document.getElementById('pb1'),document.getElementById('pb2'),document.getElementById('pb3'),document.getElementById('pb4')];
+  const t=document.getElementById('pstr-t');
+  bars.forEach(b=>{b.className='pstr-bar'});
+  if(v.length===0){t.textContent='Şifre gücü';return;}
+  let score=0;
+  if(v.length>=8)score++;
+  if(/[A-Z]/.test(v))score++;
+  if(/[0-9]/.test(v))score++;
+  if(/[^A-Za-z0-9]/.test(v))score++;
+  const cls=['w','w','m','s'][score-1]||'w';
+  const labels=['Çok Zayıf','Zayıf','Orta','Güçlü'];
+  for(let i=0;i<score;i++) bars[i].classList.add(cls);
+  t.textContent=labels[score-1]||'Çok Zayıf';
+  t.style.color=cls==='s'?'#2d8a4e':cls==='m'?'var(--g2)':'var(--r)';
+}
+</script>
+</body>
+</html>
