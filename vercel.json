@@ -1,5 +1,7 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/glame-homepage.html" }
+  "version": 2,
+  "routes": [
+    { "src": "/", "dest": "/glame-homepage.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
