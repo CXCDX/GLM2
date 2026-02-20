@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glame — SSS & Yardım</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--r:#be3535;--grn:#2d8a4e;--brd:2px solid var(--ink);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+.ann{height:34px;background:var(--ink);overflow:hidden;display:flex;align-items:center}
+.ann-track{display:flex;white-space:nowrap;animation:mq 38s linear infinite}
+.ann-item{padding:0 36px;font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+/* HERO */
+.faq-hero{padding:72px 56px;border-bottom:var(--brd);background:var(--w2);display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end}
+.eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:14px;height:2px;background:var(--g)}
+.fh-h{font-family:var(--d);font-size:clamp(44px,5.5vw,72px);font-weight:900;line-height:.95;letter-spacing:-.03em}
+.fh-h em{font-style:italic;font-weight:400;color:var(--g)}
+.fh-r{display:flex;flex-direction:column;gap:16px;justify-content:flex-end}
+.fh-stat{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--i15)}
+.fh-stat:last-child{border-bottom:none}
+.fh-n{font-family:var(--d);font-size:36px;font-weight:900;font-style:italic;color:var(--g);min-width:60px}
+.fh-t{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);margin-bottom:2px}
+.fh-d{font-size:12px;color:var(--i40)}
+/* SEARCH */
+.faq-search{padding:28px 56px;border-bottom:var(--brd);background:var(--w);display:flex;align-items:center;gap:0;border-bottom:var(--brd)}
+.fs-input{flex:1;border:var(--brd);padding:0 20px;height:50px;font-size:15px;font-family:var(--b);outline:none;background:transparent;color:var(--ink)}
+.fs-input::placeholder{color:var(--i40)}
+.fs-input:focus{border-color:var(--g)}
+/* LAYOUT */
+.faq-layout{display:grid;grid-template-columns:240px 1fr;align-items:start}
+/* CATEGORY NAV */
+.faq-cats{border-right:var(--brd);position:sticky;top:68px}
+.fc-item{display:flex;align-items:center;gap:12px;padding:18px 24px;border-bottom:var(--brd);cursor:pointer;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);transition:all .2s;position:relative}
+.fc-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--g);transform:scaleY(0);transition:transform .3s}
+.fc-item.active,.fc-item:hover{color:var(--ink);background:var(--w3)}
+.fc-item.active::before{transform:scaleY(1)}
+.fc-count{margin-left:auto;font-size:10px;color:var(--i40);border:1px solid var(--i15);padding:1px 6px;border-radius:2px}
+/* FAQ CONTENT */
+.faq-content{padding:0}
+.faq-section{display:none}
+.faq-section.active{display:block}
+.fs-title{padding:32px 44px 24px;border-bottom:var(--brd);font-family:var(--m);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:10px}
+.fs-title::before{content:'';width:12px;height:2px;background:var(--g)}
+/* FAQ ITEM */
+.faq-item{border-bottom:var(--brd)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:24px 44px;cursor:pointer;transition:background .2s;gap:20px}
+.faq-q:hover{background:var(--w3)}
+.faq-q-text{font-family:var(--d);font-size:18px;font-weight:700;line-height:1.2;flex:1}
+.faq-toggle{width:32px;height:32px;border-radius:50%;border:var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.faq-item.open .faq-toggle{background:var(--ink);transform:rotate(45deg)}
+.faq-toggle svg{stroke:currentColor;transition:stroke .3s}
+.faq-item.open .faq-toggle svg{stroke:var(--w)}
+.faq-a{display:none;padding:0 44px 28px;font-size:15px;color:var(--i70);line-height:1.8;max-width:600px}
+.faq-item.open .faq-a{display:block}
+.faq-a strong{color:var(--ink);font-weight:600}
+.faq-a a{color:var(--g);border-bottom:1px solid rgba(184,137,42,.3)}
+/* CONTACT CTA */
+.faq-contact{background:var(--ink);padding:72px 56px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:var(--brd)}
+.fc-opt{padding:40px 36px;border-right:1px solid rgba(247,244,239,.08);display:flex;flex-direction:column;gap:16px;transition:background .2s;cursor:pointer}
+.fc-opt:last-child{border-right:none}
+.fc-opt:hover{background:rgba(247,244,239,.04)}
+.fc-icon{width:48px;height:48px;border-radius:50%;border:1px solid rgba(247,244,239,.12);display:flex;align-items:center;justify-content:center;font-size:20px}
+.fc-t{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,244,239,.7)}
+.fc-d{font-size:13px;color:rgba(247,244,239,.3);line-height:1.6}
+.fc-link{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);border-bottom:1px solid rgba(184,137,42,.3);width:fit-content;margin-top:auto}
+/* MOB NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mni{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer}
+.mni svg{width:22px;height:22px;stroke-width:1.5;fill:none;stroke:currentColor}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0;transition:background .25s}
+.mn-cta:hover{background:var(--g)}
+.mn-cta svg{stroke:var(--w)}
+@media(max-width:767px){
+  .ann,.nav{display:none}.mob-top{display:flex}.mob-nav{display:block}
+  .faq-hero{grid-template-columns:1fr;padding:40px 20px;gap:28px}
+  .faq-search{padding:16px 20px}
+  .faq-layout{grid-template-columns:1fr}
+  .faq-cats{display:flex;overflow-x:auto;border-right:none;border-bottom:var(--brd);position:sticky;top:60px;background:var(--w)}
+  .fc-item{white-space:nowrap;border-bottom:none;border-right:var(--brd);padding:14px 18px}
+  .fc-item::before{top:auto;bottom:0;left:0;right:0;width:auto;height:3px;transform:scaleX(0)}
+  .fc-item.active::before{transform:scaleX(1)}
+  .faq-q{padding:18px 20px}
+  .faq-a{padding:0 20px 20px}
+  .fs-title{padding:20px 20px 16px}
+  .faq-contact{grid-template-columns:1fr;padding:48px 20px}
+  .fc-opt{border-right:none;border-bottom:1px solid rgba(247,244,239,.08);padding:28px 0}
+  .fc-opt:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+<div class="ann"><div class="ann-track"><span class="ann-item">30 Gün İade Garantisi · 7/24 Canlı Destek · FDA Onaylı · Ücretsiz Kargo · 30 Gün İade Garantisi · 7/24 Canlı Destek ·</span><span class="ann-item">30 Gün İade Garantisi · 7/24 Canlı Destek · FDA Onaylı · Ücretsiz Kargo ·</span></div></div>
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <ul class="nav-links"><li><a href="glame-collection.html">Alışveriş</a></li><li><a href="glame-about.html">Teknoloji</a></li><li><a href="glame-quiz.html">Cilt Testi</a></li></ul>
+  <div style="display:flex;gap:14px"><a href="glame-tracking.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70)">Sipariş Takip</a></div>
+</nav>
+<div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">SSS & Yardım</span></div>
+
+<div class="faq-hero">
+  <div>
+    <div class="eyebrow">Yardım Merkezi</div>
+    <h1 class="fh-h">Sık Sorulan<br><em>Sorular</em></h1>
+  </div>
+  <div class="fh-r">
+    <div class="fh-stat"><div class="fh-n">97<sup style="font-size:.4em">%</sup></div><div><div class="fh-t">Memnuniyet</div><div class="fh-d">Müşteri destek oranı</div></div></div>
+    <div class="fh-stat"><div class="fh-n">&lt;2<sup style="font-size:.4em">sa</sup></div><div><div class="fh-t">Yanıt Süresi</div><div class="fh-d">Ortalama destek yanıt süresi</div></div></div>
+    <div class="fh-stat"><div class="fh-n">30</div><div><div class="fh-t">Gün İade</div><div class="fh-d">Koşulsuz iade garantisi</div></div></div>
+  </div>
+</div>
+
+<div class="faq-search">
+  <input class="fs-input" type="text" placeholder="Soru arayın... (örn: kargo, iade, garanti)" oninput="searchFaq(this.value)">
+</div>
+
+<div class="faq-layout">
+  <!-- CATEGORIES -->
+  <div class="faq-cats">
+    <div class="fc-item active" onclick="setFaqCat(this,'kullanim')">Kullanım<span class="fc-count">6</span></div>
+    <div class="fc-item" onclick="setFaqCat(this,'kargo')">Kargo & Teslimat<span class="fc-count">5</span></div>
+    <div class="fc-item" onclick="setFaqCat(this,'iade')">İade & Değişim<span class="fc-count">4</span></div>
+    <div class="fc-item" onclick="setFaqCat(this,'teknik')">Teknik<span class="fc-count">6</span></div>
+    <div class="fc-item" onclick="setFaqCat(this,'odeme')">Ödeme<span class="fc-count">4</span></div>
+    <div class="fc-item" onclick="setFaqCat(this,'garanti')">Garanti<span class="fc-count">3</span></div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="faq-content">
+
+    <!-- KULLANIM -->
+    <div class="faq-section active" id="faq-kullanim">
+      <div class="fs-title">Kullanım Kılavuzu</div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Glow Mask'i günde kaç kez kullanabilir miyim?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Günlük kullanım <strong>önerilmez</strong>. Optimal protokol haftada 3–5 seans, her seans 20 dakikadır. Cilt yenilenmesi için seans aralarında en az 1 gün dinlenme süresi bırakılmalıdır.<br><br>Kombine veya hassas ciltler için haftada 3 seans ile başlamanızı, 4 hafta sonra 5 seansa çıkmanızı öneririz.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">LED modu seçimi nasıl yapılmalı?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a"><strong>Kırmızı (633nm):</strong> Anti-aging, kolajen üretimi, kırışıklık azalması. 35+ yaş için birincil mod.<br><strong>Mavi (415nm):</strong> Akne tedavisi, sebum kontrolü. Aktif akne lezyonu olan kullanıcılar için.<br><strong>Kombine:</strong> Her iki dalga boyunun etkisini birleştirmek için. Bakım rutinine yerleşmiş kullanıcılar için önerilir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Serum veya nemlendirici üzerine kullanılabilir mi?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">LED seans öncesi <strong>hyaluronik asit bazlı serumlar</strong> uygulanabilir ve LED penetrasyonunu artırır. Ancak retinol, AHA/BHA içeren ürünler kullanıyorsanız LED seansından en az 30 dakika önce uygulanmış olmalıdır.<br><br>Nemlendirici: Seansın ardından uygulanması önerilir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Hamilelik veya emzirme döneminde kullanılabilir mi?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Hamilelik ve emzirme döneminde kullanmadan önce <strong>doktorunuza danışmanızı</strong> kesinlikle öneririz. FDA onaylı olmakla birlikte bu dönemde kişisel sağlık koşullarının değerlendirilmesi gerekir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Gözlere yakın kullanım güvenli mi?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Glame Glow Mask göz bölgesini kapsayacak şekilde tasarlanmıştır ve <strong>göz koruması içerir</strong>. Bununla birlikte maske takılıyken gözleri açık tutmaktan kaçının. Doğrudan göze bakma LED kaynağına yakın mesafede yapılmamalıdır.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Sonuçları ne zaman görürüm?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Klinik çalışmalarımıza göre: İlk <strong>2–4 haftada</strong> cilt parlaklığı ve tekstür iyileşmesi. <strong>6–8 haftada</strong> ince kırışıklıklarda görünür azalma. <strong>12 haftada</strong> belirgin anti-aging etkisi.<br><br>Akne modu için ilk sonuçlar genellikle 3–4 seans sonrası görülür.</div></div>
+    </div>
+
+    <!-- KARGO -->
+    <div class="faq-section" id="faq-kargo">
+      <div class="fs-title">Kargo & Teslimat</div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Kargo ne zaman çıkar?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Hafta içi saat <strong>14:00'e kadar</strong> verilen siparişler aynı gün kargoya verilir. 14:00 sonrası ve hafta sonu siparişleri bir sonraki iş günü gönderilir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Hangi kargo firmalarıyla çalışıyorsunuz?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Standart teslimat için <strong>Aras Kargo</strong>, hızlı teslimat için <strong>MNG Kargo</strong>, aynı gün İstanbul içi teslimat için <strong>Sürat Kargo</strong> ile çalışıyoruz.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Ücretsiz kargo ne zaman geçerli?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Tüm siparişlerde <strong>₺500 ve üzeri alışveriş</strong> için ücretsiz standart kargo geçerlidir. Hızlı ve aynı gün teslimat seçenekleri ek ücrete tabidir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Yurt dışına gönderim yapıyor musunuz?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Şu an yalnızca <strong>Türkiye içi</strong> teslimat yapılmaktadır. Uluslararası gönderim 2026 yılı içinde başlayacak. E-posta listemize kayıt olarak bildirim alabilirsiniz.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Sipariş adresimi değiştirebilir miyim?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Sipariş kargoya verilmeden önce <a href="glame-contact.html">destek ekibimizle</a> iletişime geçerek adres değişikliği yapılabilir. Kargo çıktıktan sonra adres değişikliği mümkün değildir.</div></div>
+    </div>
+
+    <!-- İADE -->
+    <div class="faq-section" id="faq-iade">
+      <div class="fs-title">İade & Değişim</div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">İade süreci nasıl işliyor?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Teslim tarihinden itibaren <strong>30 gün içinde</strong> iade talep edebilirsiniz. Hesabınızdan veya <a href="glame-contact.html">destek sayfasından</a> iade talebi oluşturabilirsiniz. Ürün orijinal ambalajında ve kullanılmamış olmalıdır.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">İade kargosu ücretsiz mi?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Ürün hasarlı veya hatalı geldiyse iade kargosu <strong>tamamen ücretsizdir</strong>. Fikir değişikliği iadelerinde kargo ücreti müşteriye aittir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Kullandığım ürünü iade edebilir miyim?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Hijyen kuralları gereği kullanılmış ürünlerin iadesi kabul edilmemektedir. Ancak ürün <strong>beklentileri karşılamadıysa</strong> 30 gün içinde müşteri hizmetlerimizle iletişime geçin, bireysel değerlendirme yapılır.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Para iadesi ne zaman yatırılır?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Ürün depoya ulaştıktan sonra <strong>3–5 iş günü</strong> içinde ödeme yönteminize iade edilir. Kredi kartı ödemelerinde bankanın işlem süresi 5–10 iş günü olabilir.</div></div>
+    </div>
+
+    <!-- TEKNİK -->
+    <div class="faq-section" id="faq-teknik">
+      <div class="fs-title">Teknik Sorular</div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Cihaz ısınıyor mu?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Hafif ısınma normaldir. LED'lerin ürettiği ısı <strong>40°C'nin altında</strong> kalacak şekilde tasarlanmıştır. Bu sıcaklık ciltte tedavi edici etki yaratırken zarar vermez. Aşırı ısınma hissedilirse kullanımı durdurup destek ekibimizle iletişime geçin.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Pil ömrü ne kadar?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Tam şarjda <strong>yaklaşık 8 seans</strong> (20dk × 8 = 160 dakika) kullanım sağlar. Şarj süresi 90 dakikadır. USB-C ile şarj edilir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Su geçirmez mi?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Glow Mask <strong>IP54 derecesinde</strong> suya dayanıklıdır. Bu, ter ve nem içeren ortamlarda güvenle kullanılabileceği anlamına gelir, ancak suya batırılmamalıdır. Duş veya banyo sırasında kullanılmamalıdır.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">LED'ler ne kadar süre dayanır?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">LED kaynakları <strong>50.000 saatlik kullanım ömrüne</strong> sahiptir. Haftada 5 seans × 20dk kullanımda bu yaklaşık <strong>23 yıla</strong> karşılık gelir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Nasıl temizlenmeli?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Her kullanım sonrası <strong>kuru veya hafif nemli bez</strong> ile silin. Alkol bazlı temizleyiciler LED panele zarar verebileceğinden kullanmayın. Lens yüzeyine sert baskı uygulamayın.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Deri hastalıklarında kullanılabilir mi?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Aktif egzama, psoriasis veya açık yara bulunan bölgelere kullanımdan kaçının. Rosacea için kırmızı mod düşük yoğunlukta başlanabilir. Ciddi deri rahatsızlıklarında <strong>dermatoloğunuza danışın</strong>.</div></div>
+    </div>
+
+    <!-- ÖDEME -->
+    <div class="faq-section" id="faq-odeme">
+      <div class="fs-title">Ödeme Seçenekleri</div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Kaç taksit seçeneği var?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Tüm banka kartlarında <strong>1, 3, 6, 9, 12 ve 18 taksit</strong> seçeneği mevcuttur. Faizsiz taksit kampanyaları anlaşmalı bankalara göre değişir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Havale ile ek indirim var mı?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Evet, havale / EFT ile yapılan ödemelerde sipariş toplamından <strong>%3 indirim</strong> uygulanır. Ödeme talimatları sipariş onayı e-postasında yer alır.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Ödeme bilgilerim güvende mi?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Tüm ödemeler <strong>256-bit SSL şifreleme</strong> ve iyzico altyapısı üzerinden gerçekleştirilir. Kart bilgileriniz sistemimizde saklanmaz ve PCI DSS standartlarına uygun olarak işlenir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Fatura alabiliyor muyum?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Bireysel ve kurumsal fatura seçenekleri mevcuttur. Sipariş sırasında fatura bilgilerinizi girmeniz yeterlidir. E-fatura, sipariş tamamlandıktan sonra e-posta ile gönderilir.</div></div>
+    </div>
+
+    <!-- GARANTİ -->
+    <div class="faq-section" id="faq-garanti">
+      <div class="fs-title">Garanti Koşulları</div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Garanti süresi ne kadar?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Tüm Glame ürünleri <strong>2 yıl üretici garantisi</strong> kapsamındadır. Satın alma tarihinden itibaren başlar.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Garanti kapsamı nedir?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a">Üretim hatası, malzeme kusuru ve LED arızaları garanti kapsamındadır. Kullanıcı kaynaklı fiziksel hasar, su maruziyeti (IP koruma sınırı aşımı) ve yetkisiz onarım garanti dışındadır.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="togFaq(this)"><div class="faq-q-text">Garanti başvurusu nasıl yapılır?</div><div class="faq-toggle"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-a"><a href="glame-contact.html">Destek sayfamızdan</a> başvuru oluşturabilirsiniz. Sipariş numaranız ve sorunu tanımlayan fotoğraf/video ile başvurunuzu ilettiğinizde <strong>2 iş günü</strong> içinde geri dönüş yapılır.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT OPTIONS -->
+<div class="faq-contact">
+  <div class="fc-opt"><div class="fc-icon">💬</div><div class="fc-t">Canlı Destek</div><div class="fc-d">Hafta içi 09:00–21:00, hafta sonu 10:00–18:00 arası anlık destek.</div><div class="fc-link">Sohbet Başlat →</div></div>
+  <div class="fc-opt" onclick="window.location='glame-contact.html'"><div class="fc-icon">📧</div><div class="fc-t">E-posta Gönder</div><div class="fc-d"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2145445255444a61464d404c440f424e4c">[email&#160;protected]</a> adresine yazın. 2 saat içinde yanıt garantisi.</div><div class="fc-link">E-posta →</div></div>
+  <div class="fc-opt" onclick="window.location='glame-tracking.html'"><div class="fc-icon">📦</div><div class="fc-t">Sipariş Takip</div><div class="fc-d">Sipariş numaranız ile anlık kargo durumunuzu görüntüleyin.</div><div class="fc-link">Sorgula →</div></div>
+</div>
+
+<nav class="mob-nav"><div class="mob-nav-inner">
+  <button class="mni" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Ana</button>
+  <button class="mni" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+  <button class="mn-cta" onclick="window.location='glame-checkout.html'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+  <button class="mni active"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>SSS</button>
+  <button class="mni" onclick="window.location='glame-account.html'"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Hesap</button>
+</div></nav>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function setFaqCat(el,cat){
+  document.querySelectorAll('.fc-item').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('.faq-section').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('faq-'+cat).classList.add('active');
+}
+function togFaq(el){
+  const item=el.parentElement;
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+function searchFaq(v){
+  const q=v.toLowerCase().trim();
+  if(!q){document.querySelectorAll('.faq-item').forEach(i=>i.style.display='');return;}
+  document.querySelectorAll('.faq-section').forEach(s=>{
+    s.classList.remove('active');
+    s.querySelectorAll('.faq-item').forEach(item=>{
+      const text=item.querySelector('.faq-q-text').textContent.toLowerCase()+item.querySelector('.faq-a').textContent.toLowerCase();
+      item.style.display=text.includes(q)?'':'none';
+    });
+  });
+  // show all sections that have visible items
+  docum

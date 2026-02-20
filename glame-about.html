@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ef">
+<title>Glame — Teknoloji & Hikayemiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--g2:#d4a030;--r:#be3535;--brd:2px solid var(--ink);--brdg:2px solid var(--g);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+#cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+#curr.x{width:52px;height:52px;border-color:var(--g)}
+@media(hover:none){#cur,#curr{display:none}}
+.ann{height:34px;background:var(--ink);overflow:hidden;display:flex;align-items:center}
+.ann-track{display:flex;white-space:nowrap;animation:marquee 38s linear infinite}
+.ann-item{padding:0 36px;font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+.ann-item b{color:var(--g2);font-weight:400}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.nav{position:sticky;top:0;z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.96);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);transition:color .2s}
+.nav-links a.active{color:var(--ink)}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nav-icon{color:var(--i70);display:flex;align-items:center;position:relative;transition:color .2s;cursor:pointer}
+.nav-icon:hover{color:var(--ink)}
+.nav-badge{position:absolute;top:-5px;right:-5px;width:15px;height:15px;background:var(--g);border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--m)}
+.hbg{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hbg span{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s}
+.hbg.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.omenu{position:fixed;inset:0;z-index:140;background:var(--w);display:flex;flex-direction:column;padding:100px 44px 60px;transform:translateX(-100%);transition:transform .5s cubic-bezier(.16,1,.3,1);border-right:var(--brd);overflow-y:auto}
+.omenu.open{transform:translateX(0)}
+.om-link{font-family:var(--d);font-size:clamp(34px,6.5vw,52px);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:-.02em;border-bottom:var(--brd);padding:22px 0;display:flex;align-items:center;justify-content:space-between;transition:color .2s}
+.om-link em{font-style:italic;font-weight:400;color:var(--g);opacity:0;transition:opacity .2s;font-size:.6em}
+.om-link:hover{color:var(--g)}
+.om-link:hover em{opacity:1}
+.om-close{position:absolute;top:20px;right:22px;background:none;border:none;cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);padding:8px}
+
+/* HERO */
+.about-hero{display:grid;grid-template-columns:1fr 1fr;min-height:80vh;border-bottom:var(--brd)}
+.ah-l{padding:80px 56px;display:flex;flex-direction:column;justify-content:center;border-right:var(--brd)}
+.eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:14px;height:2px;background:var(--g)}
+.ah-h{font-family:var(--d);font-size:clamp(52px,6.5vw,90px);font-weight:900;line-height:.93;letter-spacing:-.03em;margin-bottom:28px}
+.ah-h em{font-style:italic;font-weight:400;color:var(--g)}
+.ah-p{font-size:17px;color:var(--i70);line-height:1.8;max-width:400px;margin-bottom:36px}
+.ah-cta{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--w);font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding:16px 32px;border:var(--brd);position:relative;overflow:hidden;transition:color .35s}
+.ah-cta::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.ah-cta:hover::after{transform:translateX(0)}
+.ah-cta span,.ah-cta svg{position:relative;z-index:1}
+.ah-r{background:var(--ink);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+/* orbital viz on dark bg */
+.orb-viz{position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center}
+.ov-ring{position:absolute;border-radius:50%;border:1px solid rgba(247,244,239,.08)}
+.ov-ring1{width:380px;height:380px;animation:rot 60s linear infinite}
+.ov-ring2{width:270px;height:270px;border-color:rgba(184,137,42,.15);border-style:dashed;animation:rot 38s linear infinite reverse}
+.ov-ring3{width:160px;height:160px;border-color:rgba(190,53,53,.15);animation:rot 22s linear infinite}
+@keyframes rot{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.ov-dot{position:absolute;border-radius:50%}
+.ov-ring1 .ov-dot{width:7px;height:7px;background:var(--g);box-shadow:0 0 8px var(--g);top:-3px;left:50%;transform:translateX(-50%)}
+.ov-ring2 .ov-dot{width:5px;height:5px;background:var(--r);box-shadow:0 0 6px var(--r);bottom:-2px;left:50%;transform:translateX(-50%)}
+.ov-center{width:88px;height:88px;border-radius:50%;background:rgba(247,244,239,.05);border:1px solid rgba(247,244,239,.12);display:flex;align-items:center;justify-content:center;z-index:2}
+.ov-label{font-family:var(--d);font-size:10px;font-style:italic;color:rgba(247,244,239,.6);text-align:center;line-height:1.3}
+.ov-wl{position:absolute;font-family:var(--m);font-size:9px;letter-spacing:.1em;color:rgba(247,244,239,.4);display:flex;align-items:center;gap:7px}
+.ov-wl-dot{width:5px;height:5px;border-radius:50%}
+.ov-w1{top:10%;left:5%}.ov-w2{bottom:12%;right:5%}.ov-w3{top:46%;right:4%;flex-direction:column;align-items:flex-end;gap:3px}
+
+/* MISSION */
+.mission{display:grid;grid-template-columns:1fr 1fr;border-bottom:var(--brd)}
+.mission-l{padding:72px 56px;border-right:var(--brd);background:var(--w2)}
+.mission-l blockquote{font-family:var(--d);font-size:clamp(24px,2.8vw,36px);font-weight:400;font-style:italic;color:var(--ink);line-height:1.35;margin-bottom:24px;position:relative;padding-left:28px}
+.mission-l blockquote::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--g)}
+.mission-l cite{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);font-style:normal}
+.mission-r{padding:72px 56px;display:flex;flex-direction:column;justify-content:center}
+.mission-r p{font-size:16px;color:var(--i70);line-height:1.85;margin-bottom:24px}
+
+/* TIMELINE */
+.timeline{padding:80px 56px;border-bottom:var(--brd)}
+.tl-h{font-family:var(--d);font-size:clamp(36px,4vw,56px);font-weight:900;line-height:.97;letter-spacing:-.025em;margin-bottom:52px}
+.tl-h em{font-style:italic;font-weight:400;color:var(--g)}
+.tl-items{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:var(--brd)}
+.tl-item{padding:36px 28px;border-right:var(--brd);position:relative;overflow:hidden;transition:background .25s}
+.tl-item:last-child{border-right:none}
+.tl-item:hover{background:var(--w3)}
+.tl-item::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.tl-item:hover::after{transform:scaleX(1)}
+.tl-year{font-family:var(--d);font-size:48px;font-weight:900;font-style:italic;color:var(--g);line-height:1;margin-bottom:14px}
+.tl-t{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
+.tl-d{font-size:13px;color:var(--i70);line-height:1.65}
+
+/* SCIENCE DEEP */
+.sci-hero{background:var(--ink);padding:80px 56px;border-bottom:2px solid rgba(247,244,239,.08)}
+.sci-hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.sh-l h2{font-family:var(--d);font-size:clamp(36px,4vw,56px);font-weight:900;line-height:.97;letter-spacing:-.025em;color:rgba(247,244,239,.9);margin-bottom:20px}
+.sh-l h2 em{font-style:italic;font-weight:400;color:var(--g)}
+.sh-l p{font-size:15px;color:rgba(247,244,239,.35);line-height:1.8;max-width:380px}
+.sh-r{display:flex;flex-direction:column;gap:0;border:1px solid rgba(247,244,239,.08)}
+.shi{display:flex;align-items:flex-start;gap:16px;padding:20px 24px;border-bottom:1px solid rgba(247,244,239,.06)}
+.shi:last-child{border-bottom:none}
+.shi:hover{background:rgba(247,244,239,.03)}
+.shi-n{font-family:var(--d);font-size:32px;font-weight:900;font-style:italic;color:var(--g);min-width:60px;line-height:1}
+.shi-n sup{font-size:.4em;font-weight:400}
+.shi-info .shi-t{font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,239,.7);margin-bottom:4px}
+.shi-info .shi-d{font-size:13px;color:rgba(247,244,239,.3);line-height:1.55}
+
+/* WAVELENGTHS */
+.wavelengths{padding:80px 56px;border-bottom:var(--brd)}
+.wl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:var(--brd);margin-top:44px}
+.wl-card{padding:40px 32px;border-right:var(--brd);position:relative;overflow:hidden;transition:background .25s}
+.wl-card:last-child{border-right:none}
+.wl-card:hover{background:var(--w3)}
+.wl-wave{height:80px;margin-bottom:24px;position:relative;overflow:hidden}
+.wl-svg{width:100%;height:100%}
+.wl-nm{font-family:var(--d);font-size:56px;font-weight:900;font-style:italic;line-height:1;margin-bottom:4px}
+.wl-nm sup{font-size:.35em;font-weight:400}
+.wl-t{font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+.wl-d{font-size:14px;color:var(--i70);line-height:1.7}
+.wl-benefits{margin-top:16px;display:flex;flex-direction:column;gap:7px}
+.wlb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--i70)}
+.wlb-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* CLINICAL */
+.clinical{display:grid;grid-template-columns:1fr 1fr;border-bottom:var(--brd)}
+.clin-l2{padding:72px 56px;border-right:var(--brd)}
+.clin-l2 p{font-size:15px;color:var(--i70);line-height:1.8;margin-top:18px;margin-bottom:36px;max-width:380px}
+.cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--brd)}
+.cert{padding:20px 18px;border-right:var(--brd);border-bottom:var(--brd);font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:10px;color:var(--i70);transition:background .2s}
+.cert:hover{background:var(--w3);color:var(--ink)}
+.cert:nth-child(2n){border-right:none}
+.cert:nth-last-child(-n+2){border-bottom:none}
+.cert-icon{font-size:18px}
+.clin-r2{padding:72px 56px;background:var(--w2);display:flex;flex-direction:column;justify-content:center}
+.clin-r2 .big-stat{font-family:var(--d);font-size:clamp(80px,10vw,130px);font-weight:900;font-style:italic;color:var(--g);line-height:.9;margin-bottom:8px}
+.clin-r2 .big-stat sup{font-size:.3em;font-weight:400}
+.clin-r2 .big-stat-t{font-family:var(--m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--i70)}
+.clin-r2 .big-stat-d{font-size:14px;color:var(--i70);line-height:1.65;margin-top:12px;max-width:260px}
+
+/* TEAM */
+.team{padding:80px 56px;border-bottom:var(--brd);background:var(--w2)}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:var(--brd);margin-top:44px}
+.tm{border-right:var(--brd);overflow:hidden;transition:background .2s}
+.tm:last-child{border-right:none}
+.tm:hover{background:var(--w3)}
+.tm-img{height:220px;background:var(--w3);border-bottom:var(--brd);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;position:relative}
+.tm-av{width:100px;height:100px;border-radius:50%;background:var(--w2);border:var(--brd);display:flex;align-items:center;justify-content:center;font-family:var(--d);font-size:36px;font-weight:900;color:var(--ink);margin-bottom:0;position:absolute;bottom:0;box-shadow:4px 0 0 var(--ink)}
+.tm-info{padding:20px 20px 24px}
+.tm-name{font-family:var(--d);font-size:17px;font-weight:700;margin-bottom:3px}
+.tm-role{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:8px}
+.tm-bio{font-size:12px;color:var(--i70);line-height:1.6}
+
+/* CTA BANNER */
+.cta-banner{background:var(--ink);padding:80px 56px;display:flex;align-items:center;justify-content:space-between;gap:36px;border-bottom:2px solid rgba(247,244,239,.08)}
+.cb-l{font-family:var(--d);font-size:clamp(32px,3.5vw,48px);font-weight:900;line-height:.97;letter-spacing:-.025em;color:rgba(247,244,239,.9)}
+.cb-l em{font-style:italic;font-weight:400;color:var(--g)}
+.cb-r{display:flex;gap:14px;flex-wrap:wrap}
+.cb-btn1{font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding:16px 36px;background:var(--g);color:var(--w);border:2px solid var(--g);cursor:pointer;transition:all .25s;white-space:nowrap}
+.cb-btn1:hover{background:var(--g2);border-color:var(--g2)}
+.cb-btn2{font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding:16px 36px;background:none;color:rgba(247,244,239,.7);border:1px solid rgba(247,244,239,.2);cursor:pointer;transition:all .25s;white-space:nowrap}
+.cb-btn2:hover{border-color:rgba(247,244,239,.5);color:rgba(247,244,239,.9)}
+
+/* FOOTER */
+footer{background:var(--ink);padding:72px 56px 36px}
+.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;margin-bottom:52px}
+.ft-logo{color:rgba(247,244,239,.9)}
+.ft-desc{font-size:13px;color:rgba(247,244,239,.25);line-height:1.75;margin-top:12px;max-width:200px}
+.ft-t{font-family:var(--m);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,244,239,.3);margin-bottom:14px}
+.ft-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ft-list a{font-size:13px;color:rgba(247,244,239,.25);transition:color .25s}
+.ft-list a:hover{color:rgba(247,244,239,.55)}
+.ft-bot{border-top:1px solid rgba(247,244,239,.07);padding-top:24px;display:flex;align-items:center;justify-content:space-between}
+.ft-copy{font-family:var(--m);font-size:9px;color:rgba(247,244,239,.2);letter-spacing:.1em}
+
+/* MOB NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mn-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);transition:color .2s;flex:1;padding:8px 0;border:none;background:none;cursor:pointer;position:relative}
+.mn-item.active{color:var(--ink)}
+.mn-item svg{width:22px;height:22px;stroke-width:1.5}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0;transition:background .25s}
+.mn-cta:hover{background:var(--g)}
+.mn-cta svg{stroke:var(--w)}
+
+/* FI */
+.fi{opacity:0;transform:translateY(16px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.fi.in{opacity:1;transform:none}
+
+@media(max-width:767px){
+  .nav{display:none}.mob-top{display:flex}.mob-nav{display:block}
+  .ann{display:none}
+  .about-hero{grid-template-columns:1fr}
+  .ah-l{padding:44px 20px;border-right:none;border-bottom:var(--brd)}
+  .ah-r{min-height:52vw;display:flex}
+  .orb-viz{width:280px;height:280px}
+  .ov-ring1{width:250px;height:250px}.ov-ring2{width:178px;height:178px}.ov-ring3{width:106px;height:106px}
+  .mission{grid-template-columns:1fr}
+  .mission-l{border-right:none;border-bottom:var(--brd);padding:48px 20px}
+  .mission-r{padding:48px 20px}
+  .timeline{padding:56px 20px}
+  .tl-items{grid-template-columns:1fr 1fr}
+  .tl-item:nth-child(2n){border-right:none}
+  .tl-item:nth-child(n){border-bottom:var(--brd)}
+  .tl-item:nth-last-child(-n+2){border-bottom:none}
+  .sci-hero{padding:56px 20px}
+  .sci-hero-inner{grid-template-columns:1fr}
+  .wavelengths{padding:56px 20px}
+  .wl-grid{grid-template-columns:1fr}
+  .wl-card{border-right:none;border-bottom:var(--brd)}
+  .wl-card:last-child{border-bottom:none}
+  .clinical{grid-template-columns:1fr}
+  .clin-l2{border-right:none;border-bottom:var(--brd);padding:48px 20px}
+  .clin-r2{padding:48px 20px}
+  .team{padding:56px 20px}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .tm:nth-child(2n){border-right:none}
+  .cta-banner{padding:56px 20px;flex-direction:column}
+  footer{padding:56px 20px 32px}
+  .ft-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .ft-bot{flex-direction:column;gap:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curr"></div>
+<div class="ann"><div class="ann-track"><span class="ann-item">Klinik Onaylı Teknoloji · Dermatoloji Testi · FDA Sertifikalı · 5.000+ Mutlu Kullanıcı · Klinik Onaylı Teknoloji · Dermatoloji Testi · FDA Sertifikalı · 5.000+ Mutlu Kullanıcı ·</span><span class="ann-item">Klinik Onaylı Teknoloji · Dermatoloji Testi · FDA Sertifikalı · 5.000+ Mutlu Kullanıcı ·</span></div></div>
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <ul class="nav-links"><li><a href="glame-collection.html">Alışveriş</a></li><li><a href="glame-about.html" class="active">Teknoloji</a></li><li><a href="glame-quiz.html">Cilt Testi</a></li></ul>
+  <div class="nav-r"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nav-badge">2</span></span><button class="hbg" id="hbg"><span></span><span></span><span></span></button></div>
+</nav>
+<div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span class="nav-icon" style="position:relative"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nav-badge">2</span></span></div>
+<div class="omenu" id="omenu"><button class="om-close" id="omclose">Kapat ✕</button><a href="glame-homepage.html" class="om-link">Ana Sayfa <em>→</em></a><a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a><a href="glame-about.html" class="om-link">Teknoloji <em>→</em></a><a href="glame-quiz.html" class="om-link">Cilt Testi <em>→</em></a></div>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="ah-l">
+    <div class="eyebrow">Hikayemiz</div>
+    <h1 class="ah-h">Bilim<br>cilt için<br><em>çalışır.</em></h1>
+    <p class="ah-p">Dermatoloji kliniklerinin onlarca yıldır kullandığı teknolojileri evinize taşıyoruz. Her dalga boyu, her frekans, her uygulama süresi uzman gözetiminde optimize edilmiş.</p>
+    <a href="glame-collection.html" class="ah-cta"><span>Koleksiyonu Keşfet</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="ah-r">
+    <div class="orb-viz">
+      <div class="ov-ring ov-ring1"><div class="ov-dot"></div></div>
+      <div class="ov-ring ov-ring2"><div class="ov-dot"></div></div>
+      <div class="ov-ring ov-ring3"></div>
+      <div class="ov-center"><div class="ov-label">Smart<br>Skin<br>Tech</div></div>
+      <div class="ov-wl ov-w1"><div class="ov-wl-dot" style="background:#be3535;box-shadow:0 0 5px #be3535"></div>633nm Red</div>
+      <div class="ov-wl ov-w2"><div class="ov-wl-dot" style="background:#3f6fd4;box-shadow:0 0 5px #3f6fd4"></div>415nm Blue</div>
+      <div class="ov-wl ov-w3"><div class="ov-wl-dot" style="background:rgba(120,120,200,.5)"></div><span>830nm IR</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission fi">
+  <div class="mission-l">
+    <blockquote>"Güzellik teknolojisi sadece zenginlerin kliniğinde olmamalı. Bilim herkese ait."</blockquote>
+    <cite>— Glame Kurucu Ekibi</cite>
+  </div>
+  <div class="mission-r">
+    <p>2019'da İstanbul'da, bir dermatoloji kliniğinin bekleme salonunda bir fikir doğdu. Klinik düzeyde LED foterapisinin neden sadece pahalı merkezlerde olduğu sorusu, Glame'in temelini attı.</p>
+    <p>Bugün İstanbul Üniversitesi Tıp Fakültesi Dermatoloji Bölümü ile sürdürdüğümüz klinik araştırmalar, ürünlerimizin her versiyonunu şekillendiriyor. Tasarım değil, veri.</p>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline fi">
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px"><span style="width:14px;height:2px;background:var(--g);display:block"></span>Yolculuğumuz</div>
+  <div class="tl-h">Kuruluştan <em>Bugüne</em></div>
+  <div class="tl-items">
+    <div class="tl-item"><div class="tl-year">2019</div><div class="tl-t">Kuruluş</div><div class="tl-d">İstanbul'da R&D başladı. İlk LED prototipi İÜ Dermatoloji lab'ında test edildi.</div></div>
+    <div class="tl-item"><div class="tl-year">2021</div><div class="tl-t">İlk Ürün</div><div class="tl-d">Glow Mask'ın ilk versiyonu 500 beta kullanıcıyla test edildi. %91 memnuniyet skoru.</div></div>
+    <div class="tl-item"><div class="tl-year">2023</div><div class="tl-t">FDA Onayı</div><div class="tl-d">Tüm Glame ürünleri FDA clearance aldı. Türkiye'den ilk kez bu seviyede onay.</div></div>
+    <div class="tl-item"><div class="tl-year">2026</div><div class="tl-t">Bugün</div><div class="tl-d">5.000+ aktif kullanıcı. 5 ürün. Yeni nesil platform geliştirme süreci.</div></div>
+  </div>
+</section>
+
+<!-- SCIENCE DARK -->
+<section class="sci-hero fi">
+  <div class="sci-hero-inner">
+    <div class="sh-l">
+      <h2>Rakamlarda<br><em>Bilim</em></h2>
+      <p>Her iddiamızın arkasında peer-reviewed yayın ve klinik çalışma var. Pazarlama değil, veri.</p>
+    </div>
+    <div class="sh-r">
+      <div class="shi"><div class="shi-n">57<sup>%</sup></div><div class="shi-info"><div class="shi-t">Dolgunluk Artışı</div><div class="shi-d">8 haftalık klinik çalışmada ölçülen ortalama değer</div></div></div>
+      <div class="shi"><div class="shi-n">94<sup>+</sup></div><div class="shi-info"><div class="shi-t">LED Kaynağı</div><div class="shi-d">2cm yoğunluk dağılımı, tam yüz kapsama</div></div></div>
+      <div class="shi"><div class="shi-n">43<sup>%</sup></div><div class="shi-info"><div class="shi-t">Kırışıklık Azalması</div><div class="shi-d">12 hafta Visiometer ölçümü, Glow Mask kırmızı mod</div></div></div>
+      <div class="shi"><div class="shi-n">89<sup>%</sup></div><div class="shi-info"><div class="shi-t">Akne Azalması</div><div class="shi-d">6 hafta mavi mod, P.acnes sayımı</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVELENGTHS -->
+<section class="wavelengths fi">
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px"><span style="width:14px;height:2px;background:var(--g);display:block"></span>Dalga Boyu Kılavuzu</div>
+  <div class="tl-h">LED <em>Spektrumu</em></div>
+  <div class="wl-grid">
+    <div class="wl-card">
+      <div class="wl-wave">
+        <svg class="wl-svg" viewBox="0 0 200 80" preserveAspectRatio="none">
+          <path d="M0,40 C20,40 20,10 40,10 C60,10 60,70 80,70 C100,70 100,10 120,10 C140,10 140,70 160,70 C180,70 180,10 200,10" fill="none" stroke="#be3535" stroke-width="2.5" opacity=".7"/>
+          <path d="M0,40 C20,40 20,10 40,10 C60,10 60,70 80,70 C100,70 100,10 120,10 C140,10 140,70 160,70 C180,70 180,10 200,10" fill="none" stroke="#be3535" stroke-width="1" opacity=".2" transform="translate(0,8)"/>
+        </svg>
+      </div>
+      <div class="wl-nm" style="color:#be3535">633<sup>nm</sup></div>
+      <div class="wl-t">Kırmızı Işık · Anti-Aging</div>
+      <div class="wl-d">Dermiste fibroblast aktivasyonunu tetikler. Tip-I kolajen üretimini artırır. Derin penetrasyon.</div>
+      <div class="wl-benefits">
+        <div class="wlb"><div class="wlb-dot" style="background:#be3535"></div>Kolajen sentezi artışı</div>
+        <div class="wlb"><div class="wlb-dot" style="background:#be3535"></div>Kırışıklık derinliği azalması</div>
+        <div class="wlb"><div class="wlb-dot" style="background:#be3535"></div>Cilt elastikiyeti artışı</div>
+      </div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-wave">
+        <svg class="wl-svg" viewBox="0 0 200 80" preserveAspectRatio="none">
+          <path d="M0,40 C15,40 15,8 30,8 C45,8 45,72 60,72 C75,72 75,8 90,8 C105,8 105,72 120,72 C135,72 135,8 150,8 C165,8 165,72 180,72 C190,72 195,20 200,20" fill="none" stroke="#3f6fd4" stroke-width="2.5" opacity=".7"/>
+        </svg>
+      </div>
+      <div class="wl-nm" style="color:#3f6fd4">415<sup>nm</sup></div>
+      <div class="wl-t">Mavi Işık · Akne Tedavisi</div>
+      <div class="wl-d">P.acnes bakterilerinde porfirin aktivasyonuyla akne lezyonlarını giderir. Sebum düzenlemesi.</div>
+      <div class="wl-benefits">
+        <div class="wlb"><div class="wlb-dot" style="background:#3f6fd4"></div>Aktif akne tedavisi</div>
+        <div class="wlb"><div class="wlb-dot" style="background:#3f6fd4"></div>Sebum üretim kontrolü</div>
+        <div class="wlb"><div class="wlb-dot" style="background:#3f6fd4"></div>Gözenek daralması</div>
+      </div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-wave">
+        <svg class="wl-svg" viewBox="0 0 200 80" preserveAspectRatio="none">
+          <path d="M0,40 C30,40 30,15 60,15 C90,15 90,65 120,65 C150,65 150,15 180,15 C190,15 196,30 200,35" fill="none" stroke="#8080c0" stroke-width="2.5" opacity=".6"/>
+        </svg>
+      </div>
+      <div class="wl-nm" style="color:#8080c0">830<sup>nm</sup></div>
+      <div class="wl-t">Kızılötesi · Derin Terapi</div>
+      <div class="wl-d">Hipodermise ulaşarak mikro dolaşımı hızlandırır. Hücresel enerji üretimini artırır. ATP sentezi.</div>
+      <div class="wl-benefits">
+        <div class="wlb"><div class="wlb-dot" style="background:#8080c0"></div>Doku iyileşmesi</div>
+        <div class="wlb"><div class="wlb-dot" style="background:#8080c0"></div>Mikro dolaşım artışı</div>
+        <div class="wlb"><div class="wlb-dot" style="background:#8080c0"></div>İnflamasyon azalması</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLINICAL -->
+<section class="clinical fi">
+  <div class="clin-l2">
+    <div style="font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px"><span style="width:14px;height:2px;background:var(--g);display:block"></span>Sertifikalar</div>
+    <div class="tl-h" style="font-size:clamp(28px,3vw,40px);margin-bottom:16px">Onaylı &amp; <em>Güvenilir</em></div>
+    <p>Her Glame ürünü piyasaya sürülmeden önce birden fazla bağımsız kurum tarafından test edilir ve sertifikalandırılır.</p>
+    <div class="cert-grid">
+      <div class="cert"><span class="cert-icon">🏛️</span>FDA Clearance</div>
+      <div class="cert"><span class="cert-icon">🇪🇺</span>CE Marking</div>
+      <div class="cert"><span class="cert-icon">🔬</span>Dermatoloji Testi</div>
+      <div class="cert"><span class="cert-icon">🧴</span>Hipoalerjenik</div>
+      <div class="cert"><span class="cert-icon">🌿</span>Vegan Onaylı</div>
+      <div class="cert"><span class="cert-icon">♻️</span>RoHS Uyumlu</div>
+    </div>
+  </div>
+  <div class="clin-r2">
+    <div class="big-stat">98<sup>%</sup></div>
+    <div class="big-stat-t">Kullanıcı Memnuniyeti</div>
+    <div class="big-stat-d">12 haftalık klinik takip sonrasında ölçülen memnuniyet skoru. 120 katılımcı, İÜ Dermatoloji.</div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team fi">
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px"><span style="width:14px;height:2px;background:var(--g);display:block"></span>Ekibimiz</div>
+  <div class="tl-h">Arkasındaki <em>İnsanlar</em></div>
+  <div class="team-grid">
+    <div class="tm"><div class="tm-img" style="background:linear-gradient(135deg,var(--w2),var(--w3))"><div class="tm-av">AY</div></div><div class="tm-info"><div class="tm-name">Dr. Aylin Yılmaz</div><div class="tm-role">Kurucu · Dermatolog</div><div class="tm-bio">İÜ Dermatoloji mezunu. 12 yıl klinik pratiği. LED fototerapi alanında 3 yayın.</div></div></div>
+    <div class="tm"><div class="tm-img" style="background:linear-gradient(135deg,var(--w3),var(--w2))"><div class="tm-av">MK</div></div><div class="tm-info"><div class="tm-name">Mert Kaya</div><div class="tm-role">CTO · Biyomedikal</div><div class="tm-bio">ODTÜ Biyomedikal Müh. İTÜ doktorası. LED optik sistemleri üzerine 5 patent.</div></div></div>
+    <div class="tm"><div class="tm-img" style="background:linear-gradient(135deg,var(--w2),var(--ink),var(--w2))"><div class="tm-av" style="color:var(--g)">SÖ</div></div><div class="tm-info"><div class="tm-name">Selin Öztürk</div><div class="tm-role">CMO · Marka</div><div class="tm-bio">15 yıl luxury FMCG. Önceki rol: L'Oréal Türkiye Pazarlama Direktörü.</div></div></div>
+    <div class="tm"><div class="tm-img" style="background:linear-gradient(135deg,var(--w3),var(--w))"><div class="tm-av">EB</div></div><div class="tm-info"><div class="tm-name">Emre Bulut</div><div class="tm-role">Klinik Direktör</div><div class="tm-bio">İÜ Tıp Fakültesi Dermatoloji. Klinik protokol geliştirme ve hasta çalışması yönetimi.</div></div></div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner fi">
+  <div class="cb-l">Cildiniz için<br><em>doğru teknoloji.</em></div>
+  <div class="cb-r">
+    <a href="glame-quiz.html"><button class="cb-btn1">Cilt Testini Yap →</button></a>
+    <a href="glame-collection.html"><button class="cb-btn2">Koleksiyona Bak</button></a>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-grid">
+    <div><a href="glame-homepage.html" class="logo ft-logo">Gl<em>a</em>me</a><p class="ft-desc">Teknoloji ile güzelliği buluşturan Glame, klinik bakım deneyimini evinize taşıyor.</p></div>
+    <div><div class="ft-t">Ürünler</div><ul class="ft-list"><li><a href="#">Glow Mask</a></li><li><a href="#">Dermaring</a></li><li><a href="#">Duo Spin</a></li><li><a href="#">Sapphire IPL</a></li></ul></div>
+    <div><div class="ft-t">Keşfet</div><ul class="ft-list"><li><a href="glame-quiz.html">Cilt Testi</a></li><li><a href="#">Blog</a></li><li><a href="glame-about.html">Teknoloji</a></li></ul></div>
+    <div><div class="ft-t">Şirket</div><ul class="ft-list"><li><a href="#">İletişim</a></li><li><a href="#">KVKK</a></li><li><a href="#">İade Politikası</a></li></ul></div>
+  </div>
+  <div class="ft-bot"><span class="ft-copy">© 2026 Glame Technology.</span></div>
+</footer>
+
+<nav class="mob-nav"><div class="mob-nav-inner">
+  <button class="mn-item" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Ana</button>
+  <button class="mn-item" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+  <button class="mn-cta" onclick="window.location='glame-checkout.html'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+  <button class="mn-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Teknoloji</button>
+  <button class="mn-item" onclick="window.location='glame-account.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Hesap</button>
+</div></nav>
+
+<script>
+const cur=document.getElementById('cur'),curr=document.getElementById('curr');let mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia('(hover:hover)').matches){document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});(function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});}
+const omenu=document.getElementById('omenu');
+document.getElementById('hbg').addEventListener('click',()=>{const o=omenu.classList.toggle('open');document.getElementById('hbg').classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
+document.getElementById('omclose').addEventListener('click',()=>{omenu.classList.remove('open');document.getElementById('hbg').classList.remove('open');document.body.style.overflow='';});
+const fio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.06});
+document.querySelectorAll('.fi').forEach(el=>fio.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glame — Arama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--r:#be3535;--grn:#2d8a4e;--brd:2px solid var(--ink);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+/* SEARCH BAR */
+.srch-bar{padding:0 56px;border-bottom:var(--brd);background:var(--w);display:flex;align-items:stretch;gap:0;height:80px}
+.srch-icon{display:flex;align-items:center;padding-right:16px;color:var(--i40)}
+.srch-input{flex:1;border:none;font-family:var(--d);font-size:28px;font-weight:700;font-style:italic;outline:none;background:transparent;color:var(--ink);letter-spacing:-.01em}
+.srch-input::placeholder{color:var(--i40)}
+.srch-clear{display:flex;align-items:center;padding:0 20px;border-left:var(--brd);cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);gap:6px;transition:color .2s;background:none;border-top:none;border-bottom:none;border-right:none}
+.srch-clear:hover{color:var(--ink)}
+/* FILTERS */
+.srch-filters{padding:14px 56px;border-bottom:var(--brd);display:flex;align-items:center;gap:0;overflow-x:auto}
+.sf-label{font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--i40);margin-right:16px;white-space:nowrap}
+.sf-pill{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;border:1px solid var(--i15);cursor:pointer;transition:all .2s;white-space:nowrap;margin-right:-1px;background:none;color:var(--i70)}
+.sf-pill:hover{background:var(--w3);color:var(--ink)}
+.sf-pill.active{background:var(--ink);color:var(--w);border-color:var(--ink)}
+/* RESULTS LAYOUT */
+.srch-layout{display:grid;grid-template-columns:1fr 320px;align-items:start}
+/* RESULTS */
+.srch-results{border-right:var(--brd)}
+.srch-meta{padding:18px 56px;border-bottom:var(--brd);font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);display:flex;align-items:center;justify-content:space-between}
+.srch-sort{border:1px solid var(--i15);padding:6px 14px;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;-webkit-appearance:none;cursor:pointer;background:transparent;color:var(--ink)}
+/* product result card */
+.sr-card{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:0;border-bottom:var(--brd);transition:background .2s;cursor:pointer}
+.sr-card:last-child{border-bottom:none}
+.sr-card:hover{background:var(--w3)}
+.src-img{width:120px;height:120px;border-right:var(--brd);display:flex;align-items:center;justify-content:center;background:var(--w2)}
+.src-body{padding:20px 24px}
+.src-tag{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:6px}
+.src-name{font-family:var(--d);font-size:20px;font-weight:900;margin-bottom:5px;line-height:1.1}
+.src-name em{font-style:italic;font-weight:400;color:var(--g)}
+.src-desc{font-size:13px;color:var(--i70);line-height:1.55;margin-bottom:10px}
+.src-techs{display:flex;gap:6px;flex-wrap:wrap}
+.src-tech{font-family:var(--m);font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--i15);color:var(--i70)}
+.src-r{padding:20px 24px 20px 0;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:12px;height:120px}
+.src-price{font-family:var(--d);font-size:20px;font-weight:900}
+.src-stars{font-size:11px;color:var(--g)}
+.src-atc{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--w);padding:8px 16px;border:none;cursor:pointer;transition:background .2s;white-space:nowrap}
+.src-atc:hover{background:var(--g)}
+/* content results */
+.sc-card{display:grid;grid-template-columns:60px 1fr;gap:0;border-bottom:var(--brd);transition:background .2s;cursor:pointer}
+.sc-card:hover{background:var(--w3)}
+.scc-type{width:60px;border-right:var(--brd);display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--w2)}
+.scc-body{padding:18px 24px}
+.scc-cat{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:5px}
+.scc-t{font-family:var(--d);font-size:16px;font-weight:700;margin-bottom:4px}
+.scc-d{font-size:13px;color:var(--i70);line-height:1.5}
+/* empty state */
+.srch-empty{padding:80px 56px;text-align:center;display:none}
+.se-h{font-family:var(--d);font-size:28px;font-weight:900;margin-bottom:10px}
+.se-h em{font-style:italic;color:var(--g)}
+.se-p{font-size:14px;color:var(--i70);margin-bottom:28px}
+/* SIDEBAR */
+.srch-side{padding:32px 28px;position:sticky;top:68px}
+.ss-t{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:16px}
+.popular-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--i15);cursor:pointer;margin:0 4px 8px 0;transition:all .2s;background:none;color:var(--i70)}
+.popular-tag:hover{background:var(--ink);color:var(--w);border-color:var(--ink)}
+.popular-tag .pt-n{font-size:9px;color:var(--g)}
+.ss-recent{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.ssr-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--i08);cursor:pointer;transition:color .2s;font-size:13px;color:var(--i70)}
+.ssr-item:hover{color:var(--ink)}
+.ssr-item svg{color:var(--i40)}
+/* MOB NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mni{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer}
+.mni.active{color:var(--ink)}
+.mni svg{width:22px;height:22px;stroke-width:1.5;fill:none;stroke:currentColor}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0;transition:background .25s}
+.mn-cta:hover{background:var(--g)}
+.mn-cta svg{stroke:var(--w)}
+@media(max-width:767px){
+  .nav{display:none}.mob-top{display:flex}.mob-nav{display:block}
+  .srch-bar{padding:0 16px;height:64px}
+  .srch-input{font-size:22px}
+  .srch-filters{padding:12px 16px}
+  .srch-layout{grid-template-columns:1fr}
+  .srch-side{display:none}
+  .srch-meta{padding:14px 16px}
+  .sr-card{grid-template-columns:80px 1fr auto}
+  .src-img{width:80px;height:80px}
+  .src-r{height:80px;padding:12px 12px 12px 0}
+  .src-price{font-size:16px}
+  .srch-empty{padding:60px 20px}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <span style="font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70)">Arama</span>
+  <a href="glame-collection.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none">Tüm Ürünler</a>
+</nav>
+<div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a></div>
+
+<!-- SEARCH INPUT -->
+<div class="srch-bar">
+  <div class="srch-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+  <input class="srch-input" type="text" id="mainSearch" placeholder="Ne arıyorsunuz?" oninput="doSearch(this.value)" autofocus>
+  <button class="srch-clear" onclick="clearSearch()"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>Temizle</button>
+</div>
+
+<!-- FILTERS -->
+<div class="srch-filters">
+  <span class="sf-label">Filtre:</span>
+  <button class="sf-pill active" onclick="setFilter(this,'all')">Tümü</button>
+  <button class="sf-pill" onclick="setFilter(this,'products')">Ürünler</button>
+  <button class="sf-pill" onclick="setFilter(this,'yuz')">Yüz Bakımı</button>
+  <button class="sf-pill" onclick="setFilter(this,'epilasyon')">Epilasyon</button>
+  <button class="sf-pill" onclick="setFilter(this,'sac')">Saç</button>
+  <button class="sf-pill" onclick="setFilter(this,'content')">İçerik</button>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="srch-layout">
+  <div class="srch-results">
+    <div class="srch-meta">
+      <span id="resultCount">5 sonuç bulundu</span>
+      <select class="srch-sort" onchange="sortResults(this.value)">
+        <option value="relevance">İlgililik</option>
+        <option value="price_asc">Fiyat: Düşük</option>
+        <option value="price_desc">Fiyat: Yüksek</option>
+        <option value="rating">Puan</option>
+      </select>
+    </div>
+    <!-- Product results -->
+    <div id="prodResults">
+      <div class="sr-card" data-cat="yuz" data-price="5000" data-rating="4.9" onclick="window.location='glame-pdp.html'">
+        <div class="src-img"><div style="width:52px;height:52px;border-radius:50%;background:radial-gradient(circle,rgba(190,53,53,.2),transparent 70%);border:2px solid var(--ink)"></div></div>
+        <div class="src-body">
+          <div class="src-tag">Yüz Bakımı · LED Fototerapi</div>
+          <div class="src-name">Glame <em>Glow Mask</em></div>
+          <div class="src-desc">94 LED kaynağı, 633nm kırmızı + 415nm mavi + 830nm kızılötesi. Anti-aging ve akne tedavisi.</div>
+          <div class="src-techs"><span class="src-tech">LED</span><span class="src-tech">633nm</span><span class="src-tech">Anti-Aging</span></div>
+        </div>
+        <div class="src-r"><div><div class="src-stars">★★★★★</div><div style="font-family:var(--m);font-size:8px;color:var(--i40);letter-spacing:.08em">847 değerlendirme</div></div><div class="src-price">₺5.000</div><button class="src-atc" onclick="event.stopPropagation();this.textContent='✓'">Sepete</button></div>
+      </div>
+      <div class="sr-card" data-cat="yuz" data-price="3500" data-rating="4.8" onclick="window.location='glame-collection.html'">
+        <div class="src-img"><div style="width:20px;height:70px;border-radius:10px;background:linear-gradient(to right,rgba(15,14,14,.05),rgba(15,14,14,.1));border:2px solid var(--ink)"></div></div>
+        <div class="src-body">
+          <div class="src-tag">Yüz Bakımı · Mikro Akım</div>
+          <div class="src-name">Dermaring <em>Revive</em></div>
+          <div class="src-desc">Mikro akım + kızılötesi kombinasyonu. Cilt sıkılaştırma ve kolajen stimülasyonu.</div>
+          <div class="src-techs"><span class="src-tech">Mikro Akım</span><span class="src-tech">Kızılötesi</span></div>
+        </div>
+        <div class="src-r"><div><div class="src-stars">★★★★★</div><div style="font-family:var(--m);font-size:8px;color:var(--i40);letter-spacing:.08em">312</div></div><div class="src-price">₺3.500</div><button class="src-atc" onclick="event.stopPropagation();this.textContent='✓'">Sepete</button></div>
+      </div>
+      <div class="sr-card" data-cat="temizlik" data-price="2200" data-rating="4.7" onclick="window.location='glame-collection.html'">
+        <div class="src-img"><div style="width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:var(--w3)"></div></div>
+        <div class="src-body">
+          <div class="src-tag">Temizlik · Sonik</div>
+          <div class="src-name">Duo Spin <em>Cleanser</em></div>
+          <div class="src-desc">360° dönen sonik başlık. LED seans öncesi derin gözenek temizliği. IP67 su geçirmez.</div>
+          <div class="src-techs"><span class="src-tech">Sonik</span><span class="src-tech">IP67</span></div>
+        </div>
+        <div class="src-r"><div><div class="src-stars">★★★★★</div><div style="font-family:var(--m);font-size:8px;color:var(--i40);letter-spacing:.08em">215</div></div><div class="src-price">₺2.200</div><button class="src-atc" onclick="event.stopPropagation();this.textContent='✓'">Sepete</button></div>
+      </div>
+      <div class="sr-card" data-cat="epilasyon" data-price="4200" data-rating="4.9" onclick="window.location='glame-collection.html'">
+        <div class="src-img"><div style="width:22px;height:72px;border-radius:11px;background:linear-gradient(to bottom,rgba(100,149,237,.15),rgba(100,149,237,.05));border:2px solid var(--ink)"></div></div>
+        <div class="src-body">
+          <div class="src-tag">Epilasyon · IPL</div>
+          <div class="src-name">Sapphire <em>Freeze IPL</em></div>
+          <div class="src-desc">Safir soğutma teknolojisi ile ağrısız IPL epilasyon. 6 seansda kalıcı sonuç.</div>
+          <div class="src-techs"><span class="src-tech">IPL</span><span class="src-tech">Safir</span><span class="src-tech">Kalıcı</span></div>
+        </div>
+        <div class="src-r"><div><div class="src-stars">★★★★★</div><div style="font-family:var(--m);font-size:8px;color:var(--i40);letter-spacing:.08em">189</div></div><div class="src-price">₺4.200</div><button class="src-atc" onclick="event.stopPropagation();this.textContent='✓'">Sepete</button></div>
+      </div>
+      <div class="sr-card" data-cat="sac" data-price="4000" data-rating="4.6" onclick="window.location='glame-collection.html'">
+        <div class="src-img"><div style="width:20px;height:72px;border-radius:4px;background:linear-gradient(to bottom,rgba(190,53,53,.12),transparent);border:2px solid var(--ink)"></div></div>
+        <div class="src-body">
+          <div class="src-tag">Saç Bakımı · Kızılötesi</div>
+          <div class="src-name">Hair Light <em>Pro Comb</em></div>
+          <div class="src-desc">Kızılötesi + mikro akım kombinasyonu. Saç dökülmesi ve yoğunlaştırma tedavisi.</div>
+          <div class="src-techs"><span class="src-tech">Kızılötesi</span><span class="src-tech">Mikro Akım</span></div>
+        </div>
+        <div class="src-r"><div><div class="src-stars">★★★★☆</div><div style="font-family:var(--m);font-size:8px;color:var(--i40);letter-spacing:.08em">94</div></div><div class="src-price">₺4.000</div><button class="src-atc" onclick="event.stopPropagation();this.textContent='✓'">Sepete</button></div>
+      </div>
+    </div>
+    <!-- Content results -->
+    <div id="contResults">
+      <div class="sc-card" onclick="window.location='glame-about.html'"><div class="scc-type">📄</div><div class="scc-body"><div class="scc-cat">Teknoloji</div><div class="scc-t">LED Fototerapi Nedir? 633nm vs 415nm vs 830nm</div><div class="scc-d">Her dalga boyunun cilt üzerindeki klinik etkileri ve Glow Mask protokolü.</div></div></div>
+      <div class="sc-card" onclick="window.location='glame-quiz.html'"><div class="scc-type">🧪</div><div class="scc-body"><div class="scc-cat">Cilt Testi</div><div class="scc-t">Cilt Tipinize Göre Ürün Önerisi</div><div class="scc-d">7 soruluk kişisel cilt analizi ile size özel protokol oluşturun.</div></div></div>
+      <div class="sc-card" onclick="window.location='glame-faq.html'"><div class="scc-type">❓</div><div class="scc-body"><div class="scc-cat">SSS</div><div class="scc-t">Kullanım Kılavuzu ve Sık Sorulan Sorular</div><div class="scc-d">Günlük kullanım, mod seçimi, garanti ve teknik sorular.</div></div></div>
+    </div>
+    <!-- Empty -->
+    <div class="srch-empty" id="emptyState">
+      <div style="font-size:40px;margin-bottom:16px">🔍</div>
+      <h2 class="se-h"><em>Sonuç bulunamadı</em></h2>
+      <p class="se-p">Farklı anahtar kelimeler deneyebilir veya tüm ürünlerimize göz atabilirsiniz.</p>
+      <a href="glame-collection.html" style="font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:var(--ink);color:var(--w);padding:14px 32px;text-decoration:none;display:inline-block">Tüm Ürünleri Gör →</a>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="srch-side">
+    <div style="margin-bottom:32px">
+      <div class="ss-t">Popüler Aramalar</div>
+      <button class="popular-tag" onclick="setSearch('led maske')">led maske<span class="pt-n">2.4k</span></button>
+      <button class="popular-tag" onclick="setSearch('epilasyon cihazı')">epilasyon<span class="pt-n">1.8k</span></button>
+      <button class="popular-tag" onclick="setSearch('kırışıklık')">kırışıklık<span class="pt-n">1.2k</span></button>
+      <button class="popular-tag" onclick="setSearch('akne')">akne<span class="pt-n">980</span></button>
+      <button class="popular-tag" onclick="setSearch('glow mask')">glow mask<span class="pt-n">760</span></button>
+      <button class="popular-tag" onclick="setSearch('saç dökülmesi')">saç dökülmesi<span class="pt-n">540</span></button>
+    </div>
+    <div>
+      <div class="ss-t">Son Aramalar</div>
+      <div class="ss-recent" id="recentSearches">
+        <div class="ssr-item" onclick="setSearch('led maske')"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>led maske</div>
+        <div class="ssr-item" onclick="setSearch('akne tedavisi')"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>akne tedavisi</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="mob-nav"><div class="mob-nav-inner">
+  <button class="mni" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Ana</button>
+  <button class="mni" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+  <button class="mn-cta" onclick="window.location='glame-checkout.html'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+  <button class="mni active"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Arama</button>
+  <button class="mni" onclick="window.location='glame-account.html'"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Hesap</button>
+</div></nav>
+
+<script>
+const allProducts=[...document.querySelectorAll('.sr-card')];
+const allContent=[...document.querySelectorAll('.sc-card')];
+let curFilter='all';
+function doSearch(q){
+  q=q.toLowerCase().trim();
+  document.getElementById('mainSearch').value=document.getElementById('mainSearch').value;
+  const terms=['led','maske','glow','kırışıklık','akne','epilasyon','saç','ipl','mikro akım','temizlik','dermaring','sapphire'];
+  let prodVis=0,contVis=0;
+  allProducts.forEach(c=>{
+    const txt=c.textContent.toLowerCase();
+    const cat=c.dataset.cat;
+    const show=(q===''||(q.length>0&&(txt.includes(q)||terms.some(t=>q.includes(t)&&txt.includes(t)))))&&(curFilter==='all'||curFilter==='products'||cat===curFilter);
+    c.style.display=show?'':'none';
+    if(show) prodVis++;
+  });
+  allContent.forEach(c=>{
+    const txt=c.textContent.toLowerCase();
+    const show=(q===''||txt.includes(q))&&(curFilter==='all'||curFilter==='content');
+    c.style.display=show?'':'none';
+    if(show) contVis++;
+  });
+  const total=prodVis+contVis;
+  document.getElementById('resultCount').textContent=total===0?'Sonuç bulunamadı':total+' sonuç bulundu'+(q?' — "'+q+'"':'');
+  document.getElementById('emptyState').style.display=total===0?'block':'none';
+}
+function setFilter(el,f){
+  document.querySelectorAll('.sf-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  curFilter=f;
+  doSearch(document.getElementById('mainSearch').value);
+}
+function clearSearch(){
+  document.getElementById('mainSearch').value='';
+  doSearch('');
+}
+function setSearch(q){
+  document.getElementById('mainSearch').value=q;
+  doSearch(q);
+}
+function sortResults(v){
+  const cont=document.getElementById('prodResults');
+  const cards=[...cont.querySelectorAll('.sr-card')];
+  cards.sort((a,b)=>{
+    if(v==='price_asc') return +a.dataset.price - +b.dataset.price;
+    if(v==='price_desc') return +b.dataset.price - +a.dataset.price;
+    if(v==='rating') return +b.dataset.rating - +a.dataset.rating;
+    return 0;
+  });
+  cards.forEach(c=>cont.appendChild(c));
+}
+// URL param
+const urlQ=new URLSearchParams(location.search).get('q');
+if(urlQ){setSearch(urlQ);}
+</script>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ef">
+<title>Glame — Sipariş</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;
+  --ink:#0f0e0e;
+  --i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);
+  --i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);
+  --g:#b8892a;--g2:#d4a030;--r:#be3535;--grn:#2d8a4e;
+  --brd:2px solid var(--ink);--brdg:2px solid var(--g);
+  --d:'Playfair Display',Georgia,serif;
+  --b:'Figtree',sans-serif;
+  --m:'DM Mono',monospace;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;min-height:100dvh}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+#cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+#curr.x{width:52px;height:52px;border-color:var(--g)}
+@media(hover:none){#cur,#curr{display:none}}
+
+/* ── NAV ── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;border-bottom:var(--brd);background:rgba(247,244,239,.97);position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-secure{display:flex;align-items:center;gap:7px;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70)}
+.nav-secure svg{color:var(--grn)}
+.nav-back{display:flex;align-items:center;gap:7px;font-family:var(--m);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);cursor:pointer;transition:color .2s}
+.nav-back:hover{color:var(--ink)}
+
+/* ── PROGRESS BAR ── */
+.progress{display:flex;align-items:center;justify-content:center;padding:20px 48px;border-bottom:var(--brd);gap:0;background:var(--w)}
+.prog-step{display:flex;align-items:center;gap:10px;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40);transition:color .3s}
+.prog-step.active{color:var(--ink)}
+.prog-step.done{color:var(--g)}
+.prog-n{width:28px;height:28px;border-radius:50%;border:2px solid var(--i15);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .3s;font-family:var(--m)}
+.prog-step.active .prog-n{border-color:var(--ink);background:var(--ink);color:var(--w)}
+.prog-step.done .prog-n{border-color:var(--g);background:var(--g);color:var(--w)}
+.prog-line{flex:1;max-width:80px;height:1px;background:var(--i15);margin:0 16px}
+.prog-line.done{background:var(--g)}
+
+/* ── LAYOUT ── */
+.co-layout{display:grid;grid-template-columns:1fr 420px;min-height:calc(100dvh - 68px - 61px);align-items:start}
+.co-main{padding:48px 56px;border-right:var(--brd)}
+.co-side{padding:36px 44px;background:var(--w2);position:sticky;top:68px}
+
+/* ── STEP PANELS ── */
+.step-panel{display:none}
+.step-panel.active{display:block}
+.step-h{font-family:var(--d);font-size:clamp(24px,2.2vw,32px);font-weight:900;line-height:1.0;letter-spacing:-.02em;margin-bottom:6px}
+.step-h em{font-style:italic;font-weight:400;color:var(--g)}
+.step-sub{font-size:13px;color:var(--i70);margin-bottom:36px}
+
+/* ── FORM ELEMENTS ── */
+.fgroup{margin-bottom:18px}
+.flabel{font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70);margin-bottom:7px;display:flex;align-items:center;justify-content:space-between}
+.flabel span{font-size:9px;color:var(--i40);letter-spacing:.1em}
+.finput{width:100%;height:50px;border:var(--brd);background:transparent;padding:0 14px;font-size:14px;font-family:var(--b);color:var(--ink);outline:none;transition:border-color .25s;-webkit-appearance:none}
+.finput:focus{border-color:var(--g)}
+.finput::placeholder{color:var(--i40)}
+.fselect{width:100%;height:50px;border:var(--brd);background:var(--w);padding:0 14px;font-size:14px;font-family:var(--b);color:var(--ink);outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%230f0e0e' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ── COUPON ── */
+.coupon-row{display:grid;grid-template-columns:1fr auto;gap:0;border:var(--brd);margin-bottom:24px}
+.coupon-row input{border:none;padding:0 16px;height:48px;font-family:var(--m);font-size:12px;letter-spacing:.12em;outline:none;background:transparent;color:var(--ink);text-transform:uppercase}
+.coupon-row input::placeholder{text-transform:none;color:var(--i40)}
+.coupon-btn{padding:0 22px;background:none;border:none;border-left:var(--brd);font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .25s;white-space:nowrap}
+.coupon-btn:hover{background:var(--ink);color:var(--w)}
+.coupon-ok{display:none;align-items:center;gap:8px;font-family:var(--m);font-size:11px;letter-spacing:.1em;color:var(--grn);margin-top:8px}
+.coupon-ok.show{display:flex}
+
+/* ── SHIPPING OPTIONS ── */
+.ship-opts{border:var(--brd);margin-bottom:24px}
+.ship-opt{display:flex;align-items:center;gap:16px;padding:18px 20px;border-bottom:var(--brd);cursor:pointer;transition:background .2s;position:relative}
+.ship-opt:last-child{border-bottom:none}
+.ship-opt.selected{background:rgba(184,137,42,.06)}
+.ship-opt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--g);transform:scaleY(0);transition:transform .3s}
+.ship-opt.selected::before{transform:scaleY(1)}
+.ship-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--i15);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.ship-opt.selected .ship-radio{border-color:var(--g)}
+.ship-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--g);transform:scale(0);transition:transform .2s}
+.ship-opt.selected .ship-radio::after{transform:scale(1)}
+.ship-info{flex:1}
+.ship-name{font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.ship-eta{font-size:13px;color:var(--i70);margin-top:3px}
+.ship-price{font-family:var(--d);font-size:16px;font-weight:700}
+.ship-free{color:var(--grn);font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+
+/* ── SAVED ADDRESSES ── */
+.saved-addrs{border:var(--brd);margin-bottom:20px}
+.saved-addr{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:var(--brd);cursor:pointer;transition:background .2s;position:relative}
+.saved-addr:last-child{border-bottom:none}
+.saved-addr.selected{background:rgba(184,137,42,.06)}
+.saved-addr.selected::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--g)}
+.sa-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--i15);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.saved-addr.selected .sa-radio{border-color:var(--g)}
+.sa-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--g);transform:scale(0);transition:transform .2s}
+.saved-addr.selected .sa-radio::after{transform:scale(1)}
+.sa-label{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:3px}
+.sa-text{font-size:13px;color:var(--i70);line-height:1.5}
+.sa-new-btn{width:100%;padding:16px 20px;background:none;border:none;cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-align:left;transition:color .2s;border-top:var(--brd)}
+.sa-new-btn:hover{color:var(--g)}
+
+/* ── PAYMENT SECTION ── */
+.pay-methods{border:var(--brd);margin-bottom:24px}
+.pay-method{padding:18px 20px;border-bottom:var(--brd);cursor:pointer;transition:background .2s;position:relative}
+.pay-method:last-child{border-bottom:none}
+.pay-method.selected{background:rgba(184,137,42,.06)}
+.pay-method.selected::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--g)}
+.pay-method-header{display:flex;align-items:center;gap:12px}
+.pay-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--i15);flex-shrink:0;transition:border-color .2s}
+.pay-method.selected .pay-radio{border-color:var(--g);box-shadow:inset 0 0 0 4px var(--g)}
+.pay-method-name{font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;flex:1}
+.pay-method-icons{display:flex;gap:6px}
+.pay-icon{width:32px;height:22px;border:1px solid var(--i15);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-family:var(--m);letter-spacing:.05em;color:var(--i70)}
+.pay-form{padding:18px 20px 8px;display:none}
+.pay-method.selected .pay-form{display:block}
+/* card form */
+.card-num-wrap{position:relative}
+.card-type{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:var(--m);font-size:9px;letter-spacing:.1em;color:var(--i40)}
+/* installment options */
+.inst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:var(--brd);margin-top:14px}
+.inst-opt{padding:12px 10px;text-align:center;cursor:pointer;border-right:var(--brd);transition:background .2s;position:relative}
+.inst-opt:last-child{border-right:none}
+.inst-opt.selected{background:var(--ink);color:var(--w)}
+.inst-opt:not(.selected):hover{background:var(--w3)}
+.inst-opt-n{font-family:var(--d);font-size:18px;font-weight:700;line-height:1}
+.inst-opt-t{font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:4px;color:inherit;opacity:.6}
+.inst-opt-p{font-size:12px;margin-top:3px;color:inherit;opacity:.5}
+
+/* ── ORDER SUMMARY (sidebar) ── */
+.os-title{font-family:var(--m);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.os-title a{color:var(--g);font-size:10px;border-bottom:1px solid rgba(184,137,42,.25)}
+.os-items{border:var(--brd);margin-bottom:20px}
+.os-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:var(--brd)}
+.os-item:last-child{border-bottom:none}
+.os-img{width:48px;height:48px;background:var(--w);border:1px solid var(--i15);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.os-qty-badge{position:absolute;top:-7px;right:-7px;width:18px;height:18px;background:var(--ink);border-radius:50%;color:var(--w);font-family:var(--m);font-size:9px;display:flex;align-items:center;justify-content:center}
+.os-item-name{flex:1;font-family:var(--d);font-size:14px;font-weight:700;line-height:1.2}
+.os-item-sub{font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70);margin-top:3px}
+.os-item-price{font-family:var(--d);font-size:16px;font-weight:700}
+/* totals */
+.os-totals{border:var(--brd);margin-bottom:20px}
+.os-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:var(--brd);font-size:13px}
+.os-row:last-child{border-bottom:none}
+.os-row-label{color:var(--i70);font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.os-row-val{font-family:var(--m);font-size:12px;letter-spacing:.06em}
+.os-row.total{padding:16px}
+.os-row.total .os-row-label{font-size:11px;letter-spacing:.14em;color:var(--ink)}
+.os-row.total .os-row-val{font-family:var(--d);font-size:22px;font-weight:900;color:var(--ink)}
+.os-discount{color:var(--grn)}
+/* trust */
+.os-trust{display:flex;flex-direction:column;gap:10px;border:var(--brd);padding:16px}
+.os-trust-item{display:flex;align-items:center;gap:10px;font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70)}
+.os-trust-item svg{color:var(--g);flex-shrink:0}
+/* proceed btn */
+.proceed-btn{width:100%;height:54px;background:var(--ink);color:var(--w);border:var(--brd);cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;position:relative;overflow:hidden;transition:color .35s;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px}
+.proceed-btn::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.proceed-btn:hover::after{transform:translateX(0)}
+.proceed-btn span,.proceed-btn svg{position:relative;z-index:1}
+.proceed-btn.loading{pointer-events:none}
+.proceed-btn.loading span{opacity:0}
+.proceed-btn.loading::before{content:'';position:absolute;width:18px;height:18px;border:2px solid rgba(247,244,239,.3);border-top-color:var(--w);border-radius:50%;animation:spin .7s linear infinite;z-index:2}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── UPSELL MINI ── */
+.upsell-mini{border:var(--brdg);padding:16px;margin-bottom:20px;background:rgba(184,137,42,.04)}
+.upsell-mini-h{font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.upsell-item{display:flex;align-items:center;gap:12px}
+.upsell-item-img{width:40px;height:40px;background:var(--w);border:1px solid var(--i15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.upsell-item-info{flex:1}
+.upsell-item-name{font-family:var(--d);font-size:13px;font-weight:700}
+.upsell-item-price{font-family:var(--m);font-size:10px;letter-spacing:.08em;color:var(--g);margin-top:2px}
+.upsell-add{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;border:var(--brdg);padding:7px 12px;cursor:pointer;color:var(--g);background:none;transition:all .25s;white-space:nowrap}
+.upsell-add:hover{background:var(--g);color:var(--w)}
+
+/* ── SUCCESS ── */
+.success-screen{display:none;padding:80px 56px;text-align:center}
+.success-screen.show{display:block}
+.success-anim{width:88px;height:88px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;margin:0 auto 32px;animation:pop .6s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.success-anim svg{stroke:var(--w);width:36px;height:36px;stroke-width:2.5}
+.success-h{font-family:var(--d);font-size:clamp(32px,4vw,52px);font-weight:900;line-height:.97;letter-spacing:-.025em;margin-bottom:14px}
+.success-h em{font-style:italic;font-weight:400;color:var(--g)}
+.success-sub{font-size:16px;color:var(--i70);line-height:1.7;max-width:420px;margin:0 auto 40px}
+.success-order{border:var(--brd);display:inline-block;padding:20px 40px;margin-bottom:40px}
+.success-order-n{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--i70);margin-bottom:6px}
+.success-order-v{font-family:var(--d);font-size:24px;font-weight:900}
+.success-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.success-btn-p{background:var(--ink);color:var(--w);font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:16px 36px;border:var(--brd);cursor:pointer;transition:background .25s}
+.success-btn-p:hover{background:var(--g)}
+.success-btn-s{background:none;color:var(--ink);font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:16px 36px;border:var(--brd);cursor:pointer;transition:all .25s}
+.success-btn-s:hover{background:var(--w3)}
+/* timeline */
+.order-timeline{display:flex;justify-content:center;gap:0;margin-top:48px;border:var(--brd)}
+.otl-step{flex:1;padding:20px 16px;text-align:center;border-right:var(--brd);position:relative}
+.otl-step:last-child{border-right:none}
+.otl-step.done{background:rgba(45,138,78,.04)}
+.otl-icon{font-size:22px;margin-bottom:8px}
+.otl-t{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.otl-d{font-size:12px;color:var(--i70);margin-top:3px}
+.otl-step.done .otl-t{color:var(--grn)}
+.otl-check{position:absolute;top:10px;right:10px;width:16px;height:16px;border-radius:50%;background:var(--grn);display:none;align-items:center;justify-content:center}
+.otl-step.done .otl-check{display:flex}
+.otl-check svg{stroke:var(--w);width:8px;height:8px;stroke-width:3}
+
+/* MOBILE */
+@media(max-width:767px){
+  .nav{padding:0 18px;height:56px}
+  .progress{padding:16px 20px}
+  .prog-step-label{display:none}
+  .co-layout{grid-template-columns:1fr}
+  .co-side{position:static;order:-1;border-bottom:var(--brd)}
+  .co-main{padding:32px 20px}
+  .frow,.frow3{grid-template-columns:1fr}
+  .inst-grid{grid-template-columns:repeat(3,1fr)}
+  .success-screen{padding:48px 20px}
+  .order-timeline{flex-direction:column;border:none}
+  .otl-step{border-right:none;border-bottom:var(--brd);display:flex;align-items:center;gap:14px;text-align:left;padding:16px 20px}
+  .otl-step:last-child{border-bottom:none}
+  .otl-icon{margin-bottom:0;font-size:20px}
+  .otl-check{position:static;margin-left:auto}
+}
+@media(min-width:768px) and (max-width:1100px){
+  .co-layout{grid-template-columns:1fr 360px}
+  .co-main{padding:36px 36px}
+  .co-side{padding:28px 32px}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curr"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-back" onclick="history.back()">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Alışverişe Dön
+  </div>
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <div class="nav-secure">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    Güvenli Ödeme
+  </div>
+</nav>
+
+<!-- PROGRESS -->
+<div class="progress">
+  <div class="prog-step done" id="prog1">
+    <div class="prog-n"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <span class="prog-step-label">Sepet</span>
+  </div>
+  <div class="prog-line done"></div>
+  <div class="prog-step active" id="prog2">
+    <div class="prog-n">2</div>
+    <span class="prog-step-label">Teslimat</span>
+  </div>
+  <div class="prog-line" id="pl2"></div>
+  <div class="prog-step" id="prog3">
+    <div class="prog-n">3</div>
+    <span class="prog-step-label">Ödeme</span>
+  </div>
+</div>
+
+<!-- CHECKOUT LAYOUT -->
+<div class="co-layout" id="coLayout">
+  <!-- MAIN -->
+  <div class="co-main">
+
+    <!-- STEP 1: CART REVIEW -->
+    <div class="step-panel" id="step-cart">
+      <div class="step-h">Sepetinizi <em>Gözden Geçirin</em></div>
+      <p class="step-sub">Ücretsiz kargoya 500 TL'niz kaldı · GLAME10 kodu ile %10 indirim</p>
+      <!-- cart items editable -->
+      <div style="border:var(--brd);margin-bottom:28px">
+        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:20px;border-bottom:var(--brd)">
+          <div style="width:72px;height:72px;background:var(--w2);border:var(--brd);display:flex;align-items:center;justify-content:center">
+            <div style="width:48px;height:48px;border-radius:50%;background:radial-gradient(circle,rgba(190,53,53,.2),transparent 70%);border:1px solid var(--ink)"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--d);font-size:17px;font-weight:700;margin-bottom:4px">Glame Glow Mask</div>
+            <div style="font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70);margin-bottom:10px">LED Fototerapi · Kırmızı Mod</div>
+            <div style="display:flex;align-items:center;gap:0;border:var(--brd);width:fit-content">
+              <button style="width:36px;height:36px;background:none;border:none;cursor:pointer;font-size:16px;font-family:var(--b);transition:background .2s" onmouseover="this.style.background='var(--w3)'" onmouseout="this.style.background='none'" onclick="updateQty(this,-1)">−</button>
+              <span style="min-width:36px;text-align:center;font-family:var(--d);font-size:15px;font-weight:700;border-left:var(--brd);border-right:var(--brd);line-height:36px">1</span>
+              <button style="width:36px;height:36px;background:none;border:none;cursor:pointer;font-size:16px;font-family:var(--b);transition:background .2s" onmouseover="this.style.background='var(--w3)'" onmouseout="this.style.background='none'" onclick="updateQty(this,1)">+</button>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:var(--d);font-size:20px;font-weight:900"><sub style="font-size:12px">₺</sub>5.000</div>
+            <div style="font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);text-decoration:line-through;margin-top:3px">₺6.500</div>
+            <button style="margin-top:10px;background:none;border:none;cursor:pointer;font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--i40);border-bottom:1px solid var(--i15);transition:color .2s" onmouseover="this.style.color='var(--r)'" onmouseout="this.style.color='var(--i40)'">Kaldır</button>
+          </div>
+        </div>
+        <!-- upsell in cart -->
+        <div style="padding:16px 20px;background:rgba(184,137,42,.04);border-bottom:var(--brd)">
+          <div style="font-family:var(--m);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--g);margin-bottom:12px">💡 Bu ürünü alanlar şunu da aldı</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:44px;height:44px;background:var(--w);border:1px solid var(--i15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:14px;height:52px;border-radius:7px;background:linear-gradient(to right,rgba(15,14,14,.05),rgba(15,14,14,.1));border:1px solid var(--ink)"></div></div>
+            <div style="flex:1"><div style="font-family:var(--d);font-size:13px;font-weight:700">Dermaring Revive</div><div style="font-family:var(--m);font-size:10px;letter-spacing:.08em;color:var(--g);margin-top:2px">Bundle'a ekle · ₺3.150</div></div>
+            <button style="font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;border:var(--brdg);padding:8px 14px;cursor:pointer;color:var(--g);background:none;transition:all .25s;white-space:nowrap" onmouseover="this.style.background='var(--g)';this.style.color='var(--w)'" onmouseout="this.style.background='none';this.style.color='var(--g)'">+ Ekle</button>
+          </div>
+        </div>
+        <!-- coupon -->
+        <div style="padding:16px 20px">
+          <div class="coupon-row">
+            <input type="text" placeholder="İndirim kodu" id="couponInput">
+            <button class="coupon-btn" onclick="applyCoupon()">Uygula</button>
+          </div>
+          <div class="coupon-ok" id="couponOk"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>GLAME10 uygulandı — %10 indirim</div>
+        </div>
+      </div>
+      <button class="proceed-btn" onclick="nextStep(2)"><span>Teslimat Bilgileri →</span></button>
+    </div>
+
+    <!-- STEP 2: DELIVERY -->
+    <div class="step-panel active" id="step-delivery">
+      <div class="step-h">Teslimat <em>Bilgileri</em></div>
+      <p class="step-sub">Siparişiniz 2–3 iş günü içinde kargoya verilir</p>
+
+      <!-- saved addresses -->
+      <div style="font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70);margin-bottom:12px">Kayıtlı Adresler</div>
+      <div class="saved-addrs">
+        <div class="saved-addr selected" onclick="selectAddr(this)">
+          <div class="sa-radio"></div>
+          <div><div class="sa-label">Ev</div><div class="sa-text">Nişantaşı Mah. Abdi İpekçi Cad. No:45 D:8, Şişli / İstanbul</div></div>
+        </div>
+        <div class="saved-addr" onclick="selectAddr(this)">
+          <div class="sa-radio"></div>
+          <div><div class="sa-label">İş</div><div class="sa-text">Büyükdere Cad. Levent Ofis No:200, Levent / İstanbul</div></div>
+        </div>
+        <button class="sa-new-btn" onclick="toggleNewAddr()">+ Yeni Adres Ekle</button>
+      </div>
+
+      <!-- new address form (hidden by default) -->
+      <div id="newAddrForm" style="display:none;border:var(--brd);padding:24px;margin-bottom:24px">
+        <div style="font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:20px">Yeni Adres</div>
+        <div class="frow"><div class="fgroup"><label class="flabel">Ad</label><input class="finput" type="text" placeholder="Adınız"></div><div class="fgroup"><label class="flabel">Soyad</label><input class="finput" type="text" placeholder="Soyadınız"></div></div>
+        <div class="fgroup"><label class="flabel">Adres</label><input class="finput" type="text" placeholder="Sokak, No, Daire"></div>
+        <div class="frow"><div class="fgroup"><label class="flabel">İlçe</label><input class="finput" type="text" placeholder="Şişli"></div><div class="fgroup"><label class="flabel">Şehir</label><select class="fselect"><option>İstanbul</option><option>Ankara</option><option>İzmir</option><option>Bursa</option></select></div></div>
+        <div class="frow"><div class="fgroup"><label class="flabel">Posta Kodu</label><input class="finput" type="text" placeholder="34367" maxlength="5"></div><div class="fgroup"><label class="flabel">Telefon</label><input class="finput" type="tel" placeholder="+90 5xx xxx xx xx"></div></div>
+      </div>
+
+      <!-- shipping method -->
+      <div style="font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70);margin-bottom:12px">Kargo Seçeneği</div>
+      <div class="ship-opts">
+        <div class="ship-opt selected" onclick="selectShip(this)">
+          <div class="ship-radio"></div>
+          <div class="ship-info"><div class="ship-name">Standart Kargo · Aras</div><div class="ship-eta">2–3 İş Günü · Cuma'ya kadar</div></div>
+          <div class="ship-free">Ücretsiz</div>
+        </div>
+        <div class="ship-opt" onclick="selectShip(this)">
+          <div class="ship-radio"></div>
+          <div class="ship-info"><div class="ship-name">Hızlı Teslimat · MNG</div><div class="ship-eta">1 İş Günü · Yarın 18:00'e kadar</div></div>
+          <div class="ship-price"><sub style="font-size:10px">₺</sub>59</div>
+        </div>
+        <div class="ship-opt" onclick="selectShip(this)">
+          <div class="ship-radio"></div>
+          <div class="ship-info"><div class="ship-name">Aynı Gün Teslimat</div><div class="ship-eta">Bugün 20:00'e kadar · İstanbul içi</div></div>
+          <div class="ship-price"><sub style="font-size:10px">₺</sub>149</div>
+        </div>
+      </div>
+
+      <!-- order note -->
+      <div class="fgroup">
+        <label class="flabel">Sipariş Notu <span>isteğe bağlı</span></label>
+        <textarea class="finput" style="height:80px;padding:12px 14px;resize:none;line-height:1.55" placeholder="Kapıcıya bırakabilirsiniz..."></textarea>
+      </div>
+
+      <button class="proceed-btn" onclick="nextStep(3)"><span>Ödemeye Geç →</span></button>
+    </div>
+
+    <!-- STEP 3: PAYMENT -->
+    <div class="step-panel" id="step-payment">
+      <div class="step-h">Güvenli <em>Ödeme</em></div>
+      <p class="step-sub">256-bit SSL şifreleme · iyzico altyapısı</p>
+
+      <div class="pay-methods">
+        <!-- credit card -->
+        <div class="pay-method selected" onclick="selectPay(this)">
+          <div class="pay-method-header">
+            <div class="pay-radio"></div>
+            <div class="pay-method-name">Kredi / Banka Kartı</div>
+            <div class="pay-method-icons">
+              <div class="pay-icon">VISA</div>
+              <div class="pay-icon">MC</div>
+              <div class="pay-icon">AMEX</div>
+            </div>
+          </div>
+          <div class="pay-form">
+            <div class="fgroup" style="margin-top:16px">
+              <label class="flabel">Kart Numarası</label>
+              <div class="card-num-wrap">
+                <input class="finput" type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCard(this)" id="cardNum">
+                <span class="card-type" id="cardType">— —</span>
+              </div>
+            </div>
+            <div class="frow">
+              <div class="fgroup"><label class="flabel">Son Kullanma</label><input class="finput" type="text" placeholder="AA/YY" maxlength="5" oninput="formatDate(this)"></div>
+              <div class="fgroup"><label class="flabel">CVV</label><input class="finput" type="text" placeholder="•••" maxlength="4"></div>
+            </div>
+            <div class="fgroup"><label class="flabel">Kart Üzerindeki İsim</label><input class="finput" type="text" placeholder="Ad Soyad" autocomplete="cc-name"></div>
+            <!-- installment -->
+            <div style="font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);margin-bottom:10px">Taksit Seçeneği</div>
+            <div class="inst-grid">
+              <div class="inst-opt selected" onclick="selectInst(this)"><div class="inst-opt-n">1×</div><div class="inst-opt-t">Peşin</div><div class="inst-opt-p">₺5.000</div></div>
+              <div class="inst-opt" onclick="selectInst(this)"><div class="inst-opt-n">3×</div><div class="inst-opt-t">Taksit</div><div class="inst-opt-p">₺1.667</div></div>
+              <div class="inst-opt" onclick="selectInst(this)"><div class="inst-opt-n">6×</div><div class="inst-opt-t">Taksit</div><div class="inst-opt-p">₺834</div></div>
+              <div class="inst-opt" onclick="selectInst(this)"><div class="inst-opt-n">9×</div><div class="inst-opt-t">Taksit</div><div class="inst-opt-p">₺556</div></div>
+              <div class="inst-opt" onclick="selectInst(this)"><div class="inst-opt-n">12×</div><div class="inst-opt-t">Taksit</div><div class="inst-opt-p">₺417</div></div>
+              <div class="inst-opt" onclick="selectInst(this)"><div class="inst-opt-n">18×</div><div class="inst-opt-t">Taksit</div><div class="inst-opt-p">₺278</div></div>
+            </div>
+          </div>
+        </div>
+        <!-- bank transfer -->
+        <div class="pay-method" onclick="selectPay(this)">
+          <div class="pay-method-header">
+            <div class="pay-radio"></div>
+            <div class="pay-method-name">Havale / EFT</div>
+            <div class="pay-method-icons"><div class="pay-icon" style="width:auto;padding:0 6px">%3 İndirim</div></div>
+          </div>
+          <div class="pay-form">
+            <div style="padding-top:14px;font-size:13px;color:var(--i70);line-height:1.6">Havale/EFT ile ödemede ek %3 indirim uygulanır. Ödeme talimatları e-posta ile gönderilecektir.</div>
+          </div>
+        </div>
+        <!-- pay at door -->
+        <div class="pay-method" onclick="selectPay(this)">
+          <div class="pay-method-header">
+            <div class="pay-radio"></div>
+            <div class="pay-method-name">Kapıda Ödeme</div>
+            <div class="pay-method-icons"><div class="pay-icon" style="width:auto;padding:0 6px">+₺15</div></div>
+          </div>
+          <div class="pay-form">
+            <div style="padding-top:14px;font-size:13px;color:var(--i70);line-height:1.6">Nakit veya kart ile kapıda ödeme. Ek ₺15 işlem ücreti uygulanır.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- billing same as shipping -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;cursor:pointer" onclick="this.querySelector('.fcheck-box').classList.toggle('on')">
+        <div class="fcheck-box on" style="width:18px;height:18px;border:var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s">
+          <svg viewBox="0 0 24 24" fill="none" width="10" height="10" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <span style="font-size:13px;color:var(--i70)">Fatura adresi teslimat adresiyle aynı</span>
+      </div>
+
+      <button class="proceed-btn" id="payBtn" onclick="doPayment()"><span>Siparişi Tamamla →</span></button>
+      <div style="text-align:center;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);margin-top:14px">🔒 256-BIT SSL · PCI DSS UYUMLU · İYZİCO</div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="co-side">
+    <div class="os-title">Sipariş Özeti <a href="glame-pdp.html">Düzenle</a></div>
+
+    <!-- upsell in sidebar -->
+    <div class="upsell-mini">
+      <div class="upsell-mini-h">🎁 Sepetinize Ekleyin</div>
+      <div class="upsell-item">
+        <div class="upsell-item-img"><div style="width:12px;height:36px;border-radius:6px;background:linear-gradient(to right,rgba(15,14,14,.06),rgba(15,14,14,.1));border:1px solid var(--ink)"></div></div>
+        <div class="upsell-item-info"><div class="upsell-item-name">Dermaring Revive</div><div class="upsell-item-price">₺3.150 (bundle fiyatı)</div></div>
+        <button class="upsell-add" onclick="this.textContent='✓ Eklendi';this.style.background='var(--g)';this.style.color='var(--w)'">+ Ekle</button>
+      </div>
+    </div>
+
+    <!-- items -->
+    <div class="os-items">
+      <div class="os-item">
+        <div class="os-img">
+          <div style="width:32px;height:32px;border-radius:50%;background:radial-gradient(circle,rgba(190,53,53,.2),transparent 70%);border:1px solid var(--ink)"></div>
+          <div class="os-qty-badge">1</div>
+        </div>
+        <div class="os-item-name">Glame Glow Mask<div class="os-item-sub">LED Fototerapi · Kırmızı</div></div>
+        <div class="os-item-price"><sub style="font-size:10px">₺</sub>5.000</div>
+      </div>
+    </div>
+
+    <!-- coupon input (sidebar) -->
+    <div class="coupon-row" style="margin-bottom:8px">
+      <input type="text" placeholder="İndirim kodu" id="couponInput2" style="font-family:var(--m);font-size:11px;letter-spacing:.1em;border:none;padding:0 14px;height:44px;outline:none;background:transparent;color:var(--ink)">
+      <button class="coupon-btn" style="font-size:10px;padding:0 18px" onclick="applyCoupon2()">Uygula</button>
+    </div>
+    <div class="coupon-ok" id="couponOk2" style="margin-bottom:12px"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>GLAME10 — %10 indirim</div>
+
+    <!-- totals -->
+    <div class="os-totals">
+      <div class="os-row"><span class="os-row-label">Ara Toplam</span><span class="os-row-val">₺5.000</span></div>
+      <div class="os-row"><span class="os-row-label">İndirim (GLAME10)</span><span class="os-row-val os-discount">−₺500</span></div>
+      <div class="os-row"><span class="os-row-label">Kargo</span><span class="os-row-val" style="color:var(--grn)">Ücretsiz</span></div>
+      <div class="os-row total"><span class="os-row-label">Toplam</span><span class="os-row-val"><sub style="font-size:13px;font-weight:400">₺</sub>4.500</span></div>
+    </div>
+
+    <!-- trust -->
+    <div class="os-trust">
+      <div class="os-trust-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>30 Gün İade Garantisi</div>
+      <div class="os-trust-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Ücretsiz Kargo · 500 TL üzeri</div>
+      <div class="os-trust-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit SSL Güvenli Ödeme</div>
+      <div class="os-trust-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>2 Yıl Garanti</div>
+    </div>
+
+    <!-- proceed (desktop) -->
+    <button class="proceed-btn" onclick="document.getElementById('payBtn')?.click()||nextStep(3)"><span>Devam Et →</span></button>
+  </div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div class="success-screen" id="successScreen">
+  <div class="success-anim"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <div class="success-h">Siparişiniz<br><em>Alındı!</em></div>
+  <p class="success-sub">Teşekkürler. Siparişiniz onaylandı. Kargo bilgileri e-posta ile gönderilecek.</p>
+  <div class="success-order">
+    <div class="success-order-n">Sipariş Numarası</div>
+    <div class="success-order-v">#GL-2026-<span id="orderNum">847</span></div>
+  </div>
+  <div class="success-actions">
+    <button class="success-btn-p" onclick="window.location='glame-account.html'">Siparişimi Takip Et</button>
+    <button class="success-btn-s" onclick="window.location='glame-homepage.html'">Alışverişe Devam</button>
+  </div>
+  <div class="order-timeline" style="max-width:680px;margin:48px auto 0">
+    <div class="otl-step done">
+      <div class="otl-icon">📦</div>
+      <div><div class="otl-t">Sipariş Alındı</div><div class="otl-d">Bugün</div></div>
+      <div class="otl-check"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+    </div>
+    <div class="otl-step">
+      <div class="otl-icon">🏭</div>
+      <div><div class="otl-t">Hazırlanıyor</div><div class="otl-d">Yarın</div></div>
+      <div class="otl-check"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+    </div>
+    <div class="otl-step">
+      <div class="otl-icon">🚚</div>
+      <div><div class="otl-t">Kargoya Verildi</div><div class="otl-d">Cuma</div></div>
+      <div class="otl-check"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+    </div>
+    <div class="otl-step">
+      <div class="otl-icon">🏠</div>
+      <div><div class="otl-t">Teslim Edildi</div><div class="otl-d">Pazartesi</div></div>
+      <div class="otl-check"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),curr=document.getElementById('curr');
+let mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia('(hover:hover)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
+  document.querySelectorAll('a,button,input,select').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});
+}
+
+/* STEP NAVIGATION */
+let currentStep=2;
+function nextStep(n){
+  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('step-'+['cart','delivery','payment'][n-1]).classList.add('active');
+  // progress
+  for(let i=1;i<=3;i++){
+    const s=document.getElementById('prog'+i);
+    const l=document.getElementById('pl'+i);
+    s.classList.remove('active','done');
+    if(l) l.classList.remove('done');
+    if(i<n){s.classList.add('done');s.querySelector('.prog-n').innerHTML='<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';}
+    if(i===n) s.classList.add('active');
+    if(i<n&&l) l.classList.add('done');
+  }
+  currentStep=n;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* PAYMENT */
+function doPayment(){
+  const btn=document.getElementById('payBtn');
+  btn.classList.add('loading');
+  setTimeout(()=>{
+    btn.classList.remove('loading');
+    document.getElementById('coLayout').style.display='none';
+    document.querySelector('.progress').style.display='none';
+    document.getElementById('orderNum').textContent=Math.floor(800+Math.random()*200);
+    document.getElementById('successScreen').classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  },2200);
+}
+
+/* SELECTIONS */
+function selectAddr(el){document.querySelectorAll('.saved-addr').forEach(a=>a.classList.remove('selected'));el.classList.add('selected');}
+function selectShip(el){document.querySelectorAll('.ship-opt').forEach(s=>s.classList.remove('selected'));el.classList.add('selected');}
+function selectPay(el){document.querySelectorAll('.pay-method').forEach(p=>p.classList.remove('selected'));el.classList.add('selected');}
+function selectInst(el){document.querySelectorAll('.inst-opt').forEach(i=>i.classList.remove('selected'));el.classList.add('selected');}
+function toggleNewAddr(){const f=document.getElementById('newAddrForm');f.style.display=f.style.display==='none'?'block':'none';}
+
+/* COUPON */
+function applyCoupon(){const v=document.getElementById('couponInput').value.toUpperCase();if(v==='GLAME10'){document.getElementById('couponOk').classList.add('show');document.getElementById('couponInput').style.borderColor='var(--grn)';}}
+function applyCoupon2(){const v=document.getElementById('couponInput2').value.toUpperCase();if(v==='GLAME10'){document.getElementById('couponOk2').classList.add('show');document.getElementById('couponInput2').style.borderColor='var(--grn)';}}
+
+/* CARD FORMAT */
+function formatCard(inp){let v=inp.value.replace(/\D/g,'');let parts=[];for(let i=0;i<v.length;i+=4) parts.push(v.slice(i,i+4));inp.value=parts.join(' ').slice(0,19);const ct=document.getElementById('cardType');if(v.startsWith('4')) ct.textContent='VISA';else if(v.startsWith('5')) ct.textContent='Mastercard';else if(v.startsWith('3')) ct.textContent='Amex';else ct.textContent='— —';}
+function formatDate(inp){let v=inp.value.replace(/\D/g,'');if(v.length>=2) v=v.slice(0,2)+'/'+v.slice(2,4);inp.value=v;}
+
+/* QTY */
+function updateQty(btn,d){const span=btn.parentNode.querySelector('span');const v=Math.max(1,+span.textContent+d);span.textContent=v;}
+</script>
+</body>
+</html>

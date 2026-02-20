@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glame Glow Mask — LED Fototerapi Maskesi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;
+  --ink:#0f0e0e;
+  --i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);
+  --i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);
+  --g:#b8892a;--g2:#d4a030;--r:#be3535;--grn:#2d8a4e;
+  --brd:2px solid var(--ink);
+  --d:'Playfair Display',Georgia,serif;
+  --b:'Figtree',sans-serif;
+  --m:'DM Mono',monospace;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --nav-h:72px;--ann-h:34px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-b) + 72px)}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+#cur,#curr{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur{width:7px;height:7px;border-radius:50%;background:var(--ink)}
+#curr{width:32px;height:32px;border-radius:50%;border:var(--brd);z-index:9998;transition:width .3s,height .3s,border-color .3s}
+#curr.x{width:52px;height:52px;border-color:var(--g)}
+@media(hover:none){#cur,#curr{display:none}}
+
+/* ── ANN ── */
+.ann{height:var(--ann-h);background:var(--ink);overflow:hidden;display:flex;align-items:center;position:sticky;top:0;z-index:200}
+.ann-t{display:flex;white-space:nowrap;animation:mq 38s linear infinite}
+.ann-i{padding:0 36px;font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+.ann-i b{color:var(--g2);font-weight:400}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── NAV ── */
+.nav{position:sticky;top:var(--ann-h);z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-bc{display:flex;align-items:center;gap:8px;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40)}
+.nav-bc a{color:var(--i40);transition:color .2s;text-decoration:none}
+.nav-bc a:hover{color:var(--ink)}
+.nav-r{display:flex;align-items:center;gap:16px}
+.ni{color:var(--i70);display:flex;align-items:center;cursor:pointer;transition:color .2s;position:relative}
+.ni:hover{color:var(--ink)}
+.nb{position:absolute;top:-5px;right:-5px;width:15px;height:15px;background:var(--g);border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--m)}
+.hbg{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hbg span{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s}
+
+/* ── MOB TOP ── */
+.mob-top{display:none;position:sticky;top:var(--ann-h);z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:56px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+
+/* ── OVERLAY MENU ── */
+.omenu{position:fixed;inset:0;z-index:140;background:var(--w);display:flex;flex-direction:column;padding:100px 44px 60px;transform:translateX(-100%);transition:transform .5s cubic-bezier(.16,1,.3,1);border-right:var(--brd);overflow-y:auto}
+.omenu.open{transform:translateX(0)}
+.om-link{font-family:var(--d);font-size:clamp(34px,6.5vw,52px);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:-.02em;border-bottom:var(--brd);padding:20px 0;display:flex;align-items:center;justify-content:space-between;transition:color .2s;text-decoration:none}
+.om-link em{font-style:italic;font-weight:400;color:var(--g);opacity:0;transition:opacity .2s;font-size:.6em}
+.om-link:hover{color:var(--g)}
+.om-link:hover em{opacity:1}
+.om-close{position:absolute;top:20px;right:22px;background:none;border:none;cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);padding:8px}
+
+/* ═══════════════════════════════════
+   PDP HERO — sticky media + info
+═══════════════════════════════════ */
+.pdp-hero{display:grid;grid-template-columns:1fr 1fr;border-bottom:var(--brd);align-items:start}
+
+/* ── LEFT: media ── */
+.pdp-media{
+  position:sticky;
+  top:calc(var(--ann-h) + 68px);
+  height:calc(100dvh - var(--ann-h) - 68px);
+  background:var(--ink);
+  border-right:var(--brd);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+/* main visual */
+.pdp-viz{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:var(--brd)}
+/* dark ambient glow */
+.viz-glow{position:absolute;inset:0;transition:background 1s ease}
+/* the mask SVG illustration */
+.viz-mask{position:relative;z-index:3;animation:float 9s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-18px)}}
+
+/* floating spec badges around the mask */
+.viz-badge{position:absolute;z-index:4;display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(247,244,239,.12);background:rgba(247,244,239,.04);backdrop-filter:blur(12px);font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,239,.55);white-space:nowrap;animation:bfloat 7s ease-in-out infinite}
+@keyframes bfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.vb-val{font-family:var(--d);font-size:18px;font-weight:700;font-style:italic;color:var(--g);line-height:1}
+
+/* thumbnail strip */
+.pdp-thumbs{display:flex;height:76px;border-top:var(--brd);flex-shrink:0}
+.pdp-thumb{flex:1;cursor:pointer;background:rgba(247,244,239,.04);border-right:1px solid rgba(247,244,239,.08);display:flex;align-items:center;justify-content:center;transition:background .2s;position:relative;overflow:hidden}
+.pdp-thumb:last-child{border-right:none}
+.pdp-thumb::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transition:transform .3s}
+.pdp-thumb.active{background:rgba(247,244,239,.1)}
+.pdp-thumb.active::before,.pdp-thumb:hover::before{transform:scaleX(1)}
+.th-inner{width:40px;height:40px;border-radius:50%;border:1px solid rgba(247,244,239,.15);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+
+/* ── RIGHT: info ── */
+.pdp-info{padding:52px 52px 80px;display:flex;flex-direction:column;overflow-y:auto;max-height:calc(100dvh - var(--ann-h) - 68px)}
+.pdp-cat{font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pdp-cat::before{content:'';width:12px;height:2px;background:var(--g)}
+.pdp-h1{font-family:var(--d);font-size:clamp(38px,3.5vw,54px);font-weight:900;line-height:.95;letter-spacing:-.025em;margin-bottom:10px}
+.pdp-h1 em{font-style:italic;font-weight:400;color:var(--g)}
+.pdp-sub{font-size:15px;color:var(--i70);line-height:1.7;margin-bottom:22px;max-width:400px}
+
+/* rating */
+.pdp-rating{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:24px;border-bottom:var(--brd);flex-wrap:wrap}
+.stars{color:var(--g);font-size:14px;letter-spacing:2px}
+.rc{font-family:var(--m);font-size:11px;letter-spacing:.1em;color:var(--i70)}
+.rc b{color:var(--ink);font-weight:400}
+.rv-badge{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);background:rgba(184,137,42,.1);padding:3px 8px;margin-left:auto}
+
+/* price */
+.pdp-price-row{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.pdp-price{font-family:var(--d);font-size:44px;font-weight:900;letter-spacing:-.02em;line-height:1}
+.pdp-price sub{font-size:20px;font-weight:400}
+.pdp-compare{font-family:var(--d);font-size:24px;color:var(--i40);text-decoration:line-through;align-self:flex-end;padding-bottom:4px}
+.save-pill{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:rgba(190,53,53,.1);color:var(--r);padding:5px 11px;align-self:flex-end}
+.pdp-inst{font-family:var(--m);font-size:12px;color:var(--i70);margin-bottom:28px}
+.pdp-inst b{color:var(--ink);font-weight:400}
+
+/* modes */
+.pdp-modes-lbl{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--i70);margin-bottom:10px}
+.pdp-modes{display:grid;grid-template-columns:repeat(3,1fr);border:var(--brd);margin-bottom:24px}
+.pdp-mode{padding:14px 10px;text-align:center;cursor:pointer;border-right:var(--brd);transition:background .2s;position:relative;overflow:hidden}
+.pdp-mode:last-child{border-right:none}
+.pdp-mode.active{background:var(--ink);color:var(--w)}
+.pdp-mode:not(.active):hover{background:var(--w3)}
+.mode-icon{font-size:20px;margin-bottom:4px;display:block}
+.mode-nm{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+.mode-desc{font-size:11px;color:var(--i40);margin-top:2px}
+.pdp-mode.active .mode-desc{color:rgba(247,244,239,.45)}
+
+/* urgency */
+.urgency{display:flex;align-items:center;gap:8px;padding:11px 14px;border:1px solid rgba(190,53,53,.2);background:rgba(190,53,53,.04);margin-bottom:16px;font-family:var(--m);font-size:11px;letter-spacing:.08em;color:var(--r)}
+.udot{width:7px;height:7px;border-radius:50%;background:var(--r);flex-shrink:0;animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* buy row */
+.pdp-buy{display:grid;grid-template-columns:auto 1fr;border:var(--brd);margin-bottom:12px}
+.pdp-qty{display:flex;align-items:center;border-right:var(--brd)}
+.pdp-qty button{width:44px;height:56px;background:none;border:none;cursor:pointer;font-size:20px;color:var(--ink);transition:background .2s;font-family:var(--b)}
+.pdp-qty button:hover{background:var(--w3)}
+.pdp-qty span{min-width:36px;text-align:center;font-family:var(--d);font-size:18px;font-weight:700}
+.pdp-atc{height:56px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden;transition:color .35s}
+.pdp-atc::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.pdp-atc:hover::after{transform:translateX(0)}
+.pdp-atc span,.pdp-atc svg{position:relative;z-index:1}
+.pdp-wl{width:100%;height:52px;border:var(--brd);border-top:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);transition:all .25s;margin-bottom:20px}
+.pdp-wl:hover{background:var(--w3);color:var(--ink)}
+
+/* ship strip */
+.pdp-ship{display:grid;grid-template-columns:repeat(3,1fr);border:var(--brd);margin-bottom:18px}
+.ship-i{display:flex;align-items:center;gap:8px;padding:12px 14px;border-right:var(--brd);font-family:var(--m);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--i70)}
+.ship-i:last-child{border-right:none}
+.ship-i svg{color:var(--g);flex-shrink:0}
+
+/* trust */
+.pdp-trust{display:flex;gap:12px;flex-wrap:wrap;padding-top:18px;border-top:var(--brd)}
+.trust-i{display:flex;align-items:center;gap:6px;font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70)}
+.trust-i svg{color:var(--g)}
+
+/* ═══════════════════════════════════
+   BELOW-FOLD TABS
+═══════════════════════════════════ */
+.pdp-tabs{position:sticky;top:calc(var(--ann-h) + 68px);z-index:80;background:var(--w);border-bottom:var(--brd);border-top:var(--brd)}
+.pdp-tabs-inner{display:flex;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.pdp-tabs-inner::-webkit-scrollbar{display:none}
+.pdp-tab{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);padding:16px 32px;border:none;background:none;cursor:pointer;white-space:nowrap;border-right:var(--brd);border-bottom:2px solid transparent;transition:all .25s;position:relative}
+.pdp-tab:hover{color:var(--ink)}
+.pdp-tab.active{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* panel base */
+.pdp-panel{display:none;padding:72px 48px;border-bottom:var(--brd)}
+.pdp-panel.active{display:block}
+.panel-ey{font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.panel-ey::before{content:'';width:12px;height:2px;background:var(--g)}
+.panel-h{font-family:var(--d);font-size:clamp(30px,3.2vw,44px);font-weight:900;line-height:.98;letter-spacing:-.025em;margin-bottom:40px}
+.panel-h em{font-style:italic;font-weight:400;color:var(--g)}
+
+/* SPECS GRID */
+.specs-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--brd)}
+.spec{padding:28px 22px;border-right:var(--brd);border-bottom:var(--brd);transition:background .2s}
+.spec:hover{background:var(--w3)}
+.spec:nth-child(4n){border-right:none}
+.spec:nth-last-child(-n+4){border-bottom:none}
+.spec-n{font-family:var(--d);font-size:36px;font-weight:900;font-style:italic;color:var(--g);line-height:1}
+.spec-n sup{font-size:.4em;font-weight:400}
+.spec-t{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);margin-top:7px}
+.spec-d{font-size:13px;color:var(--i70);margin-top:4px;line-height:1.55}
+
+/* TECH PANEL */
+.tech-split{display:grid;grid-template-columns:1fr 1fr;border:var(--brd)}
+.tech-l{padding:52px;border-right:var(--brd)}
+.tech-l h3{font-family:var(--d);font-size:clamp(26px,2.8vw,38px);font-weight:900;line-height:1.0;letter-spacing:-.02em;margin-bottom:18px}
+.tech-l h3 em{font-style:italic;font-weight:400;color:var(--g)}
+.tech-l p{font-size:15px;color:var(--i70);line-height:1.8;max-width:380px;margin-bottom:20px}
+.tech-bullets{display:flex;flex-direction:column;gap:0}
+.tb{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i08);font-size:14px;color:var(--i70);line-height:1.6}
+.tb:last-child{border-bottom:none}
+.tb::before{content:'—';color:var(--g);font-family:var(--m);font-size:11px;flex-shrink:0;margin-top:3px}
+.tech-r{background:var(--w2);display:flex;align-items:center;justify-content:center;padding:52px;min-height:340px}
+/* wave spectrum viz */
+.wspec{display:flex;align-items:flex-end;gap:3px;height:220px;position:relative}
+.ws-bar{border-radius:3px 3px 0 0;position:relative;min-width:18px;transition:transform .3s}
+.ws-bar:hover{transform:scaleY(1.06);transform-origin:bottom}
+.ws-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-family:var(--m);font-size:8px;letter-spacing:.06em;color:var(--i70);white-space:nowrap}
+
+/* HOW-TO */
+.how-grid{display:grid;grid-template-columns:repeat(5,1fr);border:var(--brd)}
+.how-i{padding:36px 22px;border-right:var(--brd);position:relative;transition:background .2s}
+.how-i:last-child{border-right:none}
+.how-i:hover{background:var(--w3)}
+.how-n{font-family:var(--d);font-size:60px;font-weight:900;font-style:italic;color:var(--g);opacity:.15;line-height:1;margin-bottom:10px}
+.how-t{font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
+.how-d{font-size:13px;color:var(--i70);line-height:1.65}
+.how-arrow{position:absolute;top:50%;right:-12px;transform:translateY(-50%);width:22px;height:22px;background:var(--w);border:var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;font-size:11px}
+.how-i:last-child .how-arrow{display:none}
+
+/* CLINICAL */
+.clin-split{display:grid;grid-template-columns:1fr 1.3fr;border:var(--brd)}
+.clin-l{padding:52px 48px;border-right:var(--brd)}
+.clin-l p{font-size:15px;color:var(--i70);line-height:1.8;margin:16px 0 32px;max-width:340px}
+.clin-stat{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--i08)}
+.clin-stat:last-child{border-bottom:none}
+.clin-n{font-family:var(--d);font-size:44px;font-weight:900;font-style:italic;color:var(--g);min-width:96px;line-height:1}
+.clin-n sup{font-size:.4em;font-weight:400}
+.clin-t{font-size:13px;color:var(--i70);line-height:1.6}
+.clin-t strong{color:var(--ink);display:block;font-size:14px;margin-bottom:2px}
+.clin-r{padding:52px 48px;background:var(--w2)}
+.clin-chart{height:240px;display:flex;align-items:flex-end;gap:16px;justify-content:center;padding-bottom:28px;border-bottom:var(--brd)}
+.cbar-group{display:flex;flex-direction:column;align-items:center;flex:1;max-width:68px}
+.cbar{width:100%;border-radius:3px 3px 0 0;transition:height 1.2s cubic-bezier(.16,1,.3,1)}
+.cbar-ctrl{background:var(--i15)}
+.cbar-glame{background:var(--g);opacity:.85}
+.cbar-lbl{font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70);margin-top:8px;text-align:center}
+.clin-legend{display:flex;gap:20px;justify-content:center;margin-top:16px}
+.cleg{display:flex;align-items:center;gap:6px;font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)}
+.cleg-dot{width:10px;height:10px;border-radius:2px}
+
+/* ═══ REVIEWS ═══ */
+.rv-sec{padding:72px 48px;border-bottom:var(--brd)}
+.rv-head{display:grid;grid-template-columns:auto 1fr;gap:52px;align-items:start;margin-bottom:48px;padding-bottom:48px;border-bottom:var(--brd)}
+.rv-big-n{font-family:var(--d);font-size:96px;font-weight:900;font-style:italic;line-height:.9}
+.rv-big-stars{color:var(--g);font-size:18px;letter-spacing:3px;margin:8px 0}
+.rv-big-t{font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70)}
+.rv-bars{display:flex;flex-direction:column;gap:10px;padding-top:8px}
+.rv-bar-row{display:flex;align-items:center;gap:12px}
+.rv-bar-lbl{font-family:var(--m);font-size:10px;letter-spacing:.1em;color:var(--i70);min-width:16px;text-align:right}
+.rv-bar-track{flex:1;height:4px;background:var(--i08);overflow:hidden}
+.rv-bar-fill{height:100%;background:var(--g);transform:scaleX(0);transform-origin:left;animation:fill .9s .4s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes fill{to{transform:scaleX(1)}}
+.rv-bar-count{font-family:var(--m);font-size:10px;color:var(--i40);min-width:28px}
+.rv-grid{display:grid;grid-template-columns:repeat(3,1fr);border:var(--brd)}
+.rvc{padding:28px;border-right:var(--brd);transition:background .2s;display:flex;flex-direction:column}
+.rvc:last-child{border-right:none}
+.rvc:hover{background:var(--w3)}
+.rvc-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.rvc-av{width:36px;height:36px;border-radius:50%;background:var(--w2);border:var(--brd);display:flex;align-items:center;justify-content:center;font-family:var(--d);font-size:16px;font-weight:700;flex-shrink:0}
+.rvc-nm{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.rvc-loc{font-size:12px;color:var(--i70)}
+.rvc-stars{color:var(--g);font-size:12px;letter-spacing:1px;margin-left:auto}
+.rvc-badge{font-family:var(--m);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);background:rgba(184,137,42,.08);padding:2px 7px;display:inline-block;margin-bottom:10px}
+.rvc-text{font-family:var(--d);font-size:16px;font-style:italic;line-height:1.65;color:var(--ink);flex:1;margin-bottom:12px}
+.rvc-prod{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--g)}
+
+/* ═══ BUNDLE ═══ */
+.bundle-sec{padding:72px 48px;background:var(--w2);border-bottom:var(--brd)}
+.bundle-grid{display:grid;grid-template-columns:1.4fr 1fr;border:var(--brd);margin-top:44px}
+.bundle-prods{padding:36px;border-right:var(--brd)}
+.bp{display:flex;align-items:center;gap:18px;padding:18px 0;border-bottom:var(--brd);position:relative}
+.bp:last-child{border-bottom:none}
+.bp-check{width:20px;height:20px;border:var(--brd);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.bp-check.on{background:var(--ink)}
+.bp-check.on svg{opacity:1}
+.bp-check svg{width:11px;height:11px;stroke:var(--w);stroke-width:2.5;opacity:0;transition:opacity .2s}
+.bp-img{width:60px;height:60px;background:var(--w);border:var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.bp-info{flex:1;min-width:0}
+.bp-name{font-family:var(--d);font-size:17px;font-weight:700;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bp-tag{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-top:3px}
+.bp-price{font-family:var(--d);font-size:17px;font-weight:700;flex-shrink:0}
+.bp-plus{position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:var(--w);border:var(--brd);display:flex;align-items:center;justify-content:center;font-size:12px;z-index:2}
+.bundle-r{padding:36px;display:flex;flex-direction:column;justify-content:center}
+.bundle-lbl{font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70);margin-bottom:10px}
+.bundle-total{font-family:var(--d);font-size:48px;font-weight:900;line-height:1;margin-bottom:4px}
+.bundle-total sub{font-size:22px;font-weight:400}
+.bundle-old{font-family:var(--d);font-size:22px;color:var(--i40);text-decoration:line-through;margin-bottom:8px}
+.bundle-save{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:rgba(190,53,53,.09);color:var(--r);padding:4px 10px;display:inline-block;margin-bottom:28px}
+.bundle-atc{height:52px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;transition:background .25s;display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
+.bundle-atc:hover{background:var(--g)}
+
+/* ═══ RELATED ═══ */
+.related-sec{padding:72px 48px;border-bottom:var(--brd)}
+.rel-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--brd);margin-top:44px}
+.rel-card{border-right:var(--brd);display:flex;flex-direction:column;cursor:pointer;transition:background .2s;position:relative;overflow:hidden}
+.rel-card:last-child{border-right:none}
+.rel-card:hover{background:var(--w3)}
+.rel-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.rel-card:hover::before{transform:scaleX(1)}
+.rel-img{height:160px;background:var(--w2);border-bottom:var(--brd);display:flex;align-items:center;justify-content:center}
+.rel-info{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
+.rel-tag{font-family:var(--m);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:5px}
+.rel-name{font-family:var(--d);font-size:16px;font-weight:700;margin-bottom:5px}
+.rel-desc{font-size:12px;color:var(--i70);margin-bottom:auto;line-height:1.5}
+.rel-price{font-family:var(--d);font-size:18px;font-weight:700;padding-top:12px;border-top:1px solid var(--i08);margin-top:10px}
+
+/* ═══ MOB STICKY ATC ═══ */
+.mob-atc{position:fixed;bottom:calc(var(--nav-h) + var(--safe-b));left:0;right:0;z-index:130;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-top:var(--brd);padding:12px 20px;display:none;align-items:center;gap:12px}
+.mob-atc-price{font-family:var(--d);font-size:26px;font-weight:900;line-height:1}
+.mob-atc-price sub{font-size:14px;font-weight:400}
+.mob-atc-btn{flex:1;height:52px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+
+/* ═══ MOB NAV ═══ */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-b);height:calc(var(--nav-h) + var(--safe-b))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mni{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer}
+.mni.active{color:var(--ink)}
+.mni svg{width:22px;height:22px;stroke-width:1.5;fill:none;stroke:currentColor}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0;transition:background .25s;position:relative}
+.mn-cta:hover{background:var(--g)}
+.mn-cta svg{stroke:var(--w)}
+.mn-pulse{position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--ink);animation:pulse 2.5s ease-out infinite;opacity:0}
+@keyframes pulse{0%{opacity:.4;transform:scale(1)}100%{opacity:0;transform:scale(1.45)}}
+
+/* ═══ FADE IN ═══ */
+.fi{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.fi.in{opacity:1;transform:none}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:767px){
+  body{padding-bottom:calc(var(--nav-h) + var(--safe-b) + 72px)}
+  .nav{display:none}.mob-top{display:flex}.mob-nav{display:block}.mob-atc{display:flex}
+  .pdp-hero{grid-template-columns:1fr}
+  .pdp-media{position:static;height:80vw;min-height:280px;border-right:none;border-bottom:var(--brd)}
+  .pdp-info{padding:28px 18px 48px;max-height:none;overflow-y:visible}
+  .pdp-h1{font-size:clamp(32px,9.5vw,46px)}
+  .pdp-tabs{top:calc(var(--ann-h) + 56px)}
+  .pdp-panel{padding:44px 18px}
+  .specs-grid{grid-template-columns:1fr 1fr}
+  .spec:nth-child(2n){border-right:none}
+  .spec:nth-child(n){border-bottom:var(--brd)}
+  .spec:nth-last-child(-n+2){border-bottom:none}
+  .tech-split{grid-template-columns:1fr}
+  .tech-l{border-right:none;border-bottom:var(--brd);padding:36px 18px}
+  .tech-r{padding:36px 18px;min-height:auto}
+  .how-grid{grid-template-columns:1fr 1fr}
+  .how-i:nth-child(2n){border-right:none}
+  .how-i:nth-child(-n+4){border-bottom:var(--brd)}
+  .clin-split{grid-template-columns:1fr}
+  .clin-l{border-right:none;border-bottom:var(--brd);padding:36px 18px}
+  .clin-r{padding:36px 18px}
+  .rv-sec,.bundle-sec,.related-sec{padding:48px 18px}
+  .rv-head{grid-template-columns:1fr;gap:24px}
+  .rv-grid{grid-template-columns:1fr}
+  .rvc{border-right:none;border-bottom:var(--brd)}
+  .rvc:last-child{border-bottom:none}
+  .bundle-grid{grid-template-columns:1fr}
+  .bundle-prods{border-right:none;border-bottom:var(--brd);padding:24px}
+  .bundle-r{padding:24px}
+  .rel-grid{grid-template-columns:1fr 1fr}
+  .rel-card:nth-child(2n){border-right:none}
+  .rel-card:nth-child(n){border-bottom:var(--brd)}
+  .rel-card:nth-last-child(-n+2){border-bottom:none}
+  .pdp-ship{grid-template-columns:1fr}
+  .ship-i{border-right:none;border-bottom:var(--brd)}
+  .ship-i:last-child{border-bottom:none}
+}
+@media(min-width:768px) and (max-width:1100px){
+  .pdp-info{padding:36px 36px 60px}
+  .tech-split,.clin-split{grid-template-columns:1fr}
+  .tech-l{border-right:none;border-bottom:var(--brd)}
+  .clin-l{border-right:none;border-bottom:var(--brd)}
+  .how-grid{grid-template-columns:repeat(3,1fr)}
+  .how-i:nth-child(3n){border-right:none}
+  .how-i:nth-child(-n+3){border-bottom:var(--brd)}
+  .rel-grid{grid-template-columns:repeat(2,1fr)}
+  .rel-card:nth-child(2n){border-right:none}
+  .rel-card:nth-child(-n+2){border-bottom:var(--brd)}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curr"></div>
+
+<!-- ANN -->
+<div class="ann"><div class="ann-t">
+  <span class="ann-i">İlk Siparişte %10 <b>GLAME10</b></span>
+  <span class="ann-i" style="color:rgba(247,244,239,.18)">·</span>
+  <span class="ann-i">Ücretsiz Kargo · 500 TL Üzeri</span>
+  <span class="ann-i" style="color:rgba(247,244,239,.18)">·</span>
+  <span class="ann-i">30 Gün <b>Koşulsuz</b> İade</span>
+  <span class="ann-i" style="color:rgba(247,244,239,.18)">·</span>
+  <span class="ann-i">2 Yıl <b>Garanti</b></span>
+  <span class="ann-i" style="color:rgba(247,244,239,.18)">·</span>
+  <span class="ann-i">İlk Siparişte %10 <b>GLAME10</b></span>
+  <span class="ann-i" style="color:rgba(247,244,239,.18)">·</span>
+  <span class="ann-i">Ücretsiz Kargo · 500 TL Üzeri</span>
+  <span class="ann-i" style="color:rgba(247,244,239,.18)">·</span>
+  <span class="ann-i">30 Gün <b>Koşulsuz</b> İade</span>
+  <span class="ann-i" style="color:rgba(247,244,239,.18)">·</span>
+  <span class="ann-i">2 Yıl <b>Garanti</b></span>
+</div></div>
+
+<!-- DESKTOP NAV -->
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <div class="nav-bc">
+    <a href="glame-homepage.html">Ana Sayfa</a>
+    <span style="color:var(--i15)">→</span>
+    <a href="glame-collection.html">Cilt Bakımı</a>
+    <span style="color:var(--i15)">→</span>
+    <span style="color:var(--ink)">Glow Mask</span>
+  </div>
+  <div class="nav-r">
+    <span class="ni"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
+    <span class="ni"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+    <span class="ni" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nb">2</span></span>
+    <button class="hbg" id="hbg"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MOB TOP -->
+<div class="mob-top">
+  <button onclick="history.back()" style="display:flex;align-items:center;gap:6px;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);border:none;background:none;cursor:pointer"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Geri</button>
+  <a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a>
+  <span class="ni" style="position:relative"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nb">2</span></span>
+</div>
+
+<!-- OVERLAY MENU -->
+<div class="omenu" id="omenu">
+  <button class="om-close" id="omclose">Kapat ✕</button>
+  <a href="glame-homepage.html" class="om-link">Ana Sayfa <em>→</em></a>
+  <a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a>
+  <a href="glame-about.html" class="om-link">Teknoloji <em>→</em></a>
+  <a href="glame-quiz.html" class="om-link">Cilt Testi <em>→</em></a>
+  <a href="glame-blog.html" class="om-link">Blog <em>→</em></a>
+</div>
+
+<!-- ═══ PDP HERO ═══ -->
+<div class="pdp-hero">
+
+  <!-- LEFT: MEDIA -->
+  <div class="pdp-media">
+    <!-- main viz -->
+    <div class="pdp-viz" id="pdpViz">
+      <div class="viz-glow" id="vizGlow" style="background:radial-gradient(ellipse 60% 55% at 50% 55%, rgba(190,53,53,.18) 0%, rgba(190,53,53,.06) 45%, transparent 70%)"></div>
+
+      <!-- Floating badges -->
+      <div class="viz-badge" style="top:14%;left:8%;animation-delay:0s">
+        <div><div class="vb-val">94</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">LED Kaynağı</div></div>
+      </div>
+      <div class="viz-badge" style="top:14%;right:8%;animation-delay:1.5s">
+        <div><div class="vb-val">3</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">Dalga Boyu</div></div>
+      </div>
+      <div class="viz-badge" style="bottom:22%;left:6%;animation-delay:3s">
+        <div><div class="vb-val">IP54</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">Su Dayanımı</div></div>
+      </div>
+      <div class="viz-badge" style="bottom:22%;right:6%;animation-delay:4.5s">
+        <div><div class="vb-val">20dk</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">Seans</div></div>
+      </div>
+
+      <!-- The mask illustration -->
+      <div class="viz-mask" id="vizMask">
+        <svg width="220" height="220" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- outer face shape -->
+          <ellipse cx="110" cy="110" rx="90" ry="100" fill="none" stroke="rgba(247,244,239,0.12)" stroke-width="1.5"/>
+          <!-- mask body -->
+          <ellipse cx="110" cy="112" rx="78" ry="87" fill="rgba(247,244,239,0.04)" stroke="rgba(247,244,239,0.2)" stroke-width="1.5"/>
+          <!-- LED dot matrix — kırmızı/mavi mod değişiyor -->
+          <g id="ledDots" fill="rgba(190,53,53,0.7)">
+            <!-- row 1 -->
+            <circle cx="72" cy="82" r="3.2"/><circle cx="86" cy="78" r="3.2"/><circle cx="100" cy="76" r="3.2"/><circle cx="114" cy="76" r="3.2"/><circle cx="128" cy="78" r="3.2"/><circle cx="142" cy="82" r="3.2"/>
+            <!-- row 2 -->
+            <circle cx="64" cy="96" r="3.2"/><circle cx="78" cy="92" r="3.2"/><circle cx="92" cy="90" r="3.2"/><circle cx="106" cy="88" r="3.2"/><circle cx="120" cy="88" r="3.2"/><circle cx="134" cy="90" r="3.2"/><circle cx="148" cy="92" r="3.2"/><circle cx="158" cy="96" r="3.2"/>
+            <!-- row 3 -->
+            <circle cx="60" cy="110" r="3.2"/><circle cx="74" cy="106" r="3.2"/><circle cx="88" cy="104" r="3.2"/><circle cx="102" cy="102" r="3.2"/><circle cx="116" cy="102" r="3.2"/><circle cx="130" cy="104" r="3.2"/><circle cx="144" cy="106" r="3.2"/><circle cx="158" cy="110" r="3.2"/>
+            <!-- row 4 -->
+            <circle cx="62" cy="124" r="3.2"/><circle cx="76" cy="120" r="3.2"/><circle cx="90" cy="118" r="3.2"/><circle cx="104" cy="116" r="3.2"/><circle cx="118" cy="116" r="3.2"/><circle cx="132" cy="118" r="3.2"/><circle cx="146" cy="120" r="3.2"/><circle cx="158" cy="124" r="3.2"/>
+            <!-- row 5 -->
+            <circle cx="68" cy="138" r="3.2"/><circle cx="82" cy="134" r="3.2"/><circle cx="96" cy="132" r="3.2"/><circle cx="110" cy="130" r="3.2"/><circle cx="124" cy="132" r="3.2"/><circle cx="138" cy="134" r="3.2"/><circle cx="152" cy="138" r="3.2"/>
+            <!-- row 6 -->
+            <circle cx="78" cy="150" r="3.2"/><circle cx="92" cy="148" r="3.2"/><circle cx="106" cy="146" r="3.2"/><circle cx="120" cy="146" r="3.2"/><circle cx="134" cy="148" r="3.2"/>
+            <!-- eye holes -->
+          </g>
+          <!-- eye cutouts -->
+          <ellipse cx="86" cy="97" rx="14" ry="10" fill="rgba(15,14,14,0.9)" stroke="rgba(247,244,239,0.15)" stroke-width="1"/>
+          <ellipse cx="134" cy="97" rx="14" ry="10" fill="rgba(15,14,14,0.9)" stroke="rgba(247,244,239,0.15)" stroke-width="1"/>
+          <!-- nose bridge -->
+          <path d="M106 112 Q110 118 114 112" stroke="rgba(247,244,239,0.12)" stroke-width="1.5" fill="none"/>
+          <!-- chin strap indicators -->
+          <path d="M45 130 Q38 150 55 168" stroke="rgba(247,244,239,0.1)" stroke-width="1" stroke-dasharray="3 4"/>
+          <path d="M175 130 Q182 150 165 168" stroke="rgba(247,244,239,0.1)" stroke-width="1" stroke-dasharray="3 4"/>
+          <!-- glow ring outer -->
+          <ellipse cx="110" cy="112" rx="82" ry="92" fill="none" stroke="rgba(190,53,53,0.15)" stroke-width="1" id="glowRing"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- THUMBNAILS -->
+    <div class="pdp-thumbs">
+      <div class="pdp-thumb active" onclick="setThumb(this,0)">
+        <div class="th-inner" style="background:radial-gradient(circle,rgba(190,53,53,.35),rgba(190,53,53,.05))">
+          <span style="font-family:var(--m);font-size:8px;color:rgba(247,244,239,.5)">🔴</span>
+        </div>
+      </div>
+      <div class="pdp-thumb" onclick="setThumb(this,1)">
+        <div class="th-inner" style="background:radial-gradient(circle,rgba(60,100,200,.35),rgba(60,100,200,.05))">
+          <span style="font-family:var(--m);font-size:8px;color:rgba(247,244,239,.5)">🔵</span>
+        </div>
+      </div>
+      <div class="pdp-thumb" onclick="setThumb(this,2)">
+        <div class="th-inner" style="background:radial-gradient(circle,rgba(184,137,42,.35),rgba(184,137,42,.05))">
+          <span style="font-family:var(--m);font-size:8px;color:rgba(247,244,239,.5)">⚡</span>
+        </div>
+      </div>
+      <div class="pdp-thumb" onclick="setThumb(this,3)">
+        <div class="th-inner" style="border-color:rgba(184,137,42,.3)">
+          <svg width="16" height="16" fill="none" stroke="rgba(247,244,239,.3)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+        </div>
+      </div>
+      <div class="pdp-thumb" onclick="setThumb(this,4)">
+        <div class="th-inner">
+          <svg width="16" height="16" fill="none" stroke="rgba(247,244,239,.3)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: INFO -->
+  <div class="pdp-info">
+    <div class="pdp-cat">LED Fototerapi · Yüz Maskesi</div>
+    <h1 class="pdp-h1">Glame<br><em>Glow Mask</em></h1>
+    <p class="pdp-sub">94 LED kaynağı, 3 dalga boyu. Akne, kırışıklık ve leke tedavisine yönelik klinik fototerapi maskesi. Evde klinik sonuç.</p>
+
+    <div class="pdp-rating">
+      <div class="stars">★★★★★</div>
+      <div class="rc"><b>4.9</b> · 847 Değerlendirme</div>
+      <div class="rv-badge">✓ Doğrulanmış</div>
+    </div>
+
+    <!-- PRICE -->
+    <div class="pdp-price-row">
+      <div class="pdp-price"><sub>₺</sub>5.000</div>
+      <div class="pdp-compare"><sub>₺</sub>6.500</div>
+      <div class="save-pill">−%23</div>
+    </div>
+    <p class="pdp-inst">veya <b>12 × ₺416</b> — Faizsiz Taksit</p>
+
+    <!-- LED MODES -->
+    <div class="pdp-modes-lbl">LED Modu Seçin</div>
+    <div class="pdp-modes">
+      <div class="pdp-mode active" onclick="setMode(this,'red')">
+        <span class="mode-icon">🔴</span>
+        <div class="mode-nm">Kırmızı</div>
+        <div class="mode-desc">Anti-aging</div>
+      </div>
+      <div class="pdp-mode" onclick="setMode(this,'blue')">
+        <span class="mode-icon">🔵</span>
+        <div class="mode-nm">Mavi</div>
+        <div class="mode-desc">Akne</div>
+      </div>
+      <div class="pdp-mode" onclick="setMode(this,'combo')">
+        <span class="mode-icon">⚡</span>
+        <div class="mode-nm">Kombine</div>
+        <div class="mode-desc">Full Spektrum</div>
+      </div>
+    </div>
+
+    <!-- URGENCY -->
+    <div class="urgency">
+      <span class="udot"></span>
+      Son 24 saatte <strong style="margin:0 3px">47 kişi</strong> satın aldı &nbsp;·&nbsp; Stokta <strong style="margin:0 3px">12</strong> adet kaldı
+    </div>
+
+    <!-- BUY -->
+    <div class="pdp-buy">
+      <div class="pdp-qty">
+        <button onclick="changeQty(-1)">−</button>
+        <span id="qty">1</span>
+        <button onclick="changeQty(1)">+</button>
+      </div>
+      <button class="pdp-atc" onclick="addToCart()">
+        <span>Sepete Ekle</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <button class="pdp-wl" onclick="this.innerHTML='<svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;var(--r)&quot; stroke=&quot;var(--r)&quot; stroke-width=&quot;1.5&quot;><path d=&quot;M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z&quot;/></svg> Listeye Eklendi'">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      Favori Listeme Ekle
+    </button>
+
+    <!-- SHIP -->
+    <div class="pdp-ship">
+      <div class="ship-i"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Ücretsiz Kargo</div>
+      <div class="ship-i"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>2–3 İş Günü</div>
+      <div class="ship-i"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>30 Gün İade</div>
+    </div>
+
+    <!-- TRUST -->
+    <div class="pdp-trust">
+      <div class="trust-i"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>FDA Onaylı</div>
+      <div class="trust-i"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Derm. Onaylı</div>
+      <div class="trust-i"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>2 Yıl Garanti</div>
+      <div class="trust-i"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>SSL Güvenli</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TABS ═══ -->
+<div class="pdp-tabs">
+  <div class="pdp-tabs-inner">
+    <button class="pdp-tab active" onclick="setTab(this,'specs')">Teknik Özellikler</button>
+    <button class="pdp-tab" onclick="setTab(this,'tech')">Teknoloji</button>
+    <button class="pdp-tab" onclick="setTab(this,'how')">Kullanım</button>
+    <button class="pdp-tab" onclick="setTab(this,'clinical')">Klinik Çalışma</button>
+  </div>
+</div>
+
+<!-- SPECS PANEL -->
+<div class="pdp-panel active" id="panel-specs">
+  <div class="panel-ey">Teknik Özellikler</div>
+  <div class="panel-h">Glow Mask<br><em>Spesifikasyonlar</em></div>
+  <div class="specs-grid fi">
+    <div class="spec"><div class="spec-n">94<sup>+</sup></div><div class="spec-t">LED Kaynağı</div><div class="spec-d">2cm² başına yoğun dağılım, klinik yoğunluk</div></div>
+    <div class="spec"><div class="spec-n">633<sup>nm</sup></div><div class="spec-t">Kırmızı Dalga</div><div class="spec-d">Anti-aging, kolajen sentezi, leke giderme</div></div>
+    <div class="spec"><div class="spec-n">415<sup>nm</sup></div><div class="spec-t">Mavi Dalga</div><div class="spec-d">P.acnes tedavisi, akne ve gözenek</div></div>
+    <div class="spec"><div class="spec-n">830<sup>nm</sup></div><div class="spec-t">Kızılötesi</div><div class="spec-d">8mm derin penetrasyon, iyileşme</div></div>
+    <div class="spec"><div class="spec-n">20<sup>dk</sup></div><div class="spec-t">Seans Süresi</div><div class="spec-d">Otomatik kapanma, haftalık 3–5 seans</div></div>
+    <div class="spec"><div class="spec-n">3<sup>saat</sup></div><div class="spec-t">Batarya</div><div class="spec-d">USB-C şarj, 5W tüketim</div></div>
+    <div class="spec"><div class="spec-n">IP<sup>54</sup></div><div class="spec-t">Su Dayanımı</div><div class="spec-d">Toz ve su sıçrama koruması, kullanım güvenliği</div></div>
+    <div class="spec"><div class="spec-n">178<sup>g</sup></div><div class="spec-t">Ağırlık</div><div class="spec-d">Ergonomik tasarım, ayarlanabilir kayış</div></div>
+  </div>
+</div>
+
+<!-- TECH PANEL -->
+<div class="pdp-panel" id="panel-tech">
+  <div class="panel-ey">Fototerapi Bilimi</div>
+  <div class="panel-h">Işık <em>Nasıl Çalışır?</em></div>
+  <div class="tech-split fi">
+    <div class="tech-l">
+      <h3>Fotobiyomodülasyon<br><em>Mekanizması</em></h3>
+      <p>LED ışık, spesifik dalga boylarında cilt dokusuna penetre olur. Hücre zarındaki fotoreseptörler bu enerjiyi absorbe eder, mitokondriyal aktivasyon başlar ve ATP sentezi artar.</p>
+      <div class="tech-bullets">
+        <div class="tb">633nm kırmızı ışık dermis'te fibroblast aktivasyonunu tetikler; tip-I kolajen üretimi %30–40 artar</div>
+        <div class="tb">415nm mavi ışık P.acnes'in sentezlediği porfirinleri aktive eder; reaktif oksijen türleri bakteriyi öldürür</div>
+        <div class="tb">830nm kızılötesi ışık 8mm derine nüfuz ederek mikro dolaşımı iyileştirir ve doku onarımını hızlandırır</div>
+        <div class="tb">Kombine mod üç dalga boyunu senkronize uygulayarak çok katmanlı, kümülatif etki sağlar</div>
+      </div>
+    </div>
+    <div class="tech-r">
+      <!-- Wavelength spectrum visualization -->
+      <div class="wspec">
+        <div class="ws-bar" style="background:rgba(60,100,200,.6);height:40px;min-width:22px"><span class="ws-label">415nm</span></div>
+        <div class="ws-bar" style="background:rgba(100,80,180,.5);height:56px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(150,60,160,.45);height:72px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(180,50,130,.5);height:96px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(200,60,80,.65);height:140px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(210,70,50,.75);height:190px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(190,53,53,.9);height:220px;min-width:22px"><span class="ws-label">633nm</span></div>
+        <div class="ws-bar" style="background:rgba(160,50,60,.75);height:190px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(130,45,80,.55);height:150px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(100,40,120,.4);height:110px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(75,35,160,.3);height:75px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(55,30,190,.2);height:48px;min-width:22px"></div>
+        <div class="ws-bar" style="background:rgba(40,25,210,.14);height:30px;min-width:22px"><span class="ws-label">830nm</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW TO PANEL -->
+<div class="pdp-panel" id="panel-how">
+  <div class="panel-ey">Kullanım Rehberi</div>
+  <div class="panel-h">5 Adımda<br><em>Profesyonel Bakım</em></div>
+  <div class="how-grid fi">
+    <div class="how-i"><div class="how-n">01</div><div class="how-t">Temizleyin</div><div class="how-d">Yüzünüzü makyajdan arındırın, temizleyicinizi uygulayın. Kuru cilt LED penetrasyonu için gereklidir.</div><div class="how-arrow">→</div></div>
+    <div class="how-i"><div class="how-n">02</div><div class="how-t">Serum Uygulayın</div><div class="how-d">C vitamini veya hyaluronik asit serumu uygulayın. LED foton aktivasyonunu artırır. Retinol değil.</div><div class="how-arrow">→</div></div>
+    <div class="how-i"><div class="how-n">03</div><div class="how-t">Modu Seçin</div><div class="how-d">Kırmızı: anti-aging. Mavi: akne. Kombine: genel bakım. Cilt endişenize göre seçin.</div><div class="how-arrow">→</div></div>
+    <div class="how-i"><div class="how-n">04</div><div class="how-t">20 Dakika</div><div class="how-d">Uzanın, rahat edin. Cihaz 20 dakika sonra otomatik kapanır. Gözleri kapat veya koruyucu tak.</div><div class="how-arrow">→</div></div>
+    <div class="how-i"><div class="how-n">05</div><div class="how-t">Nemlendirin</div><div class="how-d">Seans sonrası nemlendirici uygulayın. 2 saatlik aktivasyon penceresi aktifler için idealdir.</div></div>
+  </div>
+</div>
+
+<!-- CLINICAL PANEL -->
+<div class="pdp-panel" id="panel-clinical">
+  <div class="panel-ey">Klinik Kanıt</div>
+  <div class="panel-h">12 Haftalık<br><em>Çalışma Sonuçları</em></div>
+  <div class="clin-split fi">
+    <div class="clin-l">
+      <p>İstanbul Üniversitesi Dermatoloji bölümüyle yürütülen çift kör çalışma. 120 katılımcı, günlük 20 dakika uygulama.</p>
+      <div class="clin-stat"><div class="clin-n">57<sup>%</sup></div><div class="clin-t"><strong>Cilt Dolgunluğu Artışı</strong>8 haftada, Cutometer ölçümü</div></div>
+      <div class="clin-stat"><div class="clin-n">43<sup>%</sup></div><div class="clin-t"><strong>Kırışıklık Derinliği Azalması</strong>12 haftada, Visiometer ölçümü</div></div>
+      <div class="clin-stat"><div class="clin-n">89<sup>%</sup></div><div class="clin-t"><strong>Akne Lezyon Azalması</strong>6 hafta mavi mod uygulaması</div></div>
+      <div class="clin-stat"><div class="clin-n">98<sup>%</sup></div><div class="clin-t"><strong>Kullanıcı Memnuniyeti</strong>Çalışma sonu anket skoru</div></div>
+    </div>
+    <div class="clin-r">
+      <div style="font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70);margin-bottom:20px">Haftalara Göre Etki</div>
+      <div class="clin-chart" id="clinChart">
+        <div class="cbar-group"><div class="cbar cbar-ctrl" style="height:16px"></div><div class="cbar cbar-glame" style="height:0" data-h="36"></div><div class="cbar-lbl">Hf 2</div></div>
+        <div class="cbar-group"><div class="cbar cbar-ctrl" style="height:16px"></div><div class="cbar cbar-glame" style="height:0" data-h="72"></div><div class="cbar-lbl">Hf 4</div></div>
+        <div class="cbar-group"><div class="cbar cbar-ctrl" style="height:16px"></div><div class="cbar cbar-glame" style="height:0" data-h="110"></div><div class="cbar-lbl">Hf 6</div></div>
+        <div class="cbar-group"><div class="cbar cbar-ctrl" style="height:16px"></div><div class="cbar cbar-glame" style="height:0" data-h="150"></div><div class="cbar-lbl">Hf 8</div></div>
+        <div class="cbar-group"><div class="cbar cbar-ctrl" style="height:16px"></div><div class="cbar cbar-glame" style="height:0" data-h="195"></div><div class="cbar-lbl">Hf 12</div></div>
+      </div>
+      <div class="clin-legend">
+        <div class="cleg"><div class="cleg-dot" style="background:var(--i15)"></div>Kontrol Grubu</div>
+        <div class="cleg"><div class="cleg-dot" style="background:var(--g);opacity:.85"></div>Glame Glow Mask</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ REVIEWS ═══ -->
+<div class="rv-sec">
+  <div class="rv-head fi">
+    <div>
+      <div class="rv-big-n">4.9</div>
+      <div class="rv-big-stars">★★★★★</div>
+      <div class="rv-big-t">847 Değerlendirme</div>
+    </div>
+    <div class="rv-bars">
+      <div class="rv-bar-row"><span class="rv-bar-lbl">5★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:87%"></div></div><span class="rv-bar-count">738</span></div>
+      <div class="rv-bar-row"><span class="rv-bar-lbl">4★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:8%;animation-delay:.1s"></div></div><span class="rv-bar-count">68</span></div>
+      <div class="rv-bar-row"><span class="rv-bar-lbl">3★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:3%;animation-delay:.2s"></div></div><span class="rv-bar-count">25</span></div>
+      <div class="rv-bar-row"><span class="rv-bar-lbl">2★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:1.2%;animation-delay:.3s"></div></div><span class="rv-bar-count">10</span></div>
+      <div class="rv-bar-row"><span class="rv-bar-lbl">1★</span><div class="rv-bar-track"><div class="rv-bar-fill" style="width:0.8%;animation-delay:.4s"></div></div><span class="rv-bar-count">6</span></div>
+    </div>
+  </div>
+  <div class="rv-grid">
+    <div class="rvc fi">
+      <div class="rvc-top"><div class="rvc-av">S</div><div><div class="rvc-nm">Selin K.</div><div class="rvc-loc">İstanbul · 8 Hafta</div></div><div class="rvc-stars">★★★★★</div></div>
+      <div class="rvc-badge">✓ Doğrulanmış Satın Alma</div>
+      <p class="rvc-text">"3 hafta sonra akne izlerim belirgin şekilde azaldı. Cildim parlak ve tok görünüyor. Kliniğe gitmeyi bıraktım."</p>
+      <div class="rvc-prod">Glow Mask · Kırmızı + Mavi</div>
+    </div>
+    <div class="rvc fi" style="transition-delay:.1s">
+      <div class="rvc-top"><div class="rvc-av">A</div><div><div class="rvc-nm">Aylin M.</div><div class="rvc-loc">Ankara · 12 Hafta</div></div><div class="rvc-stars">★★★★★</div></div>
+      <div class="rvc-badge">✓ Doğrulanmış Satın Alma</div>
+      <p class="rvc-text">"Kırışıklıklarım yumuşadı, ton eşitlendi. 40'lı yaşlarda bu sonuçları beklemiyordum. İnanılmaz."</p>
+      <div class="rvc-prod">Glow Mask · Kırmızı Mod</div>
+    </div>
+    <div class="rvc fi" style="transition-delay:.2s">
+      <div class="rvc-top"><div class="rvc-av">D</div><div><div class="rvc-nm">Derya B.</div><div class="rvc-loc">İzmir · 6 Hafta</div></div><div class="rvc-stars">★★★★☆</div></div>
+      <div class="rvc-badge">✓ Doğrulanmış Satın Alma</div>
+      <p class="rvc-text">"Mavi modda akne tedavisi gerçekten etkili. İlk 3 haftada aktif akne neredeyse tamamen geçti."</p>
+      <div class="rvc-prod">Glow Mask · Mavi Mod</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BUNDLE ═══ -->
+<div class="bundle-sec">
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="display:block;width:12px;height:2px;background:var(--g)"></span>Birlikte Daha Güçlü</div>
+  <div style="font-family:var(--d);font-size:clamp(28px,3vw,40px);font-weight:900;line-height:1.0;letter-spacing:-.02em">Sıkça Birlikte <em style="font-weight:400;color:var(--g)">Alınanlar</em></div>
+  <div class="bundle-grid fi">
+    <div class="bundle-prods">
+      <div class="bp">
+        <div class="bp-check on" onclick="toggleBundle(this)"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="bp-img"><div style="width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,rgba(190,53,53,.18),transparent 70%);border:1px solid var(--i15)"></div></div>
+        <div class="bp-info"><div class="bp-name">Glame Glow Mask</div><div class="bp-tag">Bu ürün</div></div>
+        <div class="bp-price"><sub style="font-size:11px">₺</sub>5.000</div>
+      </div>
+      <div class="bp">
+        <div class="bp-check on" onclick="toggleBundle(this)"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="bp-img"><div style="width:18px;height:56px;border-radius:9px;background:linear-gradient(to right,rgba(15,14,14,.05),rgba(15,14,14,.12));border:1px solid var(--i15)"></div></div>
+        <div class="bp-info"><div class="bp-name">Dermaring Revive</div><div class="bp-tag">Anti-Aging Seti</div></div>
+        <div class="bp-price"><sub style="font-size:11px">₺</sub>3.500</div>
+        <div class="bp-plus">+</div>
+      </div>
+      <div class="bp">
+        <div class="bp-check" onclick="toggleBundle(this)"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="bp-img"><div style="width:26px;height:56px;border-radius:4px;background:linear-gradient(to right,rgba(15,14,14,.05),rgba(15,14,14,.12));border:1px solid var(--i15)"></div></div>
+        <div class="bp-info"><div class="bp-name">Duo Spin Cleanser</div><div class="bp-tag">Hazırlık</div></div>
+        <div class="bp-price"><sub style="font-size:11px">₺</sub>2.200</div>
+      </div>
+    </div>
+    <div class="bundle-r">
+      <div class="bundle-lbl">2 Ürün — Bundle Fiyatı</div>
+      <div class="bundle-total" id="bundleTotal"><sub>₺</sub>7.650</div>
+      <div class="bundle-old" id="bundleOld"><sub style="font-size:14px">₺</sub>8.500</div>
+      <div class="bundle-save" id="bundleSave">₺850 Tasarruf · %10</div>
+      <button class="bundle-atc">Bundle'ı Sepete Ekle →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RELATED ═══ -->
+<div class="related-sec">
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="display:block;width:12px;height:2px;background:var(--g)"></span>Benzer Ürünler</div>
+  <div style="font-family:var(--d);font-size:clamp(28px,3vw,40px);font-weight:900;line-height:1.0;letter-spacing:-.02em">Şunlar da <em style="font-weight:400;color:var(--g)">İlginizi Çekebilir</em></div>
+  <div class="rel-grid fi">
+    <div class="rel-card">
+      <div class="rel-img"><div style="width:18px;height:80px;border-radius:9px;background:linear-gradient(to right,rgba(15,14,14,.04),rgba(15,14,14,.12));border:1px solid var(--i15)"></div></div>
+      <div class="rel-info"><div class="rel-tag">Anti-Aging</div><div class="rel-name">Dermaring Revive</div><div class="rel-desc">Mikro akım + kızılötesi kombinasyonu</div><div class="rel-price"><sub>₺</sub>3.500</div></div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"><div style="position:relative;width:44px;height:80px"><div style="position:absolute;top:-10px;left:-3px;width:50px;height:50px;border-radius:50%;background:rgba(220,220,220,.4);border:1px solid var(--i15)"></div><div style="position:absolute;bottom:0;width:44px;height:58px;border-radius:22px;background:linear-gradient(to right,rgba(15,14,14,.05),rgba(15,14,14,.1));border:1px solid var(--i15)"></div></div></div>
+      <div class="rel-info"><div class="rel-tag">Temizleme</div><div class="rel-name">Duo Spin Cleanser</div><div class="rel-desc">Sonik titreşim, 360° dönen başlık</div><div class="rel-price"><sub>₺</sub>2.200</div></div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"><div style="width:56px;height:80px;background:linear-gradient(135deg,rgba(200,220,240,.4),rgba(130,165,205,.25));border:1px solid var(--i15);border-radius:10px 10px 6px 6px"></div></div>
+      <div class="rel-info"><div class="rel-tag">Epilasyon</div><div class="rel-name">Sapphire Freeze IPL</div><div class="rel-desc">Safir soğutma, kalıcı tüy azalması</div><div class="rel-price"><sub>₺</sub>4.200</div></div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"><div style="width:32px;height:90px;background:linear-gradient(to right,rgba(15,14,14,.04),rgba(15,14,14,.12));border:1px solid var(--i15);border-radius:4px"></div></div>
+      <div class="rel-info"><div class="rel-tag">Saç Bakımı</div><div class="rel-name">Hair Light Pro</div><div class="rel-desc">Kızılötesi + mikro akım tarak</div><div class="rel-price"><sub>₺</sub>4.000</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MOB STICKY ATC -->
+<div class="mob-atc" id="mobAtc">
+  <div><div class="mob-atc-price"><sub>₺</sub>5.000</div><div style="font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);margin-top:1px">Glow Mask</div></div>
+  <button class="mob-atc-btn" onclick="addToCart()">Sepete Ekle →</button>
+</div>
+
+<!-- MOB BOTTOM NAV -->
+<nav class="mob-nav">
+  <div class="mob-nav-inner">
+    <button class="mni" onclick="history.back()"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Geri</button>
+    <button class="mni" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+    <button class="mn-cta" onclick="addToCart()"><div class="mn-pulse"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="mni"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Favoriler</button>
+    <button class="mni" onclick="window.location='glame-checkout.html'"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Sepet</button>
+  </div>
+</nav>
+
+<script>
+/* ── CURSOR ── */
+const cur=document.getElementById('cur'),curr=document.getElementById('curr');
+let mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia('(hover:hover)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
+  document.querySelectorAll('a,button,.rel-card').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});
+}
+
+/* ── OVERLAY MENU ── */
+const omenu=document.getElementById('omenu');
+document.getElementById('hbg').addEventListener('click',()=>{
+  const o=omenu.classList.toggle('open');
+  document.getElementById('hbg').classList.toggle('open',o);
+  document.body.style.overflow=o?'hidden':'';
+});
+document.getElementById('omclose').addEventListener('click',()=>{omenu.classList.remove('open');document.getElementById('hbg').classList.remove('open');document.body.style.overflow='';});
+
+/* ── TABS ── */
+function setTab(btn,p){
+  document.querySelectorAll('.pdp-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.pdp-panel').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+p).classList.add('active');
+  document.querySelector('.pdp-tabs').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ── THUMBNAILS ── */
+const glows={
+  0:{fill:'rgba(190,53,53,0.7)',glow:'rgba(190,53,53,.18) 0%, rgba(190,53,53,.06) 45%',ring:'rgba(190,53,53,0.15)'},
+  1:{fill:'rgba(60,100,210,0.7)',glow:'rgba(60,100,210,.16) 0%, rgba(60,100,210,.05) 45%',ring:'rgba(60,100,210,0.12)'},
+  2:{fill:'rgba(184,137,42,0.65)',glow:'rgba(184,137,42,.16) 0%, rgba(184,137,42,.05) 45%',ring:'rgba(184,137,42,0.15)'},
+  3:{fill:'rgba(190,53,53,0.5)',glow:'rgba(190,53,53,.1) 0%, transparent 60%',ring:'rgba(247,244,239,0.04)'},
+  4:{fill:'rgba(45,138,78,0.6)',glow:'rgba(45,138,78,.12) 0%, transparent 55%',ring:'rgba(45,138,78,0.1)'},
+};
+function setThumb(el,i){
+  document.querySelectorAll('.pdp-thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const g=glows[i]||glows[0];
+  document.querySelector('#ledDots').setAttribute('fill',g.fill);
+  document.getElementById('vizGlow').style.background=`radial-gradient(ellipse 60% 55% at 50% 55%, ${g.glow}, transparent 70%)`;
+  document.querySelector('#glowRing').setAttribute('stroke',g.ring);
+}
+
+/* ── LED MODE → also update thumbnail ── */
+function setMode(el,mode){
+  document.querySelectorAll('.pdp-mode').forEach(m=>m.classList.remove('active'));
+  el.classList.add('active');
+  const map={red:0,blue:1,combo:2};
+  const thumbs=document.querySelectorAll('.pdp-thumb');
+  const idx=map[mode]??0;
+  setThumb(thumbs[idx],idx);
+}
+
+/* ── QTY ── */
+function changeQty(d){const q=document.getElementById('qty');q.textContent=Math.max(1,+q.textContent+d);}
+
+/* ── ADD TO CART ── */
+function addToCart(){
+  const btn=document.querySelector('.pdp-atc');
+  btn.innerHTML='<span>✓ Sepete Eklendi</span>';
+  btn.style.background='var(--g)';
+  btn.style.color='var(--w)';
+  btn.removeAttribute('onclick');
+  setTimeout(()=>{
+    btn.innerHTML='<span>Sepete Ekle</span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    btn.style.background='';
+    btn.setAttribute('onclick','addToCart()');
+  },2500);
+}
+
+/* ── BUNDLE ── */
+const bPrices=[5000,3500,2200];
+function toggleBundle(el){
+  el.classList.toggle('on');
+  let tot=0,n=0;
+  document.querySelectorAll('.bp-check').forEach((c,i)=>{if(c.classList.contains('on')){tot+=bPrices[i];n++;}});
+  if(n>=2){
+    const save=Math.round(tot*.1);
+    document.getElementById('bundleTotal').innerHTML='<sub>₺</sub>'+(tot-save).toLocaleString('tr');
+    document.getElementById('bundleOld').innerHTML='<sub style="font-size:14px">₺</sub>'+tot.toLocaleString('tr');
+    document.getElementById('bundleSave').textContent='₺'+save.toLocaleString('tr')+' Tasarruf · %10';
+  } else {
+    document.getElementById('bundleTotal').innerHTML='<sub>₺</sub>'+tot.toLocaleString('tr');
+    document.getElementById('bundleOld').innerHTML='';
+    document.getElementById('bundleSave').textContent='';
+  }
+}
+
+/* ── MOB STICKY ATC ── */
+const hero=document.querySelector('.pdp-hero'),mobAtc=document.getElementById('mobAtc');
+if(hero&&mobAtc){
+  window.addEventListener('scroll',()=>{
+    mobAtc.style.display=hero.getBoundingClientRect().bottom<0?'flex':'none';
+  },{passive:true});
+}
+
+/* ── FADE IN ── */
+const fio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.05});
+document.querySelectorAll('.fi').forEach(el=>fio.observe(el));
+
+/* ── CHART ANIMATION ── */
+const co=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){
+    document.querySelectorAll('.cbar-glame').forEach(b=>{
+      b.style.height=b.dataset.h+'px';
+    });
+    co.disconnect();
+  }
+}),{threshold:.3});
+const chart=document.querySelector('.clin-chart');
+if(chart) co.observe(chart);
+</script>
+</body>
+</html>

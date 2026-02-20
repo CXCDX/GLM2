@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ef">
+<title>Glame — Koleksiyon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--g2:#d4a030;--r:#be3535;--grn:#2d8a4e;--brd:2px solid var(--ink);--brdg:2px solid var(--g);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px;--top-h:60px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+#cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+#curr.x{width:52px;height:52px;border-color:var(--g)}
+@media(hover:none){#cur,#curr{display:none}}
+
+.ann{height:34px;background:var(--ink);overflow:hidden;display:flex;align-items:center}
+.ann-track{display:flex;white-space:nowrap;animation:marquee 38s linear infinite}
+.ann-item{padding:0 36px;font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+.ann-item b{color:var(--g2);font-weight:400}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.nav{position:sticky;top:0;z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.96);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nav-icon{color:var(--i70);display:flex;align-items:center;position:relative;transition:color .2s;cursor:pointer}
+.nav-icon:hover{color:var(--ink)}
+.nav-badge{position:absolute;top:-5px;right:-5px;width:15px;height:15px;background:var(--g);border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--m)}
+.hbg{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hbg span{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s}
+
+/* MOBILE TOP */
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:var(--top-h);background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+
+/* OVERLAY MENU */
+.omenu{position:fixed;inset:0;z-index:140;background:var(--w);display:flex;flex-direction:column;padding:100px 44px 60px;transform:translateX(-100%);transition:transform .5s cubic-bezier(.16,1,.3,1);border-right:var(--brd);overflow-y:auto}
+.omenu.open{transform:translateX(0)}
+.om-link{font-family:var(--d);font-size:clamp(34px,6.5vw,52px);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:-.02em;border-bottom:var(--brd);padding:22px 0;display:flex;align-items:center;justify-content:space-between;transition:color .2s}
+.om-link em{font-style:italic;font-weight:400;color:var(--g);opacity:0;transition:opacity .2s;font-size:.6em}
+.om-link:hover{color:var(--g)}
+.om-link:hover em{opacity:1}
+.om-close{position:absolute;top:20px;right:22px;background:none;border:none;cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);padding:8px}
+
+/* HERO BANNER */
+.col-hero{padding:72px 56px 56px;border-bottom:var(--brd);display:flex;align-items:flex-end;justify-content:space-between;gap:24px;background:var(--w2)}
+.col-hero-l .eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.col-hero-l .eyebrow::before{content:'';width:12px;height:2px;background:var(--g)}
+.col-hero-l h1{font-family:var(--d);font-size:clamp(48px,6vw,80px);font-weight:900;line-height:.95;letter-spacing:-.03em}
+.col-hero-l h1 em{font-style:italic;font-weight:400;color:var(--g)}
+.col-hero-r{text-align:right}
+.col-count{font-family:var(--d);font-size:64px;font-weight:900;font-style:italic;color:var(--g);line-height:1}
+.col-count-t{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--i70);margin-top:4px}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:56px;border-bottom:var(--brd);background:var(--w);position:sticky;top:68px;z-index:90}
+.filter-pills{display:flex;gap:0;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.filter-pills::-webkit-scrollbar{display:none}
+.fpill{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:8px 18px;border:none;background:none;cursor:pointer;color:var(--i70);white-space:nowrap;border-right:1px solid var(--i08);transition:all .2s;position:relative}
+.fpill:last-child{border-right:none}
+.fpill::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--ink);transform:scaleX(0);transition:transform .3s}
+.fpill.active{color:var(--ink)}
+.fpill.active::after{transform:scaleX(1)}
+.fpill:hover{color:var(--ink)}
+.sort-wrap{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.sort-label{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70)}
+.sort-sel{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;border:var(--brd);padding:7px 28px 7px 12px;background:var(--w);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='8' height='5' viewBox='0 0 8 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l3 3 3-3' stroke='%230f0e0e' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;color:var(--ink)}
+.view-btns{display:flex;gap:0;border:var(--brd)}
+.vbtn{width:34px;height:34px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--i70);transition:all .2s;border-right:var(--brd)}
+.vbtn:last-child{border-right:none}
+.vbtn.active{background:var(--ink);color:var(--w)}
+.vbtn:not(.active):hover{background:var(--w3)}
+
+/* LAYOUT */
+.col-layout{display:grid;grid-template-columns:240px 1fr;align-items:start}
+
+/* SIDEBAR FILTERS */
+.sidebar{border-right:var(--brd);position:sticky;top:124px;max-height:calc(100vh - 124px);overflow-y:auto}
+.sf-sec{border-bottom:var(--brd)}
+.sf-head{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;cursor:pointer;font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);transition:background .2s;user-select:none}
+.sf-head:hover{background:var(--w3)}
+.sf-head svg{transition:transform .3s;flex-shrink:0}
+.sf-head.open svg{transform:rotate(180deg)}
+.sf-body{padding:16px 24px;display:none}
+.sf-head.open+.sf-body{display:block}
+/* filter items */
+.sfi{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;font-size:13px;color:var(--i70);transition:color .2s}
+.sfi:hover{color:var(--ink)}
+.sfi-box{width:16px;height:16px;border:var(--brd);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.sfi-box.on{background:var(--ink)}
+.sfi-box.on svg{opacity:1}
+.sfi-box svg{opacity:0;width:9px;height:9px;stroke:var(--w);stroke-width:2.5}
+.sfi-count{font-family:var(--m);font-size:9px;letter-spacing:.08em;color:var(--i40);margin-left:auto}
+/* price range */
+.price-range{margin-top:4px}
+.price-vals{display:flex;justify-content:space-between;font-family:var(--m);font-size:10px;letter-spacing:.1em;color:var(--i70);margin-bottom:10px}
+.range-track{position:relative;height:2px;background:var(--i15);margin:0 0 8px}
+.range-fill{position:absolute;left:0;right:0;height:100%;background:var(--ink)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:transparent;position:absolute;top:0;pointer-events:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--ink);pointer-events:auto;cursor:pointer;border:2px solid var(--w);box-shadow:0 0 0 1px var(--ink)}
+/* clear filters */
+.clear-filters{width:100%;padding:14px 24px;background:none;border:none;border-top:var(--brd);font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--r);cursor:pointer;text-align:left;transition:background .2s}
+.clear-filters:hover{background:rgba(190,53,53,.05)}
+
+/* PRODUCT GRID */
+.products{padding:0}
+.pgrid-4{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+.pgrid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;display:none}
+
+.pcard{border-right:var(--brd);border-bottom:var(--brd);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .25s;cursor:pointer}
+.pcard:hover{background:var(--w3);z-index:2}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.pcard:hover::before{transform:scaleX(1)}
+/* remove right border on last in row */
+.pgrid-4 .pcard:nth-child(2n){border-right:none}
+.pgrid-3 .pcard:nth-child(3n){border-right:none}
+
+/* badges */
+.pc-badges{position:absolute;top:16px;left:16px;z-index:3;display:flex;flex-direction:column;gap:6px}
+.pc-badge{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:4px 9px;display:inline-block}
+.badge-hot{background:var(--ink);color:var(--w)}
+.badge-new{background:var(--g);color:var(--w)}
+.badge-sale{background:var(--r);color:var(--w)}
+/* wishlist btn */
+.pc-wl{position:absolute;top:16px;right:16px;z-index:3;width:34px;height:34px;border-radius:50%;background:rgba(247,244,239,.9);border:1px solid var(--i15);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(-4px);transition:all .3s}
+.pcard:hover .pc-wl{opacity:1;transform:translateY(0)}
+.pc-wl:hover{background:var(--w);border-color:var(--r)}
+.pc-wl:hover svg{stroke:var(--r)}
+.pc-wl svg{stroke:var(--i70);width:15px;height:15px;fill:none;stroke-width:1.5}
+/* img area */
+.pc-img{height:260px;display:flex;align-items:center;justify-content:center;background:var(--w2);border-bottom:var(--brd);overflow:hidden;position:relative}
+.pc-glow{position:absolute;inset:0;pointer-events:none}
+.pc-device{position:relative;z-index:2;animation:float 8s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.d2{animation-delay:1s}.d3{animation-delay:2s}.d4{animation-delay:3.5s}.d5{animation-delay:1.5s}
+/* quick add overlay */
+.pc-quick{position:absolute;bottom:0;left:0;right:0;background:rgba(15,14,14,.92);padding:14px 16px;transform:translateY(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:4}
+.pcard:hover .pc-quick{transform:translateY(0)}
+.qa-btn{flex:1;height:40px;background:var(--g);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;transition:background .2s}
+.qa-btn:hover{background:var(--g2)}
+.qa-pdp{width:40px;height:40px;background:none;border:1px solid rgba(247,244,239,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.qa-pdp:hover{background:rgba(247,244,239,.1)}
+.qa-pdp svg{stroke:var(--w);width:14px;height:14px}
+/* info */
+.pc-info{padding:22px 22px 24px;display:flex;flex-direction:column;gap:0;flex:1}
+.pc-cat{font-family:var(--m);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:7px}
+.pc-name{font-family:var(--d);font-size:19px;font-weight:700;line-height:1.1;margin-bottom:6px}
+.pc-desc{font-size:13px;color:var(--i70);line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pc-pills{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+.pc-pill{font-family:var(--m);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--i70);border:1px solid var(--i15);padding:3px 8px}
+.pc-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:14px;border-top:var(--brd)}
+.pc-price{display:flex;align-items:baseline;gap:8px}
+.pc-price-main{font-family:var(--d);font-size:22px;font-weight:700}
+.pc-price-main sub{font-size:12px;font-weight:400}
+.pc-price-old{font-family:var(--d);font-size:14px;color:var(--i40);text-decoration:line-through}
+.pc-rating{display:flex;align-items:center;gap:5px}
+.pc-stars{color:var(--g);font-size:11px;letter-spacing:1px}
+.pc-rc{font-family:var(--m);font-size:9px;letter-spacing:.08em;color:var(--i40)}
+/* compare check */
+.pc-compare{display:flex;align-items:center;gap:7px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70);cursor:pointer;padding:10px 22px;border-top:var(--brd);transition:background .2s}
+.pc-compare:hover{background:var(--w3);color:var(--ink)}
+.cmp-box{width:14px;height:14px;border:1px solid var(--i15);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.cmp-box.on{background:var(--ink)}
+.cmp-box.on svg{opacity:1}
+.cmp-box svg{opacity:0;width:8px;height:8px;stroke:var(--w);stroke-width:2.5}
+
+/* COMPARE BAR */
+.compare-bar{position:fixed;bottom:calc(var(--nav-h) + var(--safe-bottom));left:0;right:0;z-index:120;background:var(--ink);border-top:2px solid var(--g);padding:14px 56px;display:flex;align-items:center;justify-content:space-between;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.compare-bar.show{transform:translateY(0)}
+.compare-items{display:flex;gap:16px;align-items:center}
+.compare-item-slot{width:48px;height:48px;border:1px solid rgba(247,244,239,.15);display:flex;align-items:center;justify-content:center;font-family:var(--m);font-size:10px;color:rgba(247,244,239,.3)}
+.compare-item-slot.filled{border-color:var(--g)}
+.cb-right{display:flex;gap:12px;align-items:center}
+.cb-label{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,239,.5)}
+.cb-btn{font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:12px 28px;border:1px solid var(--g);background:var(--g);color:var(--w);cursor:pointer;transition:all .25s}
+.cb-btn:hover{background:var(--g2)}
+.cb-clear{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(247,244,239,.4);cursor:pointer;border-bottom:1px solid rgba(247,244,239,.15)}
+.cb-clear:hover{color:rgba(247,244,239,.7)}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:0;border-top:var(--brd);padding:40px 0}
+.pg-btn{width:44px;height:44px;border:var(--brd);border-right:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--m);font-size:12px;transition:all .25s;color:var(--i70)}
+.pg-btn:last-child{border-right:var(--brd)}
+.pg-btn.active{background:var(--ink);color:var(--w)}
+.pg-btn:not(.active):hover{background:var(--w3);color:var(--ink)}
+
+/* MOBILE BOTTOM NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mn-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);transition:color .2s;flex:1;padding:8px 0;border:none;background:none;cursor:pointer;position:relative}
+.mn-item.active{color:var(--ink)}
+.mn-item.active::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--ink);border-radius:2px}
+.mn-item svg{width:22px;height:22px;stroke-width:1.5}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0;transition:background .25s,transform .2s;position:relative}
+.mn-cta:hover{background:var(--g);transform:scale(1.06)}
+.mn-cta svg{stroke:var(--w)}
+.mn-pulse{position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--ink);animation:pulse 2.5s ease-out infinite;opacity:0}
+@keyframes pulse{0%{opacity:.4;transform:scale(1)}100%{opacity:0;transform:scale(1.45)}}
+
+/* EMPTY STATE */
+.empty{padding:80px 56px;text-align:center;display:none}
+.empty.show{display:block}
+.empty-h{font-family:var(--d);font-size:32px;font-weight:900;font-style:italic;color:var(--i40);margin-bottom:10px}
+.empty-t{font-size:14px;color:var(--i70)}
+
+/* FI */
+.fi{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.fi.in{opacity:1;transform:none}
+
+/* MOBILE */
+@media(max-width:767px){
+  .nav{display:none}
+  .mob-top{display:flex}
+  .mob-nav{display:block}
+  .ann{display:none}
+  .col-hero{padding:36px 20px 32px;flex-direction:column;gap:14px}
+  .col-hero-r{text-align:left}
+  .toolbar{padding:0 12px;top:var(--top-h);gap:10px}
+  .filter-pills{display:none}
+  .col-layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .pgrid-4,.pgrid-3{grid-template-columns:1fr 1fr}
+  .pcard:nth-child(2n){border-right:none!important}
+  .pc-img{height:180px}
+  .pc-info{padding:14px 14px 16px}
+  .pc-name{font-size:15px}
+  .pc-price-main{font-size:18px}
+  .pc-quick{display:none}
+  .compare-bar{padding:12px 20px}
+  .pagination{padding:28px 0}
+  .pg-btn{width:36px;height:36px}
+}
+@media(min-width:768px) and (max-width:1100px){
+  .nav{padding:0 32px}
+  .toolbar{padding:0 32px}
+  .col-hero{padding:56px 32px}
+  .col-layout{grid-template-columns:200px 1fr}
+  .pgrid-4{grid-template-columns:repeat(2,1fr)}
+  .compare-bar{padding:14px 32px}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curr"></div>
+
+<div class="ann">
+  <div class="ann-track">
+    <span class="ann-item">İlk Siparişte %10 <b>GLAME10</b> · Ücretsiz Kargo 500 TL Üzeri · 30 Gün İade · FDA Onaylı · Dermatoloji Testi ·</span>
+    <span class="ann-item">İlk Siparişte %10 <b>GLAME10</b> · Ücretsiz Kargo 500 TL Üzeri · 30 Gün İade · FDA Onaylı · Dermatoloji Testi ·</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <ul class="nav-links">
+    <li><a href="glame-collection.html" class="active">Alışveriş</a></li>
+    <li><a href="glame-about.html">Teknoloji</a></li>
+    <li><a href="glame-quiz.html">Cilt Testi</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <div class="nav-r">
+    <span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
+    <span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+    <span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nav-badge">2</span></span>
+    <button class="hbg" id="hbg"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mob-top">
+  <a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a>
+  <div style="display:flex;gap:14px;align-items:center">
+    <span class="nav-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
+    <span class="nav-icon" style="position:relative"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nav-badge">2</span></span>
+  </div>
+</div>
+
+<div class="omenu" id="omenu">
+  <button class="om-close" id="omclose">Kapat ✕</button>
+  <a href="glame-homepage.html" class="om-link">Ana Sayfa <em>→</em></a>
+  <a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a>
+  <a href="glame-about.html" class="om-link">Teknoloji <em>→</em></a>
+  <a href="glame-quiz.html" class="om-link">Cilt Testi <em>→</em></a>
+</div>
+
+<!-- HERO BANNER -->
+<div class="col-hero">
+  <div class="col-hero-l">
+    <div class="eyebrow">Koleksiyon 2026</div>
+    <h1>Cilt <em>Bakım</em><br>Teknolojisi</h1>
+  </div>
+  <div class="col-hero-r">
+    <div class="col-count" id="visibleCount">5</div>
+    <div class="col-count-t">Ürün</div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="filter-pills">
+    <button class="fpill active" onclick="filterCat(this,'all')">Tümü</button>
+    <button class="fpill" onclick="filterCat(this,'yuz')">Yüz Bakımı</button>
+    <button class="fpill" onclick="filterCat(this,'epilasyon')">Epilasyon</button>
+    <button class="fpill" onclick="filterCat(this,'sac')">Saç Bakımı</button>
+    <button class="fpill" onclick="filterCat(this,'temizlik')">Temizlik</button>
+  </div>
+  <div class="sort-wrap">
+    <span class="sort-label">Sırala:</span>
+    <select class="sort-sel" onchange="sortProducts(this.value)">
+      <option value="featured">Öne Çıkan</option>
+      <option value="price-asc">Fiyat: Düşükten</option>
+      <option value="price-desc">Fiyat: Yüksekten</option>
+      <option value="rating">En Çok Beğenilen</option>
+      <option value="new">En Yeni</option>
+    </select>
+    <div class="view-btns">
+      <button class="vbtn active" id="v4btn" onclick="setView(4)"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="0" width="6" height="6"/><rect x="8" y="0" width="6" height="6"/><rect x="0" y="8" width="6" height="6"/><rect x="8" y="8" width="6" height="6"/></svg></button>
+      <button class="vbtn" id="v3btn" onclick="setView(3)"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="0" width="3.5" height="14"/><rect x="5.25" y="0" width="3.5" height="14"/><rect x="10.5" y="0" width="3.5" height="14"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="col-layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <!-- category -->
+    <div class="sf-sec">
+      <div class="sf-head open" onclick="toggleSF(this)">Kategori <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="sf-body">
+        <div class="sfi" onclick="toggleSFI(this,'yuz');filterCat(null,'yuz')"><div class="sfi-box on"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Yüz Bakımı<span class="sfi-count">3</span></div>
+        <div class="sfi" onclick="toggleSFI(this,'epilasyon');filterCat(null,'epilasyon')"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Epilasyon<span class="sfi-count">1</span></div>
+        <div class="sfi" onclick="toggleSFI(this,'sac');filterCat(null,'sac')"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Saç Bakımı<span class="sfi-count">1</span></div>
+        <div class="sfi" onclick="toggleSFI(this,'temizlik');filterCat(null,'temizlik')"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Temizlik<span class="sfi-count">1</span></div>
+      </div>
+    </div>
+    <!-- technology -->
+    <div class="sf-sec">
+      <div class="sf-head open" onclick="toggleSF(this)">Teknoloji <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="sf-body">
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>LED Fototerapi<span class="sfi-count">2</span></div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Mikro Akım<span class="sfi-count">2</span></div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>IPL<span class="sfi-count">1</span></div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Sonik<span class="sfi-count">1</span></div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Kızılötesi<span class="sfi-count">3</span></div>
+      </div>
+    </div>
+    <!-- concern -->
+    <div class="sf-sec">
+      <div class="sf-head" onclick="toggleSF(this)">Cilt Endişesi <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="sf-body">
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Anti-Aging</div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Akne</div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Leke</div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Gözenek</div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Saç Dökülmesi</div>
+      </div>
+    </div>
+    <!-- price -->
+    <div class="sf-sec">
+      <div class="sf-head open" onclick="toggleSF(this)">Fiyat <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="sf-body">
+        <div class="price-range">
+          <div class="price-vals"><span>₺<span id="prMin">0</span></span><span>₺<span id="prMax">6.500</span></span></div>
+          <div class="range-track"><div class="range-fill" id="rangeFill"></div><input type="range" min="0" max="6500" value="0" step="100" oninput="updateRange(this,'min')"><input type="range" min="0" max="6500" value="6500" step="100" oninput="updateRange(this,'max')"></div>
+        </div>
+      </div>
+    </div>
+    <!-- rating -->
+    <div class="sf-sec">
+      <div class="sf-head" onclick="toggleSF(this)">Değerlendirme <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="sf-body">
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div><span style="color:var(--g)">★★★★★</span> 5.0</div>
+        <div class="sfi" onclick="toggleSFI(this)"><div class="sfi-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div><span style="color:var(--g)">★★★★</span>☆ 4.0+</div>
+      </div>
+    </div>
+    <button class="clear-filters" onclick="clearAll()">Filtreleri Temizle</button>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="products">
+    <div class="pgrid-4" id="productGrid">
+
+      <!-- PRODUCT 1: GLOW MASK -->
+      <div class="pcard fi" data-cat="yuz" data-price="5000" data-rating="4.9" data-new="false">
+        <div class="pc-badges"><span class="pc-badge badge-hot">En Çok Satan</span></div>
+        <button class="pc-wl" onclick="toggleWL(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="pc-img">
+          <div class="pc-glow" style="background:radial-gradient(ellipse 60% 55% at 50% 55%,rgba(190,53,53,.13) 0%,transparent 60%)"></div>
+          <div class="pc-device"><div style="width:118px;height:118px;border-radius:50%;background:radial-gradient(circle at 36% 33%,rgba(190,53,53,.22) 0%,rgba(190,53,53,.06) 50%,transparent 75%);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink),0 0 32px rgba(190,53,53,.15);overflow:hidden;position:relative"><div style="position:absolute;inset:12px;border-radius:50%;background-image:radial-gradient(circle,rgba(190,53,53,.55) 1.5px,transparent 1.5px);background-size:11px 11px;animation:gdot 3.5s ease-in-out infinite"></div></div></div>
+          <div class="pc-quick">
+            <button class="qa-btn" onclick="addToCart(this,'Glow Mask','5000')">Sepete Ekle</button>
+            <a href="glame-pdp.html" class="qa-pdp"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+        <div class="pc-info">
+          <div class="pc-cat">LED Fototerapi</div>
+          <div class="pc-name">Glame Glow Mask</div>
+          <div class="pc-desc">94 LED kaynağı, 2cm yoğunluk dağılımı. Akne, kırışıklık ve leke tedavisine yönelik klinik fototerapi maskesi.</div>
+          <div class="pc-pills"><span class="pc-pill">633nm</span><span class="pc-pill">415nm</span><span class="pc-pill">830nm</span></div>
+          <div class="pc-bottom">
+            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>5.000</div><div class="pc-price-old">₺6.500</div></div>
+            <div class="pc-rating"><div class="pc-stars">★★★★★</div><div class="pc-rc">(847)</div></div>
+          </div>
+        </div>
+        <div class="pc-compare" onclick="toggleCompare(this,'Glow Mask')"><div class="cmp-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Karşılaştır</div>
+      </div>
+
+      <!-- PRODUCT 2: DERMARING -->
+      <div class="pcard fi d2" data-cat="yuz" data-price="3500" data-rating="4.8" data-new="false">
+        <div class="pc-badges"><span class="pc-badge badge-new">Yeni</span></div>
+        <button class="pc-wl" onclick="toggleWL(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="pc-img">
+          <div class="pc-glow" style="background:radial-gradient(ellipse 60% 55% at 50% 55%,rgba(190,53,53,.08) 0%,transparent 60%)"></div>
+          <div class="pc-device d2"><div style="width:46px;height:158px;border-radius:23px;background:linear-gradient(160deg,rgba(15,14,14,.04) 0%,rgba(15,14,14,.12) 22%,rgba(15,14,14,.05) 50%,rgba(15,14,14,.1) 78%,rgba(15,14,14,.03) 100%);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);position:relative"><div style="position:absolute;top:14%;left:50%;transform:translateX(-50%);width:3px;height:16%;background:rgba(190,53,53,.7);border-radius:2px;box-shadow:0 0 7px rgba(190,53,53,.5),0 24px 0 rgba(190,53,53,.7),0 48px 0 rgba(190,53,53,.7)"></div></div></div>
+          <div class="pc-quick">
+            <button class="qa-btn" onclick="addToCart(this,'Dermaring Revive','3500')">Sepete Ekle</button>
+            <a href="glame-pdp.html" class="qa-pdp"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+        <div class="pc-info">
+          <div class="pc-cat">Anti-Aging</div>
+          <div class="pc-name">Dermaring Revive</div>
+          <div class="pc-desc">REVIVE mikro akım teknolojisi, kırmızı ve kızılötesi ışık terapilerini birleştirerek cilt elastikiyetini artırır.</div>
+          <div class="pc-pills"><span class="pc-pill">Mikro Akım</span><span class="pc-pill">Kızılötesi</span></div>
+          <div class="pc-bottom">
+            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>3.500</div></div>
+            <div class="pc-rating"><div class="pc-stars">★★★★★</div><div class="pc-rc">(312)</div></div>
+          </div>
+        </div>
+        <div class="pc-compare" onclick="toggleCompare(this,'Dermaring')"><div class="cmp-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Karşılaştır</div>
+      </div>
+
+      <!-- PRODUCT 3: DUO SPIN -->
+      <div class="pcard fi d3" data-cat="temizlik" data-price="2200" data-rating="4.7" data-new="false">
+        <button class="pc-wl" onclick="toggleWL(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="pc-img">
+          <div class="pc-glow" style="background:radial-gradient(ellipse 60% 55% at 50% 55%,rgba(100,120,200,.08) 0%,transparent 60%)"></div>
+          <div class="pc-device d3" style="position:relative;width:46px;height:158px"><div style="position:absolute;top:0;left:-3px;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.95) 0%,rgba(215,215,215,.6) 55%,rgba(170,170,170,.4) 100%);border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink)"></div><div style="position:absolute;bottom:0;width:46px;height:110px;border-radius:23px;background:linear-gradient(to right,rgba(15,14,14,.04),rgba(15,14,14,.1),rgba(15,14,14,.04));border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink)"></div></div>
+          <div class="pc-quick">
+            <button class="qa-btn" onclick="addToCart(this,'Duo Spin Cleanser','2200')">Sepete Ekle</button>
+            <a href="glame-pdp.html" class="qa-pdp"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+        <div class="pc-info">
+          <div class="pc-cat">Temizleme</div>
+          <div class="pc-name">Duo Spin Cleanser</div>
+          <div class="pc-desc">Çift dönen başlık, sonik titreşim ile gözenekleri derinlemesine temizler. Siyah nokta ve gözenek sorunlarına karşı.</div>
+          <div class="pc-pills"><span class="pc-pill">Sonik</span><span class="pc-pill">360° Spin</span></div>
+          <div class="pc-bottom">
+            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>2.200</div></div>
+            <div class="pc-rating"><div class="pc-stars">★★★★★</div><div class="pc-rc">(215)</div></div>
+          </div>
+        </div>
+        <div class="pc-compare" onclick="toggleCompare(this,'Duo Spin')"><div class="cmp-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Karşılaştır</div>
+      </div>
+
+      <!-- PRODUCT 4: SAPPHIRE IPL -->
+      <div class="pcard fi d4" data-cat="epilasyon" data-price="4200" data-rating="4.9" data-new="true">
+        <div class="pc-badges"><span class="pc-badge badge-new">Yeni</span><span class="pc-badge badge-sale">−%15</span></div>
+        <button class="pc-wl" onclick="toggleWL(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="pc-img">
+          <div class="pc-glow" style="background:radial-gradient(ellipse 60% 55% at 50% 55%,rgba(100,160,220,.1) 0%,transparent 60%)"></div>
+          <div class="pc-device d4"><div style="width:70px;height:100px;background:linear-gradient(135deg,rgba(200,220,240,.45) 0%,rgba(175,200,225,.3) 45%,rgba(155,185,215,.4) 75%,rgba(130,165,205,.28) 100%);border:2px solid var(--ink);border-radius:14px 14px 7px 7px;box-shadow:4px 4px 0 var(--ink);position:relative"><div style="position:absolute;bottom:20%;left:50%;transform:translateX(-50%);width:44%;height:2px;background:rgba(100,160,220,.6);box-shadow:0 0 7px rgba(100,160,220,.7)"></div></div></div>
+          <div class="pc-quick">
+            <button class="qa-btn" onclick="addToCart(this,'Sapphire IPL','4200')">Sepete Ekle</button>
+            <a href="glame-pdp.html" class="qa-pdp"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+        <div class="pc-info">
+          <div class="pc-cat">Epilasyon</div>
+          <div class="pc-name">Sapphire Freeze IPL</div>
+          <div class="pc-desc">Geniş çıkış penceresi ve safir soğutma teknolojisiyle kalıcı tüy azalması. Klinikte 12 seans = Evde 12 hafta.</div>
+          <div class="pc-pills"><span class="pc-pill">IPL</span><span class="pc-pill">Safir Soğutma</span></div>
+          <div class="pc-bottom">
+            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>4.200</div><div class="pc-price-old">₺4.950</div></div>
+            <div class="pc-rating"><div class="pc-stars">★★★★★</div><div class="pc-rc">(189)</div></div>
+          </div>
+        </div>
+        <div class="pc-compare" onclick="toggleCompare(this,'Sapphire IPL')"><div class="cmp-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Karşılaştır</div>
+      </div>
+
+      <!-- PRODUCT 5: HAIR COMB -->
+      <div class="pcard fi d5" data-cat="sac" data-price="4000" data-rating="4.6" data-new="false">
+        <button class="pc-wl" onclick="toggleWL(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="pc-img">
+          <div class="pc-glow" style="background:radial-gradient(ellipse 60% 55% at 50% 55%,rgba(184,137,42,.08) 0%,transparent 60%)"></div>
+          <div class="pc-device d5"><div style="width:36px;height:158px;background:linear-gradient(to right,rgba(15,14,14,.05),rgba(15,14,14,.11),rgba(15,14,14,.05));border:2px solid var(--ink);border-radius:5px 5px 3px 3px;box-shadow:4px 4px 0 var(--ink);position:relative"><div style="position:absolute;top:8%;left:50%;transform:translateX(-50%);width:50%;height:28%;background:linear-gradient(to bottom,rgba(190,53,53,.28),transparent);filter:blur(9px)"></div></div></div>
+          <div class="pc-quick">
+            <button class="qa-btn" onclick="addToCart(this,'Hair Light Pro','4000')">Sepete Ekle</button>
+            <a href="glame-pdp.html" class="qa-pdp"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+        <div class="pc-info">
+          <div class="pc-cat">Saç Bakımı</div>
+          <div class="pc-name">Hair Light Pro Comb</div>
+          <div class="pc-desc">Saç dökülmesine karşı kızılötesi ışık ve mikro akım kombinasyonu. Saç kökü aktivasyonu, yoğunluk artışı.</div>
+          <div class="pc-pills"><span class="pc-pill">Kızılötesi</span><span class="pc-pill">Mikro Akım</span></div>
+          <div class="pc-bottom">
+            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>4.000</div></div>
+            <div class="pc-rating"><div class="pc-stars">★★★★☆</div><div class="pc-rc">(94)</div></div>
+          </div>
+        </div>
+        <div class="pc-compare" onclick="toggleCompare(this,'Hair Light Pro')"><div class="cmp-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>Karşılaştır</div>
+      </div>
+
+    </div><!-- /pgrid-4 -->
+
+    <div class="empty" id="emptyState">
+      <div class="empty-h">Ürün Bulunamadı</div>
+      <p class="empty-t">Farklı filtreler deneyin</p>
+    </div>
+
+    <div class="pagination">
+      <button class="pg-btn active">1</button>
+      <button class="pg-btn">2</button>
+      <button class="pg-btn">3</button>
+      <button class="pg-btn" style="border-left:none;font-size:16px">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE BAR -->
+<div class="compare-bar" id="cmpBar">
+  <div style="display:flex;align-items:center;gap:20px">
+    <span class="cb-label">Karşılaştır:</span>
+    <div class="compare-items">
+      <div class="compare-item-slot" id="cs1">+</div>
+      <div class="compare-item-slot" id="cs2">+</div>
+      <div class="compare-item-slot" id="cs3">+</div>
+    </div>
+  </div>
+  <div class="cb-right">
+    <span class="cb-clear" onclick="clearCompare()">Temizle</span>
+    <button class="cb-btn">Karşılaştır →</button>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mob-nav">
+  <div class="mob-nav-inner">
+    <button class="mn-item" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Ana</button>
+    <button class="mn-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Ürünler</button>
+    <button class="mn-cta" onclick="window.location='glame-checkout.html'"><div class="mn-pulse"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+    <button class="mn-item" onclick="window.location='glame-quiz.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Test</button>
+    <button class="mn-item" onclick="window.location='glame-account.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Hesap</button>
+  </div>
+</nav>
+
+<script>
+@keyframes gdot{0%,100%{opacity:.6}50%{opacity:1}}
+
+/* CURSOR */
+const cur=document.getElementById('cur'),curr=document.getElementById('curr');
+let mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia('(hover:hover)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
+  document.querySelectorAll('a,button,.pcard').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});
+}
+
+/* OVERLAY MENU */
+const omenu=document.getElementById('omenu');
+document.getElementById('hbg').addEventListener('click',()=>{const o=omenu.classList.toggle('open');document.getElementById('hbg').classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
+document.getElementById('omclose').addEventListener('click',()=>{omenu.classList.remove('open');document.getElementById('hbg').classList.remove('open');document.body.style.overflow='';});
+
+/* SIDEBAR FILTER ACCORDION */
+function toggleSF(head){head.classList.toggle('open');const body=head.nextElementSibling;body.style.display=head.classList.contains('open')?'block':'none';}
+
+/* SIDEBAR FILTER ITEMS */
+function toggleSFI(el,cat){el.querySelector('.sfi-box').classList.toggle('on');}
+
+/* CATEGORY FILTER */
+function filterCat(btn,cat){
+  if(btn){document.querySelectorAll('.fpill').forEach(p=>p.classList.remove('active'));btn.classList.add('active');}
+  const cards=document.querySelectorAll('.pcard');
+  let visible=0;
+  cards.forEach(c=>{
+    const show=cat==='all'||c.dataset.cat===cat;
+    c.style.display=show?'flex':'none';
+    if(show) visible++;
+  });
+  document.getElementById('visibleCount').textContent=visible;
+  document.getElementById('emptyState').classList.toggle('show',visible===0);
+  fixBorders();
+}
+
+/* FIX BORDERS AFTER FILTER */
+function fixBorders(){
+  const cards=[...document.querySelectorAll('.pcard')].filter(c=>c.style.display!=='none');
+  const cols=document.getElementById('productGrid').classList.contains('pgrid-3')?3:2;
+  cards.forEach((c,i)=>{c.style.borderRight=(i+1)%cols===0?'none':'2px solid var(--ink)';c.style.borderBottom=i>=cards.length-cols?'none':'2px solid var(--ink)';});
+}
+
+/* SORT */
+function sortProducts(v){
+  const grid=document.getElementById('productGrid');
+  const cards=[...grid.querySelectorAll('.pcard')];
+  cards.sort((a,b)=>{
+    if(v==='price-asc') return +a.dataset.price - +b.dataset.price;
+    if(v==='price-desc') return +b.dataset.price - +a.dataset.price;
+    if(v==='rating') return +b.dataset.rating - +a.dataset.rating;
+    return 0;
+  });
+  cards.forEach(c=>grid.appendChild(c));
+}
+
+/* VIEW TOGGLE */
+function setView(n){
+  const g4=document.querySelector('.pgrid-4');
+  const g3=document.querySelector('.pgrid-3');
+  document.getElementById('v4btn').classList.toggle('active',n===4);
+  document.getElementById('v3btn').classList.toggle('active',n===3);
+  if(n===4){g4.style.display='grid';g3.style.display='none';}
+  else{g4.style.display='none';g3.style.display='grid';document.querySelectorAll('.pcard').forEach(c=>g3.appendChild(c));}
+  fixBorders();
+}
+
+/* WISHLIST */
+function toggleWL(btn){
+  btn.classList.toggle('active');
+  btn.querySelector('svg').style.fill=btn.classList.contains('active')?'var(--r)':'none';
+  btn.querySelector('svg').style.stroke=btn.classList.contains('active')?'var(--r)':'var(--i70)';
+}
+
+/* QUICK ADD TO CART */
+function addToCart(btn,name,price){
+  const orig=btn.textContent;
+  btn.textContent='✓ Eklendi';
+  btn.style.background='var(--grn)';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';},2000);
+}
+
+/* COMPARE */
+let compareList=[];
+const slots=['cs1','cs2','cs3'];
+function toggleCompare(row,name){
+  const box=row.querySelector('.cmp-box');
+  const idx=compareList.indexOf(name);
+  if(idx>-1){compareList.splice(idx,1);box.classList.remove('on');}
+  else if(compareList.length<3){compareList.push(name);box.classList.add('on');}
+  updateCompareBar();
+}
+function updateCompareBar(){
+  slots.forEach((s,i)=>{
+    const el=document.getElementById(s);
+    if(compareList[i]){el.textContent=compareList[i].slice(0,4);el.classList.add('filled');}
+    else{el.textContent='+';el.classList.remove('filled');}
+  });
+  document.getElementById('cmpBar').classList.toggle('show',compareList.length>0);
+}
+function clearCompare(){
+  compareList=[];
+  document.querySelectorAll('.cmp-box').forEach(b=>b.classList.remove('on'));
+  updateCompareBar();
+}
+function clearAll(){
+  document.querySelectorAll('.sfi-box').forEach(b=>b.classList.remove('on'));
+  filterCat({classList:{add:()=>{},remove:()=>{}}},'all');
+  document.querySelectorAll('.fpill').forEach(p=>p.classList.remove('active'));
+  document.querySelector('.fpill').classList.add('active');
+}
+
+/* RANGE */
+let prMin=0,prMax=6500;
+function updateRange(inp,type){
+  if(type==='min') prMin=+inp.value;
+  else prMax=+inp.value;
+  if(prMin>prMax){const t=prMin;prMin=prMax;prMax=t;}
+  document.getElementById('prMin').textContent=prMin.toLocaleString('tr');
+  document.getElementById('prMax').textContent=prMax.toLocaleString('tr');
+  document.querySelectorAll('.pcard').forEach(c=>{const p=+c.dataset.price;c.style.display=(p>=prMin&&p<=prMax)?'flex':'none';});
+  fixBorders();
+}
+
+/* FADE IN */
+const fio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.06});
+document.querySelectorAll('.fi').forEach(el=>fio.observe(el));
+</script>
+</body>
+</html>

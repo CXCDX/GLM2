@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glame — İade & Değişim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.7);--i40:rgba(15,14,14,.4);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--grn:#2d8a4e;--r:#be3535;--brd:2px solid var(--ink);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+/* HERO BANNER */
+.ret-hero{background:var(--w2);padding:64px 56px;border-bottom:var(--brd);display:flex;align-items:center;justify-content:space-between;gap:40px}
+.eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:14px;height:2px;background:var(--g)}
+.rh-h{font-family:var(--d);font-size:clamp(36px,4.5vw,60px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:14px}
+.rh-h em{font-style:italic;font-weight:400;color:var(--g)}
+.rh-p{font-size:16px;color:var(--i70);line-height:1.75;max-width:420px}
+.rh-badges{display:flex;gap:0;margin-left:auto;flex-shrink:0}
+.rh-badge{padding:20px 28px;border:var(--brd);margin-left:-2px;text-align:center}
+.rh-badge-n{font-family:var(--d);font-size:36px;font-weight:900;font-style:italic;color:var(--g);line-height:1}
+.rh-badge-t{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);margin-top:4px}
+/* STEP INDICATOR */
+.steps-bar{display:flex;border-bottom:var(--brd)}
+.step-tab{flex:1;padding:18px 24px;text-align:center;border-right:var(--brd);cursor:pointer;transition:background .2s;position:relative}
+.step-tab:last-child{border-right:none}
+.step-tab.active{background:var(--ink)}
+.step-tab.done{background:var(--w3)}
+.step-n{font-family:var(--d);font-size:22px;font-weight:900;font-style:italic;color:var(--i15);margin-bottom:4px;transition:color .2s}
+.step-tab.active .step-n{color:rgba(247,244,239,.3)}
+.step-tab.done .step-n{color:var(--g)}
+.step-t{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40);transition:color .2s}
+.step-tab.active .step-t{color:rgba(247,244,239,.7)}
+.step-tab.done .step-t{color:var(--ink)}
+/* STEP CONTENT */
+.step-content{display:none;padding:56px}
+.step-content.active{display:block}
+/* STEP 1: ORDER LOOKUP */
+.s1-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:800px}
+.field-group{display:flex;flex-direction:column;gap:0;border:var(--brd)}
+.field-row{border-bottom:var(--brd)}
+.field-row:last-child{border-bottom:none}
+.field-label{font-family:var(--m);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--i40);padding:10px 16px 0}
+.field-input{border:none;outline:none;padding:6px 16px 12px;font-family:var(--b);font-size:15px;color:var(--ink);background:transparent;width:100%}
+.field-input::placeholder{color:var(--i40)}
+.field-input:focus{background:rgba(184,137,42,.03)}
+.next-btn{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:var(--w);font-family:var(--m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:16px 40px;border:var(--brd);cursor:pointer;position:relative;overflow:hidden;transition:color .35s;margin-top:28px}
+.next-btn::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.next-btn:hover::after{transform:translateX(0)}
+.next-btn span,.next-btn svg{position:relative;z-index:1}
+/* STEP 2: PRODUCTS */
+.product-sel{border:var(--brd);max-width:680px}
+.ps-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:20px 24px;border-bottom:var(--brd);cursor:pointer;transition:background .2s}
+.ps-row:last-child{border-bottom:none}
+.ps-row:hover{background:var(--w3)}
+.ps-row.selected{background:rgba(45,138,78,.06);border-left:3px solid var(--grn)}
+.ps-img{width:56px;height:56px;background:var(--w2);border:var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ps-name{font-family:var(--d);font-size:16px;font-weight:700;margin-bottom:3px}
+.ps-sub{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70)}
+.ps-chk{width:24px;height:24px;border-radius:50%;border:2px solid var(--i15);display:flex;align-items:center;justify-content:center;transition:all .25s;flex-shrink:0}
+.ps-row.selected .ps-chk{background:var(--grn);border-color:var(--grn);color:#fff}
+.qty-sel{display:flex;align-items:center;gap:0;border:var(--brd);max-width:120px;margin-top:12px}
+.qty-btn{width:36px;height:36px;border:none;background:none;font-size:18px;cursor:pointer;border-right:var(--brd);transition:background .2s}
+.qty-btn:last-child{border-right:none;border-left:var(--brd)}
+.qty-btn:hover{background:var(--w3)}
+.qty-val{flex:1;text-align:center;font-family:var(--m);font-size:14px}
+/* STEP 3: REASON */
+.reason-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--brd);max-width:680px}
+.reason-opt{padding:22px 24px;border-right:var(--brd);border-bottom:var(--brd);cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:14px}
+.reason-opt:nth-child(2n){border-right:none}
+.reason-opt:nth-last-child(-n+2){border-bottom:none}
+.reason-opt:hover{background:var(--w3)}
+.reason-opt.sel{background:var(--ink);color:var(--w)}
+.reason-opt.sel .ro-sub{color:rgba(247,244,239,.4)}
+.ro-icon{font-size:20px}
+.ro-label{font-family:var(--d);font-size:15px;font-weight:700;margin-bottom:2px}
+.ro-sub{font-size:12px;color:var(--i70)}
+/* TYPE SELECTOR */
+.type-sel{display:flex;gap:0;border:var(--brd);max-width:400px;margin-bottom:32px}
+.type-opt{flex:1;padding:14px 20px;text-align:center;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-right:var(--brd);transition:background .2s}
+.type-opt:last-child{border-right:none}
+.type-opt.sel{background:var(--ink);color:var(--w)}
+.type-opt:not(.sel):hover{background:var(--w3)}
+/* STEP 4 CONFIRM */
+.confirm-box{border:var(--brd);max-width:680px}
+.cb-row{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:var(--brd)}
+.cb-row:last-child{border-bottom:none}
+.cb-l{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70)}
+.cb-r{font-size:14px;font-weight:500}
+.info-note{background:rgba(184,137,42,.07);border:var(--brd);border-color:rgba(184,137,42,.3);padding:18px 22px;max-width:680px;margin-top:20px}
+.in-t{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:6px}
+.in-d{font-size:13px;color:var(--i70);line-height:1.65}
+/* SUCCESS */
+.ret-success{display:none;padding:72px 56px;text-align:center}
+.ret-success.show{display:flex;flex-direction:column;align-items:center;gap:20px}
+.rs-icon{font-size:56px}
+.rs-t{font-family:var(--d);font-size:36px;font-weight:900;font-style:italic;color:var(--grn)}
+.rs-code{font-family:var(--m);font-size:14px;letter-spacing:.2em;text-transform:uppercase;background:var(--w2);padding:12px 28px;border:var(--brd);margin:4px 0}
+.rs-d{font-size:15px;color:var(--i70);line-height:1.7;max-width:440px}
+/* MOB NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mni{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer}
+.mni svg{width:22px;height:22px;stroke-width:1.5;fill:none;stroke:currentColor}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0;transition:background .25s}
+.mn-cta svg{stroke:var(--w)}
+@media(max-width:767px){
+  .nav{display:none}.mob-top{display:flex}.mob-nav{display:block}
+  .ret-hero{flex-direction:column;padding:40px 20px}.rh-badges{margin-left:0}
+  .steps-bar{overflow-x:auto}.step-tab{min-width:100px}
+  .step-content{padding:32px 20px}
+  .s1-grid{grid-template-columns:1fr}
+  .reason-grid{grid-template-columns:1fr}
+  .reason-opt:nth-child(2n){border-right:none}
+  .reason-opt{border-right:none}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70)">İade & Değişim Formu</div>
+  <a href="glame-faq.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none">SSS</a>
+</nav>
+<div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">İade Formu</span></div>
+
+<div class="ret-hero">
+  <div>
+    <div class="eyebrow">30 Gün Garanti</div>
+    <h1 class="rh-h">İade &<br><em>Değişim</em></h1>
+    <p class="rh-p">Memnun kalmazsanız — hiçbir soru sormadan iade alıyoruz. Formu doldurun, kargo etiketi e-postanıza gelsin.</p>
+  </div>
+  <div class="rh-badges">
+    <div class="rh-badge"><div class="rh-badge-n">30</div><div class="rh-badge-t">Gün İade</div></div>
+    <div class="rh-badge"><div class="rh-badge-n">3–5</div><div class="rh-badge-t">İş Günü<br>Para İade</div></div>
+    <div class="rh-badge"><div class="rh-badge-n">0</div><div class="rh-badge-t">Soru<br>Sorulmaz</div></div>
+  </div>
+</div>
+
+<!-- STEP TABS -->
+<div class="steps-bar" id="stepBar">
+  <div class="step-tab active" id="tab1"><div class="step-n">01</div><div class="step-t">Sipariş Bul</div></div>
+  <div class="step-tab" id="tab2"><div class="step-n">02</div><div class="step-t">Ürün Seç</div></div>
+  <div class="step-tab" id="tab3"><div class="step-n">03</div><div class="step-t">Neden?</div></div>
+  <div class="step-tab" id="tab4"><div class="step-n">04</div><div class="step-t">Onayla</div></div>
+</div>
+
+<!-- STEP 1 -->
+<div class="step-content active" id="s1">
+  <div class="eyebrow" style="margin-bottom:16px">Adım 1</div>
+  <h2 style="font-family:var(--d);font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-.02em;margin-bottom:6px">Siparişinizi <em style="font-style:italic;color:var(--g)">bulun</em></h2>
+  <p style="font-size:14px;color:var(--i70);margin-bottom:32px">Sipariş numaranız ve e-posta adresinizle siparişinizi doğrulayın.</p>
+  <div class="s1-grid">
+    <div class="field-group">
+      <div class="field-row"><div class="field-label">Sipariş Numarası</div><input class="field-input" type="text" placeholder="GL-2026-XXXX" id="ord-num"></div>
+      <div class="field-row"><div class="field-label">E-posta Adresi</div><input class="field-input" type="email" placeholder="email@example.com" id="ord-email"></div>
+    </div>
+  </div>
+  <button class="next-btn" onclick="goStep(2)"><span>Siparişi Bul →</span></button>
+</div>
+
+<!-- STEP 2 -->
+<div class="step-content" id="s2">
+  <div class="eyebrow" style="margin-bottom:16px">Adım 2</div>
+  <h2 style="font-family:var(--d);font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-.02em;margin-bottom:6px">Hangi ürünü <em style="font-style:italic;color:var(--g)">iade etmek istiyorsunuz?</em></h2>
+  <p style="font-size:14px;color:var(--i70);margin-bottom:28px">Birden fazla ürün seçebilirsiniz.</p>
+  <div class="product-sel">
+    <div class="ps-row" onclick="toggleProduct(this)">
+      <div class="ps-img"><div style="width:32px;height:32px;border-radius:50%;background:radial-gradient(circle,rgba(190,53,53,.2),transparent);border:1px solid var(--ink)"></div></div>
+      <div><div class="ps-name">Glame Glow Mask</div><div class="ps-sub">LED Fototerapi · ₺5.000</div></div>
+      <div class="ps-chk"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:12px;margin-top:28px">
+    <button class="next-btn" onclick="goStep(1)" style="background:none;color:var(--ink);border:var(--brd)"><span style="color:var(--ink)">← Geri</span></button>
+    <button class="next-btn" onclick="goStep(3)"><span>Devam →</span></button>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step-content" id="s3">
+  <div class="eyebrow" style="margin-bottom:16px">Adım 3</div>
+  <h2 style="font-family:var(--d);font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-.02em;margin-bottom:6px">Ne yapmak <em style="font-style:italic;color:var(--g)">istiyorsunuz?</em></h2>
+  <p style="font-size:14px;color:var(--i70);margin-bottom:24px">İşlem tipini seçin.</p>
+  <div class="type-sel">
+    <div class="type-opt sel" onclick="selType(this,'İade')">Para İadesi</div>
+    <div class="type-opt" onclick="selType(this,'Değişim')">Ürün Değişimi</div>
+    <div class="type-opt" onclick="selType(this,'Mağaza Kredisi')">Mağaza Kredisi</div>
+  </div>
+  <p style="font-size:14px;color:var(--i70);margin-bottom:20px">İade sebebiniz nedir?</p>
+  <div class="reason-grid">
+    <div class="reason-opt" onclick="selReason(this)"><div class="ro-icon">💭</div><div><div class="ro-label">Fikir Değiştirdim</div><div class="ro-sub">Artık ihtiyacım yok</div></div></div>
+    <div class="reason-opt" onclick="selReason(this)"><div class="ro-icon">📦</div><div><div class="ro-label">Beklentimi Karşılamadı</div><div class="ro-sub">Farklı beklentim vardı</div></div></div>
+    <div class="reason-opt" onclick="selReason(this)"><div class="ro-icon">🔧</div><div><div class="ro-label">Arıza / Hasar</div><div class="ro-sub">Ürün çalışmıyor</div></div></div>
+    <div class="reason-opt" onclick="selReason(this)"><div class="ro-icon">📮</div><div><div class="ro-label">Yanlış Ürün Geldi</div><div class="ro-sub">Sipariş ettiğim bu değil</div></div></div>
+    <div class="reason-opt" onclick="selReason(this)"><div class="ro-icon">🎁</div><div><div class="ro-label">Hediye Mükerrer</div><div class="ro-sub">Zaten aynı ürüne sahibim</div></div></div>
+    <div class="reason-opt" onclick="selReason(this)"><div class="ro-icon">❓</div><div><div class="ro-label">Diğer</div><div class="ro-sub">Açıklamak istiyorum</div></div></div>
+  </div>
+  <div style="margin-top:20px;border:var(--brd);max-width:680px">
+    <div class="field-label" style="padding:10px 16px 0">Ek Açıklama (İsteğe Bağlı)</div>
+    <textarea style="border:none;outline:none;padding:8px 16px 14px;font-family:var(--b);font-size:14px;color:var(--ink);background:transparent;width:100%;resize:none;min-height:80px" placeholder="Daha fazla bilgi vermek ister misiniz?"></textarea>
+  </div>
+  <div style="display:flex;gap:12px;margin-top:28px">
+    <button class="next-btn" onclick="goStep(2)" style="background:none;color:var(--ink);border:var(--brd)"><span style="color:var(--ink)">← Geri</span></button>
+    <button class="next-btn" onclick="goStep(4)"><span>Devam →</span></button>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step-content" id="s4">
+  <div class="eyebrow" style="margin-bottom:16px">Adım 4</div>
+  <h2 style="font-family:var(--d);font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-.02em;margin-bottom:24px">Talebi <em style="font-style:italic;color:var(--g)">onaylayın</em></h2>
+  <div class="confirm-box">
+    <div class="cb-row"><span class="cb-l">Sipariş</span><span class="cb-r">#GL-2026-847</span></div>
+    <div class="cb-row"><span class="cb-l">Ürün</span><span class="cb-r">Glame Glow Mask × 1</span></div>
+    <div class="cb-row"><span class="cb-l">İşlem Tipi</span><span class="cb-r" id="conf-type">Para İadesi</span></div>
+    <div class="cb-row"><span class="cb-l">Sebep</span><span class="cb-r" id="conf-reason">Seçilmedi</span></div>
+    <div class="cb-row"><span class="cb-l">İade Tutarı</span><span class="cb-r" style="color:var(--grn);font-family:var(--d);font-size:20px;font-weight:900">₺5.000</span></div>
+    <div class="cb-row"><span class="cb-l">Kargo Etiketi</span><span class="cb-r">E-postanıza gönderilecek</span></div>
+  </div>
+  <div class="info-note">
+    <div class="in-t">Bilgi</div>
+    <div class="in-d">Talebi onayladıktan sonra kargo etiketi e-posta adresinize gönderilecek. Ürünü orijinal ambalajında paketleyip kargoya verin. Kargo tesliminden 3–5 iş günü sonra ödemeniz iade edilir.</div>
+  </div>
+  <div style="display:flex;gap:12px;margin-top:28px">
+    <button class="next-btn" onclick="goStep(3)" style="background:none;color:var(--ink);border:var(--brd)"><span style="color:var(--ink)">← Geri</span></button>
+    <button class="next-btn" onclick="submitReturn()"><span>İade Talebini Onayla →</span></button>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="ret-success" id="retSuccess">
+  <div class="rs-icon">✅</div>
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--g)">İade Talebi Oluşturuldu</div>
+  <h2 class="rs-t">Talebiniz Alındı</h2>
+  <div class="rs-code">İade Referans: <strong id="ret-ref">RET-2026-4721</strong></div>
+  <p class="rs-d">Kargo etiketi birkaç dakika içinde e-posta adresinize gönderilecek. Ürünü orijinal ambalajında paketleyip 7 gün içinde kargoya verin.</p>
+  <button class="next-btn" onclick="window.location='glame-account.html'"><span>Hesabıma Git →</span></button>
+</div>
+
+<nav class="mob-nav"><div class="mob-nav-inner">
+  <button class="mni" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Ana</button>
+  <button class="mni" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+  <button class="mn-cta" onclick="window.location='glame-checkout.html'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+  <button class="mni active"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>İade</button>
+  <button class="mni" onclick="window.location='glame-account.html'"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Hesap</button>
+</div></nav>
+<script>
+let curStep=1, retType='Para İadesi', retReason='Seçilmedi';
+function goStep(n){
+  document.querySelectorAll('.step-content').forEach((s,i)=>{s.classList.toggle('active',i===n-1)});
+  document.querySelectorAll('.step-tab').forEach((t,i)=>{
+    t.classList.toggle('active',i===n-1);
+    t.classList.toggle('done',i<n-1);
+  });
+  curStep=n;
+  document.getElementById('conf-type').textContent=retType;
+  document.getElementById('conf-reason').textContent=retReason;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleProduct(el){el.classList.toggle('selected');}
+function selType(el,type){document.querySelectorAll('.type-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');retType=type;}
+function selReason(el){document.querySelectorAll('.reason-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');retReason=el.querySelector('.ro-label').textContent;}
+function submitReturn(){
+  document.querySelectorAll('.step-content').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.step-tab').forEach(t=>{t.classList.remove('active');t.classList.add('done')});
+  document.getElementById('retSuccess').classList.add('show');
+  document.getElementById('ret-ref').textContent='RET-2026-'+(Math.floor(Math.random()*9000)+1000);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
