@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glame — Gizlilik, Kullanım Koşulları & Çerez Politikası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.7);--i40:rgba(15,14,14,.4);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--brd:2px solid var(--ink);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+/* TAB NAV */
+.legal-tabs{display:flex;border-bottom:var(--brd);position:sticky;top:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);z-index:90}
+.lt{flex:1;padding:16px 24px;text-align:center;font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);cursor:pointer;border-right:var(--brd);transition:all .2s;position:relative}
+.lt:last-child{border-right:none}
+.lt.active{color:var(--ink);background:var(--w)}
+.lt::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transition:transform .3s}
+.lt.active::after{transform:scaleX(1)}
+/* LAYOUT */
+.legal-layout{display:grid;grid-template-columns:240px 1fr}
+/* TOC */
+.legal-toc{border-right:var(--brd);position:sticky;top:calc(68px + 52px);max-height:calc(100dvh - 120px);overflow-y:auto;padding:24px 0}
+.toc-item{display:flex;gap:10px;padding:10px 20px;cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);transition:all .2s;border-left:2px solid transparent}
+.toc-item:hover{color:var(--ink);background:var(--w3)}
+.toc-item.active{color:var(--ink);border-left-color:var(--g)}
+.toc-num{color:var(--i15);min-width:20px}
+/* CONTENT */
+.legal-body{padding:64px 72px;max-width:800px}
+.legal-section{display:none}
+.legal-section.active{display:block}
+.legal-header{margin-bottom:48px}
+.legal-title{font-family:var(--d);font-size:clamp(36px,4vw,56px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:12px}
+.legal-title em{font-style:italic;font-weight:400;color:var(--g)}
+.legal-date{font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--i40)}
+/* CONTENT ELEMENTS */
+.lsec{margin-bottom:48px;scroll-margin-top:140px}
+.lsec-n{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.lsec-n::before{content:'';width:12px;height:1px;background:var(--g)}
+.lsec-h{font-family:var(--d);font-size:22px;font-weight:700;margin-bottom:14px;line-height:1.2}
+.lsec p{font-size:15px;color:var(--i70);line-height:1.85;margin-bottom:14px}
+.lsec p:last-child{margin-bottom:0}
+.lsec ul,.lsec ol{padding-left:20px;margin-bottom:14px}
+.lsec li{font-size:15px;color:var(--i70);line-height:1.8;margin-bottom:6px}
+.lsec strong{color:var(--ink);font-weight:600}
+.lsec a{color:var(--g);border-bottom:1px solid rgba(184,137,42,.3)}
+.info-box{background:var(--w2);border:var(--brd);padding:20px 24px;margin:20px 0}
+.info-box-t{font-family:var(--m);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--g);margin-bottom:8px}
+.info-box p{font-size:13px;color:var(--i70);line-height:1.65;margin-bottom:0}
+/* COOKIE TOGGLE */
+.cookie-prefs{border:var(--brd);margin-top:24px}
+.cp-row{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:var(--brd)}
+.cp-row:last-child{border-bottom:none}
+.cp-info{flex:1}
+.cp-t{font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.cp-d{font-size:13px;color:var(--i70);line-height:1.5}
+.cp-toggle{position:relative;width:44px;height:24px;flex-shrink:0;margin-left:20px}
+.cp-toggle input{opacity:0;width:0;height:0;position:absolute}
+.cp-slider{position:absolute;inset:0;background:var(--i15);border-radius:12px;cursor:pointer;transition:background .3s}
+.cp-toggle input:checked+.cp-slider{background:var(--ink)}
+.cp-slider::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:var(--w);top:3px;left:3px;transition:transform .3s;border:1px solid rgba(15,14,14,.1)}
+.cp-toggle input:checked+.cp-slider::before{transform:translateX(20px)}
+.cp-toggle input:disabled+.cp-slider{opacity:.5;cursor:not-allowed}
+.cp-save{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--w);font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:14px 32px;border:var(--brd);cursor:pointer;margin-top:20px;transition:background .25s}
+.cp-save:hover{background:var(--g)}
+/* MOB NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mni{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer}
+.mni svg{width:22px;height:22px;stroke-width:1.5;fill:none;stroke:currentColor}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0}
+.mn-cta svg{stroke:var(--w)}
+@media(max-width:767px){
+  .nav{display:none}.mob-top{display:flex}.mob-nav{display:block}
+  .legal-tabs{top:60px}
+  .lt{font-size:9px;padding:12px 10px}
+  .legal-layout{grid-template-columns:1fr}
+  .legal-toc{display:none}
+  .legal-body{padding:36px 20px}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70)">Yasal Bilgiler</div>
+  <a href="glame-contact.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none">İletişim</a>
+</nav>
+<div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">Yasal</span></div>
+
+<div class="legal-tabs">
+  <div class="lt active" onclick="setLegal(this,'kvkk')">KVKK / Gizlilik</div>
+  <div class="lt" onclick="setLegal(this,'kullanim')">Kullanım Koşulları</div>
+  <div class="lt" onclick="setLegal(this,'cerez')">Çerez Politikası</div>
+</div>
+
+<div class="legal-layout">
+  <div class="legal-toc" id="tocPanel">
+    <!-- populated by JS -->
+  </div>
+  <div class="legal-body">
+
+    <!-- KVKK -->
+    <div class="legal-section active" id="sec-kvkk">
+      <div class="legal-header">
+        <div class="legal-title">KVKK &<br><em>Gizlilik</em><br>Politikası</div>
+        <div class="legal-date">Son güncelleme: 20 Şubat 2026</div>
+      </div>
+      <div class="info-box"><div class="info-box-t">Özet</div><p>Kişisel verilerinizi yalnızca sipariş işlemek, size hizmet vermek ve iletişim kurmak için kullanıyoruz. Verilerinizi üçüncü taraflara satmıyoruz ve reklam amaçlı işlemiyoruz.</p></div>
+      <div class="lsec" id="kvkk-1"><div class="lsec-n">01</div><h3 class="lsec-h">Veri Sorumlusu</h3><p>Glame Teknoloji Anonim Şirketi ("Glame", "biz", "şirket"), 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") kapsamında veri sorumlusu sıfatıyla hareket etmektedir.</p><p><strong>Adres:</strong> Nişantaşı Mah. Abdi İpekçi Cad. No:45, Şişli / İstanbul<br><strong>E-posta:</strong> kvkk@glame.com<br><strong>Telefon:</strong> +90 212 XXX XX XX</p></div>
+      <div class="lsec" id="kvkk-2"><div class="lsec-n">02</div><h3 class="lsec-h">Toplanan Veriler</h3><p>Hizmetlerimizi sunmak amacıyla aşağıdaki kişisel verilerinizi işleyebiliriz:</p><ul><li><strong>Kimlik bilgileri:</strong> Ad, soyad, T.C. kimlik numarası (fatura için)</li><li><strong>İletişim bilgileri:</strong> E-posta adresi, telefon numarası, teslimat adresi</li><li><strong>Ödeme bilgileri:</strong> Kart bilgileri (yalnızca ödeme altyapısı üzerinden, sistemimizde saklanmaz)</li><li><strong>Kullanım verileri:</strong> Site gezinti davranışı, arama geçmişi, çerez verileri</li><li><strong>İletişim geçmişi:</strong> Destek talepleri, e-posta yazışmaları</li></ul></div>
+      <div class="lsec" id="kvkk-3"><div class="lsec-n">03</div><h3 class="lsec-h">İşleme Amaçları</h3><p>Kişisel verileriniz aşağıdaki amaçlarla işlenmektedir:</p><ul><li>Sipariş alımı, ödeme işlemi ve kargo takibi</li><li>Müşteri hizmetleri ve teknik destek</li><li>Yasal yükümlülüklerin yerine getirilmesi (fatura, muhasebe)</li><li>E-posta listesine kayıtlı kullanıcılara pazarlama iletişimi (açık rıza ile)</li><li>Site iyileştirme ve kullanıcı deneyimi analizi (anonim veri)</li></ul></div>
+      <div class="lsec" id="kvkk-4"><div class="lsec-n">04</div><h3 class="lsec-h">Üçüncü Taraf Paylaşımı</h3><p>Verilerinizi aşağıdaki durumlarda üçüncü taraflarla paylaşabiliriz:</p><ul><li><strong>Kargo firmaları:</strong> Teslimat için ad, adres ve telefon bilgisi</li><li><strong>Ödeme altyapısı (iyzico):</strong> Ödeme işlemi için şifrelenmiş kart bilgisi</li><li><strong>Yasal zorunluluk:</strong> Mahkeme kararı veya resmi kurum talebi</li></ul><p>Verilerinizi reklam ağlarına, veri aracılarına veya pazarlama şirketlerine satmıyoruz.</p></div>
+      <div class="lsec" id="kvkk-5"><div class="lsec-n">05</div><h3 class="lsec-h">Saklama Süresi</h3><p>Kişisel verileriniz, işleme amacı ortadan kalktığında silinir, yok edilir veya anonim hale getirilir. Yasal zorunluluk gerektiren veriler (fatura, muhasebe) ilgili mevzuatta öngörülen süreler boyunca saklanır.</p></div>
+      <div class="lsec" id="kvkk-6"><div class="lsec-n">06</div><h3 class="lsec-h">Haklarınız</h3><p>KVKK'nın 11. maddesi kapsamında aşağıdaki haklara sahipsiniz:</p><ul><li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li><li>İşleniyorsa buna ilişkin bilgi talep etme</li><li>İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme</li><li>Yurt içinde veya dışında aktarılan üçüncü kişileri öğrenme</li><li>Eksik veya yanlış işlenmişse düzeltilmesini isteme</li><li>KVKK'da öngörülen koşullar çerçevesinde silinmesini veya yok edilmesini isteme</li><li>İşlenen verilerin münhasıran otomatik sistemler aracılığıyla analiz edilmesi durumunda aleyhte bir sonuç çıkmasına itiraz etme</li><li>Kanuna aykırı işlenmesi nedeniyle zararın giderilmesini talep etme</li></ul><p>Başvurularınızı <a href="mailto:kvkk@glame.com">kvkk@glame.com</a> adresine iletebilirsiniz. En geç 30 gün içinde yanıtlanır.</p></div>
+    </div>
+
+    <!-- KULLANIM KOŞULLARI -->
+    <div class="legal-section" id="sec-kullanim">
+      <div class="legal-header">
+        <div class="legal-title">Kullanım<br><em>Koşulları</em></div>
+        <div class="legal-date">Son güncelleme: 20 Şubat 2026 · Versiyon 3.1</div>
+      </div>
+      <div class="info-box"><div class="info-box-t">Özet</div><p>Glame'yi kullanarak bu koşulları kabul etmiş olursunuz. Temel kural: platformumuzu dürüst ve yasal biçimde kullanın.</p></div>
+      <div class="lsec" id="k-1"><div class="lsec-n">01</div><h3 class="lsec-h">Taraflar ve Kapsam</h3><p>Bu Kullanım Koşulları, <strong>Glame Teknoloji A.Ş.</strong> (bundan böyle "Glame") ile glame.com web sitesini ve mobil uygulamasını kullanan gerçek veya tüzel kişiler (bundan böyle "Kullanıcı") arasındaki hukuki ilişkiyi düzenler.</p><p>Web siteye erişim veya alışveriş yaparak bu koşulları okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.</p></div>
+      <div class="lsec" id="k-2"><div class="lsec-n">02</div><h3 class="lsec-h">Hesap Güvenliği</h3><p>Hesap oluşturmanız halinde, hesabınızın güvenliğinden siz sorumlusunuz. Şifrenizi kimseyle paylaşmayın. Yetkisiz erişim durumunda Glame'yi derhal bilgilendirin. Glame, şifre güvenliğinden kaynaklanan kayıplardan sorumlu değildir.</p></div>
+      <div class="lsec" id="k-3"><div class="lsec-n">03</div><h3 class="lsec-h">Sipariş ve Ödeme</h3><p>Tüm fiyatlar Türk Lirası (TL) olarak ifade edilmiş olup KDV dahildir. Glame, herhangi bir anda fiyatları değiştirme hakkını saklı tutar. Onaylanan siparişler sözleşme niteliği taşır. Stok tükenmesi veya teknik hata durumunda Glame, siparişi iptal etme ve tam iade yapma hakkını saklı tutar.</p></div>
+      <div class="lsec" id="k-4"><div class="lsec-n">04</div><h3 class="lsec-h">Fikri Mülkiyet</h3><p>Glame markası, logosu, ürün tasarımları, site tasarımı, içerikler ve yazılımlar Glame'ye ait olup Türk ve uluslararası fikri mülkiyet hukuku kapsamında korunmaktadır. Glame'nin yazılı izni olmaksızın hiçbir içerik kopyalanamaz, dağıtılamaz veya ticari amaçla kullanılamaz.</p></div>
+      <div class="lsec" id="k-5"><div class="lsec-n">05</div><h3 class="lsec-h">Yasak Kullanımlar</h3><p>Aşağıdaki kullanımlar kesinlikle yasaktır:</p><ul><li>Platforma zarar verecek yazılım, bot veya scraper kullanmak</li><li>Sahte sipariş veya hesap oluşturmak</li><li>Glame'nin ticari sırlarını, müşteri verilerini veya içeriklerini izinsiz kullanmak</li><li>Platformu yasadışı amaçlarla kullanmak</li></ul></div>
+      <div class="lsec" id="k-6"><div class="lsec-n">06</div><h3 class="lsec-h">Uygulanacak Hukuk</h3><p>Bu koşullar Türk Hukuku'na tabidir. Anlaşmazlık halinde İstanbul Mahkemeleri ve İcra Daireleri yetkilidir.</p></div>
+      <div class="lsec" id="k-7"><div class="lsec-n">07</div><h3 class="lsec-h">Değişiklikler</h3><p>Glame, kullanım koşullarını önceden haber vermeksizin güncelleme hakkını saklı tutar. Güncellemeler yayınlandığı anda yürürlüğe girer. Platformu kullanmaya devam etmeniz, güncel koşulları kabul ettiğiniz anlamına gelir.</p></div>
+    </div>
+
+    <!-- ÇEREZ POLİTİKASI -->
+    <div class="legal-section" id="sec-cerez">
+      <div class="legal-header">
+        <div class="legal-title">Çerez<br><em>Politikası</em></div>
+        <div class="legal-date">Son güncelleme: 20 Şubat 2026</div>
+      </div>
+      <div class="info-box"><div class="info-box-t">Özet</div><p>Zorunlu çerezler her zaman aktiftir. Analitik ve pazarlama çerezleri için tercihinizi aşağıdan yönetebilirsiniz.</p></div>
+      <div class="lsec" id="c-1"><div class="lsec-n">01</div><h3 class="lsec-h">Çerez Nedir?</h3><p>Çerezler, tarayıcınız aracılığıyla cihazınıza kaydedilen küçük metin dosyalarıdır. Web sitelerinin oturumlarınızı hatırlamasına, tercihlerinizi saklamasına ve kullanım istatistiklerini toplamasına olanak tanır.</p></div>
+      <div class="lsec" id="c-2"><div class="lsec-n">02</div><h3 class="lsec-h">Çerez Türleri</h3>
+        <div class="cookie-prefs">
+          <div class="cp-row">
+            <div class="cp-info"><div class="cp-t">Zorunlu Çerezler</div><div class="cp-d">Giriş oturumu, sepet içeriği ve güvenlik. Devre dışı bırakılamaz.</div></div>
+            <label class="cp-toggle"><input type="checkbox" checked disabled><div class="cp-slider"></div></label>
+          </div>
+          <div class="cp-row">
+            <div class="cp-info"><div class="cp-t">Analitik Çerezler</div><div class="cp-d">Site kullanım istatistikleri (Google Analytics). Kişisel bilgi içermez.</div></div>
+            <label class="cp-toggle"><input type="checkbox" checked id="ck-analytics"><div class="cp-slider"></div></label>
+          </div>
+          <div class="cp-row">
+            <div class="cp-info"><div class="cp-t">Pazarlama Çerezleri</div><div class="cp-d">Kişiselleştirilmiş reklam ve yeniden hedefleme (Meta Pixel, Google Ads).</div></div>
+            <label class="cp-toggle"><input type="checkbox" id="ck-marketing"><div class="cp-slider"></div></label>
+          </div>
+          <div class="cp-row">
+            <div class="cp-info"><div class="cp-t">Fonksiyonel Çerezler</div><div class="cp-d">Dil tercihi, son görüntülenenlerin listesi, gelişmiş özellikler.</div></div>
+            <label class="cp-toggle"><input type="checkbox" checked id="ck-functional"><div class="cp-slider"></div></label>
+          </div>
+        </div>
+        <button class="cp-save" onclick="saveCookies()">Tercihlerimi Kaydet</button>
+        <div id="ck-saved" style="display:none;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--grn);margin-top:12px">✓ Tercihleriniz kaydedildi.</div>
+      </div>
+      <div class="lsec" id="c-3"><div class="lsec-n">03</div><h3 class="lsec-h">Kullandığımız Üçüncü Taraf Çerezleri</h3>
+        <ul>
+          <li><strong>Google Analytics:</strong> Site trafiği analizi, anonim kullanım verileri</li>
+          <li><strong>Meta Pixel:</strong> Facebook/Instagram reklamlarının dönüşüm takibi</li>
+          <li><strong>iyzico:</strong> Güvenli ödeme oturumu</li>
+          <li><strong>Intercom:</strong> Canlı destek chat oturumu</li>
+        </ul>
+      </div>
+      <div class="lsec" id="c-4"><div class="lsec-n">04</div><h3 class="lsec-h">Çerezleri Nasıl Yönetirsiniz?</h3><p>Tarayıcı ayarlarınızdan tüm çerezleri silebilir veya devre dışı bırakabilirsiniz. Ancak bu durumda bazı site işlevleri (sepet, oturum) çalışmayabilir. Tarayıcıya özgü talimatlar için Chrome, Firefox, Safari veya Edge yardım sayfalarına başvurun.</p></div>
+    </div>
+  </div>
+</div>
+
+<nav class="mob-nav"><div class="mob-nav-inner">
+  <button class="mni" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Ana</button>
+  <button class="mni" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+  <button class="mn-cta" onclick="window.location='glame-checkout.html'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+  <button class="mni active"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Yasal</button>
+  <button class="mni" onclick="window.location='glame-contact.html'"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>İletişim</button>
+</div></nav>
+<script>
+const TOCS={
+  kvkk:[{id:'kvkk-1',n:'01',t:'Veri Sorumlusu'},{id:'kvkk-2',n:'02',t:'Toplanan Veriler'},{id:'kvkk-3',n:'03',t:'İşleme Amaçları'},{id:'kvkk-4',n:'04',t:'Üçüncü Taraf Paylaşımı'},{id:'kvkk-5',n:'05',t:'Saklama Süresi'},{id:'kvkk-6',n:'06',t:'Haklarınız'}],
+  kullanim:[{id:'k-1',n:'01',t:'Taraflar ve Kapsam'},{id:'k-2',n:'02',t:'Hesap Güvenliği'},{id:'k-3',n:'03',t:'Sipariş ve Ödeme'},{id:'k-4',n:'04',t:'Fikri Mülkiyet'},{id:'k-5',n:'05',t:'Yasak Kullanımlar'},{id:'k-6',n:'06',t:'Uygulanacak Hukuk'},{id:'k-7',n:'07',t:'Değişiklikler'}],
+  cerez:[{id:'c-1',n:'01',t:'Çerez Nedir?'},{id:'c-2',n:'02',t:'Çerez Türleri'},{id:'c-3',n:'03',t:'Üçüncü Taraf Çerezleri'},{id:'c-4',n:'04',t:'Nasıl Yönetilir?'}]
+};
+let currentLegal='kvkk';
+function setLegal(el,key){
+  document.querySelectorAll('.lt').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.legal-section').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sec-'+key).classList.add('active');
+  currentLegal=key;
+  buildToc(key);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function buildToc(key){
+  const toc=document.getElementById('tocPanel');
+  toc.innerHTML=TOCS[key].map(item=>`<div class="toc-item" id="toc-${item.id}" onclick="scrollTo('${item.id}')"><span class="toc-num">${item.n}</span>${item.t}</div>`).join('');
+}
+function scrollTo(id){
+  const el=document.getElementById(id);
+  if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+  document.querySelectorAll('.toc-item').forEach(t=>t.classList.remove('active'));
+  const t=document.getElementById('toc-'+id);
+  if(t)t.classList.add('active');
+}
+function saveCookies(){
+  document.getElementById('ck-saved').style.display='block';
+  setTimeout(()=>document.getElementById('ck-saved').style.display='none',3000);
+}
+buildToc('kvkk');
+</script>
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ef">
+<title>Glame — Cilt Testi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--g2:#d4a030;--r:#be3535;--grn:#2d8a4e;--brd:2px solid var(--ink);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;min-height:100dvh}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+#cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+#curr.x{width:52px;height:52px;border-color:var(--g)}
+@media(hover:none){#cur,#curr{display:none}}
+
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-back{display:flex;align-items:center;gap:7px;font-family:var(--m);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);cursor:pointer;transition:color .2s}
+.nav-back:hover{color:var(--ink)}
+.nav-back svg{transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+
+.quiz-progress{height:3px;background:var(--i08)}
+.qp-fill{height:100%;background:var(--g);transition:width .5s cubic-bezier(.16,1,.3,1);width:0}
+
+/* INTRO */
+.intro-layout{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100dvh - 71px)}
+.intro-l{background:var(--ink);padding:72px 56px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.intro-orb{position:absolute;width:400px;height:400px;border-radius:50%;border:1px solid rgba(247,244,239,.05);top:-60px;right:-100px;pointer-events:none}
+.intro-orb2{position:absolute;width:220px;height:220px;border-radius:50%;border:1px solid rgba(184,137,42,.07);bottom:40px;left:40px;pointer-events:none}
+.intro-l h1{font-family:var(--d);font-size:clamp(44px,5.5vw,72px);font-weight:900;line-height:.93;letter-spacing:-.03em;color:rgba(247,244,239,.9);margin-bottom:20px}
+.intro-l h1 em{font-style:italic;font-weight:400;color:var(--g)}
+.intro-l p{font-size:15px;color:rgba(247,244,239,.3);line-height:1.8;max-width:340px}
+.intro-r{padding:72px 56px;display:flex;flex-direction:column;justify-content:center}
+.intro-r-h{font-family:var(--d);font-size:clamp(22px,2.2vw,30px);font-weight:900;margin-bottom:24px}
+.intro-r-h em{font-style:italic;font-weight:400;color:var(--g)}
+.intro-steps{border:var(--brd);margin-bottom:36px}
+.is-row{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:var(--brd)}
+.is-row:last-child{border-bottom:none}
+.is-n{font-family:var(--d);font-size:28px;font-weight:900;font-style:italic;color:var(--g);min-width:32px;line-height:1}
+.is-t{font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:2px}
+.is-d{font-size:13px;color:var(--i70)}
+.start-btn{width:100%;height:56px;background:var(--ink);color:var(--w);border:var(--brd);cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;position:relative;overflow:hidden;transition:color .35s;display:flex;align-items:center;justify-content:center;gap:10px}
+.start-btn::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.start-btn:hover::after{transform:translateX(0)}
+.start-btn span,.start-btn svg{position:relative;z-index:1}
+
+/* QUIZ SHELL */
+.quiz-shell{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100dvh - 74px)}
+.quiz-l{background:var(--ink);position:sticky;top:74px;height:calc(100dvh - 74px);display:flex;flex-direction:column;justify-content:space-between;padding:64px 56px;overflow:hidden}
+.quiz-r{padding:64px 56px;overflow-y:auto;display:flex;flex-direction:column}
+.ql-step-tag{font-family:var(--m);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,244,239,.3);margin-bottom:16px}
+.ql-h{font-family:var(--d);font-size:clamp(28px,3.2vw,44px);font-weight:900;line-height:.97;letter-spacing:-.025em;color:rgba(247,244,239,.9);margin-bottom:20px}
+.ql-h em{font-style:italic;font-weight:400;color:var(--g)}
+.ql-d{font-size:14px;color:rgba(247,244,239,.3);line-height:1.75;max-width:320px}
+.ql-orb{position:absolute;width:320px;height:320px;border-radius:50%;border:1px solid rgba(247,244,239,.05);bottom:-80px;right:-80px;pointer-events:none}
+.ql-orb2{position:absolute;width:180px;height:180px;border-radius:50%;border:1px solid rgba(184,137,42,.08);bottom:60px;right:30px;pointer-events:none}
+.ql-dots{display:flex;gap:10px;flex-wrap:wrap}
+.qd{width:8px;height:8px;border-radius:50%;background:rgba(247,244,239,.15);transition:all .35s}
+.qd.done{background:var(--g)}
+.qd.active{background:rgba(247,244,239,.7);transform:scale(1.3)}
+
+/* QUESTION */
+.step-counter{font-family:var(--m);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--i70);margin-bottom:14px}
+.q-h{font-family:var(--d);font-size:clamp(22px,2.6vw,32px);font-weight:900;line-height:1.0;letter-spacing:-.02em;margin-bottom:8px}
+.q-sub{font-size:14px;color:var(--i70);line-height:1.65;margin-bottom:20px}
+.multi-note{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);margin-bottom:14px;border:1px dashed var(--i15);padding:6px 12px;display:inline-block}
+
+/* OPTIONS */
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--brd);margin-bottom:36px}
+.opt-card{padding:22px 18px;border-right:var(--brd);border-bottom:var(--brd);cursor:pointer;transition:background .2s;position:relative;display:flex;flex-direction:column;gap:9px}
+.opt-card:nth-child(2n){border-right:none}
+.opt-card:nth-last-child(-n+2){border-bottom:none}
+.opt-card:hover{background:var(--w3)}
+.opt-card.selected{background:var(--ink);color:var(--w)}
+.opt-card.selected .oc-d{color:rgba(247,244,239,.4)}
+.opt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transition:transform .35s}
+.opt-card.selected::before,.opt-card:hover:not(.selected)::before{transform:scaleX(1)}
+.oc-icon{font-size:26px}
+.oc-t{font-family:var(--d);font-size:16px;font-weight:700;line-height:1.1}
+.oc-d{font-size:12px;color:var(--i70);line-height:1.5}
+.oc-check{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--g);display:none;align-items:center;justify-content:center}
+.opt-card.selected .oc-check{display:flex}
+.oc-check svg{stroke:var(--w);width:9px;height:9px;stroke-width:3}
+.opt-list{display:flex;flex-direction:column;gap:0;border:var(--brd);margin-bottom:36px}
+.opt-item{display:flex;align-items:center;gap:14px;padding:17px 20px;border-bottom:var(--brd);cursor:pointer;transition:background .2s;position:relative}
+.opt-item:last-child{border-bottom:none}
+.opt-item:hover{background:var(--w3)}
+.opt-item.selected{background:var(--ink);color:var(--w)}
+.opt-item.selected .oi-d{color:rgba(247,244,239,.35)}
+.opt-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--g);transform:scaleY(0);transition:transform .3s}
+.opt-item.selected::before,.opt-item:hover:not(.selected)::before{transform:scaleY(1)}
+.oi-icon{font-size:20px;min-width:30px;text-align:center}
+.oi-body{flex:1}
+.oi-t{font-family:var(--d);font-size:16px;font-weight:700}
+.oi-d{font-size:12px;color:var(--i70);margin-top:2px}
+.oi-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--i15);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.opt-item.selected .oi-radio{border-color:var(--g);background:var(--g)}
+.opt-item.selected .oi-radio::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--w)}
+.opt-slider{margin-bottom:36px}
+.slider-labels{display:flex;justify-content:space-between;font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70);margin-bottom:12px}
+.slider-track{position:relative;height:4px;background:var(--i08);margin-bottom:20px;overflow:visible}
+.slider-fill{height:100%;background:var(--ink);pointer-events:none}
+.slider-track input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:transparent;position:absolute;top:0;left:0;margin:0}
+.slider-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ink);border:3px solid var(--w);box-shadow:0 0 0 2px var(--ink);cursor:pointer}
+.slider-val{text-align:center;font-family:var(--d);font-size:36px;font-weight:900;font-style:italic;color:var(--g);margin-top:8px}
+
+/* NAV BUTTONS */
+.qr-nav{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:32px;border-top:var(--brd)}
+.qbtn{font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:8px;border:var(--brd)}
+.qbtn-back{background:none;color:var(--i70)}
+.qbtn-back:hover{background:var(--w3);color:var(--ink)}
+.qbtn-next{background:var(--ink);color:var(--w);position:relative;overflow:hidden}
+.qbtn-next::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.qbtn-next:hover:not(:disabled)::after{transform:translateX(0)}
+.qbtn-next span,.qbtn-next svg{position:relative;z-index:1}
+.qbtn-next:disabled{opacity:.3;pointer-events:none}
+
+/* RESULTS */
+.results-layout{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100dvh - 74px)}
+.res-l{background:var(--ink);padding:64px 56px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.res-orb{position:absolute;width:400px;height:400px;border-radius:50%;border:1px solid rgba(247,244,239,.05);top:-60px;right:-100px;pointer-events:none}
+.res-badge{font-family:var(--m);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--g);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.res-badge::before{content:'';width:14px;height:2px;background:var(--g)}
+.res-type-h{font-family:var(--d);font-size:clamp(38px,5vw,64px);font-weight:900;line-height:.93;letter-spacing:-.03em;color:rgba(247,244,239,.9);margin-bottom:18px}
+.res-type-h em{font-style:italic;font-weight:400;color:var(--g)}
+.res-desc{font-size:14px;color:rgba(247,244,239,.3);line-height:1.8;max-width:360px;margin-bottom:28px}
+.res-concerns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.rc-tag{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(184,137,42,.3);color:rgba(247,244,239,.45)}
+.res-scores{border:1px solid rgba(247,244,239,.07)}
+.rs-row{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid rgba(247,244,239,.06)}
+.rs-row:last-child{border-bottom:none}
+.rs-label{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(247,244,239,.3);min-width:76px}
+.rs-bar{flex:1;height:2px;background:rgba(247,244,239,.06)}
+.rs-fill{height:100%;background:var(--g);width:0;transition:width 1.2s .5s cubic-bezier(.16,1,.3,1)}
+.rs-val{font-family:var(--m);font-size:9px;color:rgba(247,244,239,.2);min-width:24px;text-align:right}
+
+.res-r{padding:56px 56px;overflow-y:auto}
+.res-r-eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.res-r-eyebrow::before{content:'';width:12px;height:2px;background:var(--g)}
+.res-products-title{font-family:var(--d);font-size:clamp(24px,2.6vw,34px);font-weight:900;line-height:1.0;letter-spacing:-.02em;margin-bottom:28px}
+.res-products-title em{font-style:italic;font-weight:400;color:var(--g)}
+.rec-card{border:var(--brd);border-bottom:none;display:grid;grid-template-columns:72px 1fr 90px;transition:background .2s;cursor:pointer;position:relative}
+.rec-card:last-of-type{border-bottom:var(--brd)}
+.rec-card:hover{background:var(--w3)}
+.rec-card-line{height:2px;background:var(--g);grid-column:1/-1;transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.rec-card:hover .rec-card-line{transform:scaleX(1)}
+.rec-img{border-right:var(--brd);display:flex;align-items:center;justify-content:center;font-size:26px}
+.rec-info{padding:18px 18px;display:flex;flex-direction:column;justify-content:center}
+.rec-match{font-family:var(--m);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--g);margin-bottom:4px}
+.rec-name{font-family:var(--d);font-size:16px;font-weight:700;line-height:1.1;margin-bottom:4px}
+.rec-why{font-size:11px;color:var(--i70);line-height:1.55}
+.rec-price-col{border-left:var(--brd);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px}
+.rec-price{font-family:var(--d);font-size:17px;font-weight:700}
+.rec-price sub{font-size:10px;font-weight:400}
+.rec-atc{width:100%;height:32px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:8px;letter-spacing:.12em;text-transform:uppercase;transition:background .2s}
+.rec-atc:hover{background:var(--g)}
+
+.res-protocol{border:var(--brd);margin-top:24px;padding:22px 20px}
+.res-protocol-h{font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:16px;display:flex;justify-content:space-between}
+.rp-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--i08);font-size:12px;color:var(--i70)}
+.rp-row:last-child{border-bottom:none}
+.rp-day{font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--g);min-width:88px}
+.res-cta{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.rcta1{flex:1;height:50px;background:var(--ink);color:var(--w);border:var(--brd);cursor:pointer;font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;transition:background .25s;min-width:140px}
+.rcta1:hover{background:var(--g)}
+.rcta2{height:50px;padding:0 22px;background:none;color:var(--ink);border:var(--brd);cursor:pointer;font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;transition:all .25s;white-space:nowrap}
+.rcta2:hover{background:var(--w3)}
+
+/* MOB NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mn-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer;position:relative;transition:color .2s}
+.mn-item.active{color:var(--ink)}
+.mn-item svg{width:22px;height:22px;stroke-width:1.5}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;flex-shrink:0}
+.mn-cta svg{stroke:var(--w)}
+
+@media(max-width:767px){
+  .nav{padding:0 18px;height:56px}
+  .intro-layout,.quiz-shell,.results-layout{grid-template-columns:1fr}
+  .intro-l{min-height:44vw;padding:44px 20px}
+  .intro-r{padding:40px 20px}
+  .quiz-l{display:none}
+  .quiz-r{padding:32px 20px 100px}
+  .res-l{padding:44px 20px}
+  .res-r{padding:40px 20px}
+  .rec-card{grid-template-columns:56px 1fr}
+  .rec-price-col{display:none}
+  .opt-grid{grid-template-columns:1fr 1fr}
+  .mob-nav{display:block}
+  body{padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curr"></div>
+
+<nav class="nav">
+  <div class="nav-back" onclick="history.back()"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Ana Sayfa</div>
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <div style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40)" id="navStep"></div>
+</nav>
+<div class="quiz-progress"><div class="qp-fill" id="qpFill"></div></div>
+
+<!-- INTRO -->
+<div id="screen-intro" class="intro-layout">
+  <div class="intro-l">
+    <div class="intro-orb"></div><div class="intro-orb2"></div>
+    <h1>Cildinizi<br><em>tanıyoruz.</em></h1>
+    <p>8 soruda cilt tipinizi analiz ediyoruz. Kişisel Glame protokolünüzü 3 dakikada oluşturuyoruz.</p>
+  </div>
+  <div class="intro-r">
+    <div class="intro-r-h">Nasıl <em>çalışır?</em></div>
+    <div class="intro-steps">
+      <div class="is-row"><div class="is-n">1</div><div><div class="is-t">Cilt Tipini Belirle</div><div class="is-d">Yağlılık, hassasiyet, ton soruları</div></div></div>
+      <div class="is-row"><div class="is-n">2</div><div><div class="is-t">Endişeni Seç</div><div class="is-d">Akne, kırışıklık, leke, dökülme</div></div></div>
+      <div class="is-row"><div class="is-n">3</div><div><div class="is-t">Protokol Al</div><div class="is-d">Kişisel ürün önerisi + haftalık plan</div></div></div>
+    </div>
+    <button class="start-btn" onclick="startQuiz()"><span>Testi Başlat</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="screen-quiz" style="display:none">
+  <div class="quiz-shell">
+    <div class="quiz-l">
+      <div>
+        <div class="ql-step-tag" id="qlTag">Adım 1 / 8</div>
+        <div class="ql-h" id="qlH">Cilt <em>tipinizi</em> belirleyelim</div>
+        <div class="ql-d" id="qlD">Öğleden sonra cildiniz nasıl görünüyor?</div>
+      </div>
+      <div class="ql-dots" id="qlDots"></div>
+      <div class="ql-orb"></div><div class="ql-orb2"></div>
+    </div>
+    <div class="quiz-r">
+      <div id="qArea"></div>
+      <div class="qr-nav">
+        <button class="qbtn qbtn-back" id="btnBack" onclick="prevQ()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Geri</button>
+        <button class="qbtn qbtn-next" id="btnNext" onclick="nextQ()" disabled><span>Devam</span><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="screen-results" style="display:none">
+  <div class="results-layout">
+    <div class="res-l">
+      <div class="res-orb"></div>
+      <div class="res-badge">Analiz Tamamlandı</div>
+      <div class="res-type-h" id="resTypeH">Kombine<br><em>Akne Eğilimli</em></div>
+      <p class="res-desc" id="resDesc">Cilt analiziniz tamamlandı.</p>
+      <div class="res-concerns" id="resConcerns"></div>
+      <div class="res-scores" id="resScores"></div>
+    </div>
+    <div class="res-r">
+      <div class="res-r-eyebrow">Sizin İçin Seçtik</div>
+      <div class="res-products-title">Kişisel <em>Protokolünüz</em></div>
+      <div id="recCards"></div>
+      <div class="res-protocol">
+        <div class="res-protocol-h">Haftalık Program <span style="color:var(--g);font-size:9px;cursor:pointer">Kaydet →</span></div>
+        <div id="resProtocol"></div>
+      </div>
+      <div class="res-cta">
+        <button class="rcta1" onclick="window.location='glame-checkout.html'">Tümünü Sepete Ekle →</button>
+        <button class="rcta2" onclick="retake()">Testi Tekrarla</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="mob-nav"><div class="mob-nav-inner">
+  <button class="mn-item" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Ana</button>
+  <button class="mn-item" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+  <button class="mn-cta"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+  <button class="mn-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Test</button>
+  <button class="mn-item" onclick="window.location='glame-account.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Hesap</button>
+</div></nav>
+
+<script>
+const cur=document.getElementById('cur'),curr=document.getElementById('curr');
+let mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia('(hover:hover)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
+}
+
+const QS=[
+  {id:'type',left:{tag:'Adım 1/8',h:'Cilt <em>tipinizi</em> belirleyelim',d:'Öğle saatlerinde cildiniz nasıl görünüyor?'},type:'grid',q:'Öğle saatlerinde cildiniz nasıl?',sub:'En yakın tarifi seçin',multi:false,opts:[{icon:'✨',t:'Her yerde parlıyor',d:'Yağlı cilt'},{icon:'💧',t:'T bölgesi parlıyor',d:'Kombine cilt'},{icon:'🌵',t:'Gergin ve mat',d:'Kuru cilt'},{icon:'🌸',t:'Değişken',d:'Hassas / karma'}]},
+  {id:'sensitivity',left:{tag:'Adım 2/8',h:'<em>Hassasiyet</em> düzeyiniz',d:'Yeni ürünlere cildinizin tepkisi nasıl?'},type:'list',q:'Yeni ürün denediğinizde ne olur?',sub:null,multi:false,opts:[{icon:'✅',t:'Hiçbir şey',d:'Ürünlere iyi uyum sağlarım'},{icon:'🔴',t:'Kızarıklık / ısınma',d:'Hassas tepkiler'},{icon:'⚠️',t:'Sivilce / tıkanıklık',d:'Akne eğilimi'},{icon:'❄️',t:'Soyulma / kuruluk',d:'Bariyer sorunları'}]},
+  {id:'concerns',left:{tag:'Adım 3/8',h:'Ana <em>endişeleriniz</em>',d:'Birden fazla seçebilirsiniz.'},type:'grid',q:'Hangi cilt sorunları sizi etkiliyor?',sub:'Birden fazla seçebilirsiniz',multi:true,opts:[{icon:'🔴',t:'Akne / sivilce',d:'Aktif lezyon veya iz'},{icon:'⏳',t:'Kırışıklık',d:'İnce çizgiler, yaşlanma'},{icon:'🌑',t:'Leke',d:'Hiperpigmentasyon'},{icon:'💫',t:'Matlaşma',d:'Parlaklık eksikliği'},{icon:'👁️',t:'Göz çevresi',d:'Mor halka, şişlik'},{icon:'💧',t:'Kuruluk',d:'Dehidrasyon'}]},
+  {id:'age',left:{tag:'Adım 4/8',h:'Yaş <em>grubunuz</em>',d:'LED yoğunluğu yaşa göre optimize edilir.'},type:'list',q:'Hangi yaş grubundasınız?',sub:null,multi:false,opts:[{icon:'🌱',t:'18–25',d:'Önleyici bakım'},{icon:'🌿',t:'26–35',d:'Koruyucu + onarıcı'},{icon:'🌳',t:'36–45',d:'Anti-aging odaklı'},{icon:'🌲',t:'46+',d:'Yoğun yenileme'}]},
+  {id:'hair',left:{tag:'Adım 5/8',h:'Saç <em>durumunuz</em>',d:'Saç dökülmesi veya epilasyon ihtiyacınız var mı?'},type:'list',q:'Saçınızla ilgili durumunuz nedir?',sub:null,multi:false,opts:[{icon:'💪',t:'İyi durumda',d:'Saç bakımı gerekmez'},{icon:'⚠️',t:'Hafif dökülme',d:'Önleyici bakım'},{icon:'🔴',t:'Belirgin dökülme',d:'Aktif tedavi gerekli'},{icon:'✂️',t:'Epilasyon ihtiyacım var',d:'Kalıcı tüy azalması'}]},
+  {id:'routine',left:{tag:'Adım 6/8',h:'Mevcut <em>rutininiz</em>',d:'Var olan alışkanlıklarınız doğru cihazı belirlememizi sağlar.'},type:'list',q:'Şu an cilt bakımı için ne yapıyorsunuz?',sub:null,multi:false,opts:[{icon:'0️⃣',t:'Hiç',d:'Sıfırdan başlıyorum'},{icon:'🧴',t:'Temel bakım',d:'Temizlik + nemlendirici'},{icon:'💊',t:'Serum + bakım',d:'Çok adımlı rutin'},{icon:'🏥',t:'Klinik takip',d:'Dermatolog desteği'}]},
+  {id:'time',left:{tag:'Adım 7/8',h:'Günlük <em>zaman</em>',d:'Kullanım süresi önerilerimizi etkiler.'},type:'slider',q:'Cilt bakımına günde ne kadar zaman ayırabilirsiniz?',sub:'Dakika olarak ayarlayın',multi:false,sliderMin:5,sliderMax:60,sliderDef:20,sliderLabels:['5 dk','60 dk']},
+  {id:'budget',left:{tag:'Adım 8/8',h:'Bütçe <em>aralığı</em>',d:'Son adım!'},type:'list',q:'Cilt bakım teknolojisi için bütçeniz?',sub:null,multi:false,opts:[{icon:'💚',t:'₺1.000–3.000',d:'Başlangıç'},{icon:'💛',t:'₺3.000–5.000',d:'Orta segment'},{icon:'🔶',t:'₺5.000–8.000',d:'Premium'},{icon:'💎',t:'₺8.000+',d:'Tam set'}]},
+];
+
+const PRODS={
+  glow:{name:'Glame Glow Mask',cat:'LED Fototerapi',price:'5.000',why:'Akne ve yaşlanma endişeleriniz için 633nm+415nm kombinasyonu idealdir.',match:'%96 Uyum',icon:'⭕'},
+  dermaring:{name:'Dermaring Revive',cat:'Anti-Aging',price:'3.500',why:'Yaş grubunuz ve elastikiyet kaybı için mikro akım+kızılötesi kombinasyonu.',match:'%91 Uyum',icon:'🔴'},
+  duo:{name:'Duo Spin Cleanser',cat:'Temizlik',price:'2.200',why:'Akne eğilimli cilt için derin gözenek temizliği şarttır.',match:'%88 Uyum',icon:'⚪'},
+  ipl:{name:'Sapphire Freeze IPL',cat:'Epilasyon',price:'4.200',why:'Kalıcı tüy azalması için IPL teknolojisi önerildi.',match:'%94 Uyum',icon:'🔷'},
+  hair:{name:'Hair Light Pro Comb',cat:'Saç Bakımı',price:'4.000',why:'Saç dökülmesi için kızılötesi kök aktivasyonu.',match:'%89 Uyum',icon:'🪮'},
+};
+const PROTO={
+  glow:['Pazartesi · Çarşamba · Cuma','20 dk · Kırmızı + Mavi'],
+  dermaring:['Salı · Perşembe · Cumartesi','15 dk · Anti-Aging'],
+  duo:['Her Gün (Sabah)','2 dk · Temizleme'],
+  ipl:['2 Haftada Bir','20 dk · Full Beden'],
+  hair:['Pazartesi · Perşembe','10 dk · Kök Aktivasyon'],
+};
+
+let cur2=0, ans={};
+
+function startQuiz(){
+  document.getElementById('screen-intro').style.display='none';
+  document.getElementById('screen-quiz').style.display='block';
+  const dc=document.getElementById('qlDots');
+  dc.innerHTML=QS.map((_,i)=>`<div class="qd" id="qd${i}"></div>`).join('');
+  renderQ(0);
+}
+
+function renderQ(idx){
+  cur2=idx;
+  const q=QS[idx];
+  document.getElementById('qpFill').style.width=((idx+1)/QS.length*100)+'%';
+  document.getElementById('navStep').textContent=(idx+1)+' / '+QS.length;
+  document.getElementById('qlTag').textContent=q.left.tag;
+  document.getElementById('qlH').innerHTML=q.left.h;
+  document.getElementById('qlD').textContent=q.left.d;
+  QS.forEach((_,i)=>{const d=document.getElementById('qd'+i);if(d)d.className='qd'+(i<idx?' done':i===idx?' active':'');});
+  document.getElementById('btnBack').style.visibility=idx===0?'hidden':'visible';
+
+  let html=`<div class="step-counter">${q.left.tag}</div><div class="q-h">${q.q}</div>`;
+  if(q.sub) html+=`<p class="q-sub">${q.sub}</p>`;
+  if(q.multi) html+=`<div class="multi-note">✓ Birden fazla seçebilirsiniz</div>`;
+
+  const sv=ans[q.id];
+  if(q.type==='grid'){
+    html+=`<div class="opt-grid">`;
+    q.opts.forEach((o,i)=>{
+      const sel=q.multi?(sv&&sv.includes(i)):(sv===i);
+      html+=`<div class="opt-card${sel?' selected':''}" onclick="pick(${idx},${i})">
+        <div class="oc-icon">${o.icon}</div>
+        <div><div class="oc-t">${o.t}</div><div class="oc-d">${o.d}</div></div>
+        <div class="oc-check"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>`;
+    });
+    html+=`</div>`;
+  } else if(q.type==='list'){
+    html+=`<div class="opt-list">`;
+    q.opts.forEach((o,i)=>{
+      const sel=sv===i;
+      html+=`<div class="opt-item${sel?' selected':''}" onclick="pick(${idx},${i})">
+        <div class="oi-icon">${o.icon}</div>
+        <div class="oi-body"><div class="oi-t">${o.t}</div><div class="oi-d">${o.d}</div></div>
+        <div class="oi-radio"></div>
+      </div>`;
+    });
+    html+=`</div>`;
+  } else if(q.type==='slider'){
+    const val=sv!==undefined?sv:q.sliderDef;
+    if(sv===undefined) ans[q.id]=q.sliderDef;
+    const pct=(val-q.sliderMin)/(q.sliderMax-q.sliderMin)*100;
+    html+=`<div class="opt-slider">
+      <div class="slider-labels"><span>${q.sliderLabels[0]}</span><span>${q.sliderLabels[1]}</span></div>
+      <div class="slider-track">
+        <div class="slider-fill" id="sFill" style="width:${pct}%"></div>
+        <input type="range" min="${q.sliderMin}" max="${q.sliderMax}" value="${val}" step="5" oninput="pickSlider(${idx},this)">
+      </div>
+      <div class="slider-val" id="sVal">${val} dakika</div>
+    </div>`;
+  }
+  document.getElementById('qArea').innerHTML=html;
+  checkNext();
+}
+
+function pick(qi,oi){
+  const q=QS[qi];
+  if(q.multi){
+    if(!ans[q.id]) ans[q.id]=[];
+    const a=ans[q.id],i=a.indexOf(oi);
+    if(i>-1) a.splice(i,1); else a.push(oi);
+  } else { ans[q.id]=oi; }
+  renderQ(qi);
+}
+function pickSlider(qi,inp){
+  ans[QS[qi].id]=+inp.value;
+  document.getElementById('sVal').textContent=inp.value+' dakika';
+  document.getElementById('sFill').style.width=((inp.value-QS[qi].sliderMin)/(QS[qi].sliderMax-QS[qi].sliderMin)*100)+'%';
+  checkNext();
+}
+function checkNext(){
+  const q=QS[cur2];
+  const v=ans[q.id];
+  const ok=q.type==='slider'||(v!==undefined&&(q.multi?v.length>0:true));
+  document.getElementById('btnNext').disabled=!ok;
+}
+function nextQ(){ if(cur2<QS.length-1) renderQ(cur2+1); else showResults(); }
+function prevQ(){ if(cur2>0) renderQ(cur2-1); }
+
+function showResults(){
+  document.getElementById('qpFill').style.width='100%';
+  document.getElementById('screen-quiz').style.display='none';
+  document.getElementById('screen-results').style.display='block';
+
+  const typeMap=['Yağlı Cilt','Kombine Cilt','Kuru Cilt','Hassas Cilt'];
+  const concLabels=['Akne','Kırışıklık','Leke','Matlaşma','Göz Çevresi','Kuruluk'];
+  const ageMap=['18–25','26–35','36–45','46+'];
+  const skinLabel=typeMap[ans.type]||'Kombine Cilt';
+  const concerns=(ans.concerns||[0,1]).map(i=>concLabels[i]);
+  const ageLabel=ageMap[ans.age]||'26–35';
+
+  document.getElementById('resTypeH').innerHTML=`${skinLabel}<br><em>${concerns[0]||'Akne'} Eğilimli</em>`;
+  document.getElementById('resDesc').textContent=`${skinLabel} yapısı ve ${concerns.join(', ')} endişelerinize yönelik Glame protokolü hazırlandı. ${ageLabel} yaş grubuna optimize edildi.`;
+  document.getElementById('resConcerns').innerHTML=concerns.map(c=>`<div class="rc-tag">${c}</div>`).join('')+`<div class="rc-tag">${skinLabel}</div>`;
+
+  const scores=[
+    {label:'Nemlilik',val:ans.type===2?78:ans.type===0?42:62},
+    {label:'Akne Riski',val:ans.sensitivity===2?86:ans.concerns?.includes(0)?72:35},
+    {label:'Yaşlanma',val:(ans.age||1)>=2?78:32},
+    {label:'Hassasiyet',val:ans.sensitivity===1?80:28},
+  ];
+  document.getElementById('resScores').innerHTML=scores.map(s=>`<div class="rs-row"><span class="rs-label">${s.label}</span><div class="rs-bar"><div class="rs-fill" style="width:0" data-w="${s.val}%"></div></div><span class="rs-val">${s.val}</span></div>`).join('');
+
+  let recs=['glow'];
+  if(ans.hair===3) recs.push('ipl');
+  else if(ans.hair===2) recs.push('hair');
+  else if((ans.age||0)>=2) recs.push('dermaring');
+  if(ans.sensitivity===2||ans.concerns?.includes(0)) recs.push('duo');
+  recs=[...new Set(recs)].slice(0,3);
+
+  document.getElementById('recCards').innerHTML=recs.map(id=>{
+    const p=PRODS[id];
+    return `<div class="rec-card"><div class="rec-card-line"></div><div class="rec-img">${p.icon}</div><div class="rec-info"><div class="rec-match">${p.match}</div><div class="rec-name">${p.name}</div><div class="rec-why">${p.why}</div></div><div class="rec-price-col"><div class="rec-price"><sub>₺</sub>${p.price}</div><button class="rec-atc" onclick="this.textContent='✓';this.style.background='var(--grn)'">+ Ekle</button></div></div>`;
+  }).join('');
+
+  document.getElementById('resProtocol').innerHTML=recs.map(id=>{
+    const pr=PROTO[id],p=PRODS[id];
+    return `<div class="rp-row"><span class="rp-day">${pr[0]}</span><span>${p.name} · ${pr[1]}</span></div>`;
+  }).join('');
+
+  setTimeout(()=>document.querySelectorAll('.rs-fill').forEach(b=>b.style.width=b.dataset.w),200);
+}
+
+function retake(){
+  ans={};cur2=0;
+  document.getElementById('screen-results').style.display='none';
+  document.getElementById('screen-intro').style.display='grid';
+  document.getElementById('qpFill').style.width='0';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glame — İletişim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--r:#be3535;--grn:#2d8a4e;--brd:2px solid var(--ink);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+#cur,#curr{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur{width:7px;height:7px;border-radius:50%;background:var(--ink)}
+#curr{width:32px;height:32px;border-radius:50%;border:var(--brd);z-index:9998;transition:width .3s,height .3s,border-color .3s}
+#curr.x{width:52px;height:52px;border-color:var(--g)}
+@media(hover:none){#cur,#curr{display:none}}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+/* HERO */
+.ct-hero{display:grid;grid-template-columns:1fr 1fr;min-height:360px;border-bottom:var(--brd)}
+.ct-hero-l{padding:72px 64px;display:flex;flex-direction:column;justify-content:center;border-right:var(--brd)}
+.eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:14px;height:2px;background:var(--g)}
+.ct-h{font-family:var(--d);font-size:clamp(44px,5vw,68px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:18px}
+.ct-h em{font-style:italic;font-weight:400;color:var(--g)}
+.ct-p{font-size:16px;color:var(--i70);line-height:1.75;max-width:360px}
+.ct-hero-r{background:var(--ink);display:grid;grid-template-columns:1fr 1fr;gap:0}
+.ct-channel{border-right:1px solid rgba(247,244,239,.07);border-bottom:1px solid rgba(247,244,239,.07);padding:28px 24px;cursor:pointer;transition:background .2s;text-decoration:none;display:flex;flex-direction:column;gap:10px}
+.ct-channel:nth-child(2n){border-right:none}
+.ct-channel:nth-child(n+3){border-bottom:none}
+.ct-channel:hover{background:rgba(247,244,239,.04)}
+.ctc-icon{font-size:24px}
+.ctc-t{font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,239,.7)}
+.ctc-d{font-size:12px;color:rgba(247,244,239,.3);line-height:1.5}
+.ctc-badge{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-top:auto}
+/* MAIN GRID */
+.ct-grid{display:grid;grid-template-columns:1fr 1fr;align-items:start;border-bottom:var(--brd)}
+/* FORM */
+.ct-form-wrap{padding:64px;border-right:var(--brd)}
+.cf-title{font-family:var(--d);font-size:28px;font-weight:900;letter-spacing:-.015em;margin-bottom:8px}
+.cf-title em{font-style:italic;font-weight:400;color:var(--g)}
+.cf-sub{font-size:14px;color:var(--i70);margin-bottom:36px;line-height:1.65}
+/* tabs */
+.cf-tabs{display:flex;border:var(--brd);margin-bottom:28px}
+.cft{flex:1;height:42px;display:flex;align-items:center;justify-content:center;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;color:var(--i70);border-right:var(--brd);transition:all .2s}
+.cft:last-child{border-right:none}
+.cft.active{background:var(--ink);color:var(--w)}
+/* form fields */
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--brd);margin-bottom:-2px}
+.cf-row.full{grid-template-columns:1fr}
+.cf-field{display:flex;flex-direction:column;border-right:var(--brd)}
+.cf-field:last-child{border-right:none}
+.cf-label{font-family:var(--m);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);padding:10px 16px 0;margin-bottom:0}
+.cf-input{border:none;padding:4px 16px 12px;font-family:var(--b);font-size:14px;outline:none;background:transparent;color:var(--ink);resize:none}
+.cf-input::placeholder{color:var(--i40)}
+.cf-input:focus{background:rgba(184,137,42,.04)}
+.cf-select{border:none;padding:4px 16px 12px;font-family:var(--b);font-size:14px;outline:none;background:transparent;color:var(--ink);-webkit-appearance:none;cursor:pointer}
+.cf-textarea{min-height:120px;resize:vertical}
+.cf-border{border:var(--brd);border-top:none;margin-bottom:20px}
+.cf-submit{width:100%;height:52px;background:var(--ink);color:var(--w);border:var(--brd);font-family:var(--m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:color .3s;display:flex;align-items:center;justify-content:center;gap:10px}
+.cf-submit::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.cf-submit:hover::after{transform:translateX(0)}
+.cf-submit span,.cf-submit svg{position:relative;z-index:1}
+.cf-success{display:none;background:rgba(45,138,78,.08);border:1px solid rgba(45,138,78,.2);padding:20px 24px;text-align:center}
+.cf-success-t{font-family:var(--d);font-size:20px;font-weight:700;color:var(--grn);margin-bottom:6px}
+.cf-success-d{font-size:13px;color:var(--i70)}
+/* INFO */
+.ct-info-wrap{padding:64px}
+.ci-section{margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--i15)}
+.ci-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.ci-t{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:16px}
+.ci-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.ci-icon{width:32px;height:32px;border-radius:50%;border:var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.ci-item-t{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70);margin-bottom:3px}
+.ci-item-v{font-size:14px;color:var(--ink)}
+/* hours */
+.hours-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--brd)}
+.hg-item{padding:12px 16px;border-right:var(--brd);border-bottom:1px solid var(--i08)}
+.hg-item:nth-child(2n){border-right:none}
+.hg-item:nth-last-child(-n+2){border-bottom:none}
+.hg-day{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);margin-bottom:3px}
+.hg-time{font-size:13px;font-weight:500}
+.hg-time.off{color:var(--i40)}
+/* MAP placeholder */
+.ct-map{height:280px;background:var(--w2);border-bottom:var(--brd);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.ct-map-inner{text-align:center;z-index:2;position:relative}
+.ct-map-inner h3{font-family:var(--d);font-size:22px;font-weight:900;margin-bottom:6px}
+.ct-map-inner h3 em{font-style:italic;color:var(--g)}
+.ct-map-inner p{font-size:13px;color:var(--i70)}
+.ct-map-btn{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--w);padding:12px 24px;border:none;cursor:pointer;transition:background .25s;text-decoration:none}
+.ct-map-btn:hover{background:var(--g)}
+.map-grid{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,var(--i08) 0,var(--i08) 1px,transparent 1px,transparent 40px),repeating-linear-gradient(90deg,var(--i08) 0,var(--i08) 1px,transparent 1px,transparent 40px)}
+/* MOB NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mni{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer}
+.mni svg{width:22px;height:22px;stroke-width:1.5;fill:none;stroke:currentColor}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0;transition:background .25s}
+.mn-cta:hover{background:var(--g)}
+.mn-cta svg{stroke:var(--w)}
+@media(max-width:767px){
+  .nav{display:none}.mob-top{display:flex}.mob-nav{display:block}
+  .ct-hero{grid-template-columns:1fr}
+  .ct-hero-l{padding:44px 20px;border-right:none;border-bottom:var(--brd)}
+  .ct-hero-r{grid-template-columns:1fr 1fr}
+  .ct-channel{padding:20px 14px}
+  .ct-grid{grid-template-columns:1fr}
+  .ct-form-wrap,.ct-info-wrap{padding:36px 20px;border-right:none;border-bottom:var(--brd)}
+  .cf-row{grid-template-columns:1fr}
+  .cf-field{border-right:none;border-bottom:1px solid var(--i15)}
+  .cf-field:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curr"></div>
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <ul class="nav-links"><li><a href="glame-collection.html">Alışveriş</a></li><li><a href="glame-about.html">Teknoloji</a></li><li><a href="glame-faq.html">SSS</a></li></ul>
+  <a href="glame-tracking.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none">Sipariş Takip</a>
+</nav>
+<div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">İletişim</span></div>
+
+<!-- HERO -->
+<div class="ct-hero">
+  <div class="ct-hero-l">
+    <div class="eyebrow">Destek & İletişim</div>
+    <h1 class="ct-h">Size nasıl<br><em>yardımcı</em><br>olabiliriz?</h1>
+    <p class="ct-p">Ürün soruları, teknik destek, iş birliği veya sadece merhaba demek için buradayız.</p>
+  </div>
+  <div class="ct-hero-r">
+    <a class="ct-channel" href="#form">
+      <div class="ctc-icon">✉️</div>
+      <div class="ctc-t">Mesaj Gönder</div>
+      <div class="ctc-d">Form veya e-posta ile ulaşın</div>
+      <div class="ctc-badge">↓ 2 saat içinde yanıt</div>
+    </a>
+    <div class="ct-channel" onclick="alert('Canlı destek başlatılıyor...')">
+      <div class="ctc-icon">💬</div>
+      <div class="ctc-t">Canlı Destek</div>
+      <div class="ctc-d">Anlık yanıt, Hft içi 09–21</div>
+      <div class="ctc-badge" id="chatStatus">● Çevrimiçi</div>
+    </div>
+    <a class="ct-channel" href="tel:+902120000000">
+      <div class="ctc-icon">📞</div>
+      <div class="ctc-t">Telefon</div>
+      <div class="ctc-d">0212 000 00 00</div>
+      <div class="ctc-badge">Hft içi 09:00–18:00</div>
+    </a>
+    <a class="ct-channel" href="https://wa.me/905000000000" target="_blank">
+      <div class="ctc-icon">💚</div>
+      <div class="ctc-t">WhatsApp</div>
+      <div class="ctc-d">Hızlı mesaj için</div>
+      <div class="ctc-badge">Yaz, yanıtlayalım</div>
+    </a>
+  </div>
+</div>
+
+<!-- FORM + INFO -->
+<div class="ct-grid" id="form">
+  <div class="ct-form-wrap">
+    <h2 class="cf-title">Mesaj <em>Gönder</em></h2>
+    <p class="cf-sub">Her mesaj ekibimize ulaşır. Ortalama yanıt süremiz 2 saattir.</p>
+    <!-- tabs -->
+    <div class="cf-tabs">
+      <div class="cft active" onclick="setCftab(this,'Genel Soru')">Genel</div>
+      <div class="cft" onclick="setCftab(this,'Teknik Destek')">Teknik</div>
+      <div class="cft" onclick="setCftab(this,'İade/Değişim')">İade</div>
+      <div class="cft" onclick="setCftab(this,'İş Birliği')">İş Birliği</div>
+    </div>
+    <!-- fields -->
+    <div id="cfForm">
+      <div class="cf-row"><div class="cf-field"><div class="cf-label">Ad Soyad *</div><input class="cf-input" type="text" id="cfName" placeholder="Adınız"></div><div class="cf-field"><div class="cf-label">E-posta *</div><input class="cf-input" type="email" id="cfEmail" placeholder="ornek@mail.com"></div></div>
+      <div class="cf-row full cf-border"><div class="cf-field" style="border-right:none"><div class="cf-label">Konu</div><input class="cf-input" type="text" id="cfSubject" placeholder="Konunuzu kısaca yazın"></div></div>
+      <div class="cf-row full" style="border:var(--brd);margin-bottom:2px"><div class="cf-field" style="border-right:none"><div class="cf-label">Sipariş No (opsiyonel)</div><input class="cf-input" type="text" placeholder="GL-2026-..."></div></div>
+      <div class="cf-row full" style="border:var(--brd);border-top:none;margin-bottom:20px"><div class="cf-field" style="border-right:none"><div class="cf-label">Mesajınız *</div><textarea class="cf-input cf-textarea" id="cfMsg" placeholder="Detaylı bilgi verin, daha hızlı yardım edelim..."></textarea></div></div>
+      <input type="hidden" id="cfType" value="Genel Soru">
+      <button class="cf-submit" onclick="submitForm()"><span>Gönder</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="cf-success" id="cfSuccess">
+      <div class="cf-success-t">✓ Mesajınız Alındı</div>
+      <div class="cf-success-d">En geç 2 saat içinde yanıt vereceğiz. Teşekkürler!</div>
+    </div>
+    <div style="font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);margin-top:12px">Mesajınız şifreli olarak iletilir · <a href="glame-legal.html" style="color:var(--g)">Gizlilik Politikası</a></div>
+  </div>
+
+  <div class="ct-info-wrap">
+    <div class="ci-section">
+      <div class="ci-t">Adres & İletişim</div>
+      <div class="ci-item"><div class="ci-icon">📍</div><div><div class="ci-item-t">Merkez Ofis</div><div class="ci-item-v">Nişantaşı Mah. Abdi İpekçi Cad. No:45<br>Şişli / İstanbul 34367</div></div></div>
+      <div class="ci-item"><div class="ci-icon">📧</div><div><div class="ci-item-t">E-posta</div><div class="ci-item-v">destek@glame.com</div></div></div>
+      <div class="ci-item"><div class="ci-icon">📞</div><div><div class="ci-item-t">Telefon</div><div class="ci-item-v">0212 000 00 00</div></div></div>
+      <div class="ci-item"><div class="ci-icon">🔒</div><div><div class="ci-item-t">KVKK</div><div class="ci-item-v">kvkk@glame.com</div></div></div>
+    </div>
+    <div class="ci-section">
+      <div class="ci-t">Çalışma Saatleri</div>
+      <div class="hours-grid">
+        <div class="hg-item"><div class="hg-day">Pzt – Cuma</div><div class="hg-time">09:00 – 21:00</div></div>
+        <div class="hg-item"><div class="hg-day">Cmt</div><div class="hg-time">10:00 – 18:00</div></div>
+        <div class="hg-item"><div class="hg-day">Pazar</div><div class="hg-time off">Kapalı</div></div>
+        <div class="hg-item"><div class="hg-day">Resmi Tatil</div><div class="hg-time off">Kapalı</div></div>
+      </div>
+    </div>
+    <div class="ci-section">
+      <div class="ci-t">Sosyal Medya</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="#" style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 18px;border:var(--brd);color:var(--ink);text-decoration:none;transition:all .2s" onmouseover="this.style.background='var(--ink)';this.style.color='var(--w)'" onmouseout="this.style.background='';this.style.color='var(--ink)'">Instagram</a>
+        <a href="#" style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 18px;border:var(--brd);color:var(--ink);text-decoration:none;transition:all .2s" onmouseover="this.style.background='var(--ink)';this.style.color='var(--w)'" onmouseout="this.style.background='';this.style.color='var(--ink)'">TikTok</a>
+        <a href="#" style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 18px;border:var(--brd);color:var(--ink);text-decoration:none;transition:all .2s" onmouseover="this.style.background='var(--ink)';this.style.color='var(--w)'" onmouseout="this.style.background='';this.style.color='var(--ink)'">YouTube</a>
+      </div>
+    </div>
+    <div class="ci-section">
+      <div class="ci-t">Hızlı Bağlantılar</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <a href="glame-tracking.html" style="font-size:14px;color:var(--i70);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--i70)'">→ Sipariş Takip</a>
+        <a href="glame-faq.html" style="font-size:14px;color:var(--i70);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--i70)'">→ Sık Sorulan Sorular</a>
+        <a href="glame-legal.html" style="font-size:14px;color:var(--i70);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--i70)'">→ İade Politikası</a>
+        <a href="glame-legal.html" style="font-size:14px;color:var(--i70);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--i70)'">→ KVKK & Gizlilik</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="ct-map">
+  <div class="map-grid"></div>
+  <div class="ct-map-inner">
+    <h3>Nişantaşı, <em>İstanbul</em></h3>
+    <p>Abdi İpekçi Cad. No:45, Şişli</p>
+    <a class="ct-map-btn" href="https://maps.google.com/?q=Nisantasi+Istanbul" target="_blank">Google Maps'te Aç →</a>
+  </div>
+</div>
+
+<nav class="mob-nav"><div class="mob-nav-inner">
+  <button class="mni" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Ana</button>
+  <button class="mni" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+  <button class="mn-cta" onclick="window.location='glame-checkout.html'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+  <button class="mni active"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>İletişim</button>
+  <button class="mni" onclick="window.location='glame-faq.html'"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/></svg>SSS</button>
+</div></nav>
+
+<script>
+const cur=document.getElementById('cur'),curr=document.getElementById('curr');
+let mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia('(hover:hover)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
+  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});
+}
+function setCftab(el,type){
+  document.querySelectorAll('.cft').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('cfType').value=type;
+  document.getElementById('cfSubject').placeholder=type+' hakkında...';
+}
+function submitForm(){
+  const name=document.getElementById('cfName').value;
+  const email=document.getElementById('cfEmail').value;
+  const msg=document.getElementById('cfMsg').value;
+  if(!name||!email||!msg){alert('Lütfen zorunlu alanları doldurun.');return;}
+  document.getElementById('cfForm').style.display='none';
+  document.getElementById('cfSuccess').style.display='block';
+}
+// chat status
+const h=new Date().getHours();
+const online=h>=9&&h<21;
+document.getElementById('chatStatus').textContent=(online?'● Çevrimiçi':'○ Çevrimdışı');
+document.getElementById('chatStatus').style.color=online?'#b8d4a0':'rgba(247,244,239,.3)';
+</script>
+</body>
+</html>

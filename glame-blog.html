@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glame — Blog & İçerik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--r:#be3535;--grn:#2d8a4e;--brd:2px solid var(--ink);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
+#cur,#curr{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur{width:7px;height:7px;border-radius:50%;background:var(--ink)}
+#curr{width:32px;height:32px;border-radius:50%;border:var(--brd);z-index:9998;transition:width .3s,height .3s,border-color .3s}
+#curr.x{width:52px;height:52px;border-color:var(--g)}
+@media(hover:none){#cur,#curr{display:none}}
+.ann{height:34px;background:var(--ink);overflow:hidden;display:flex;align-items:center}
+.ann-track{display:flex;white-space:nowrap;animation:mq 44s linear infinite}
+.ann-item{padding:0 36px;font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,239,.4)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.logo em{font-style:italic;color:var(--g);font-weight:400}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+/* HERO */
+.blog-hero{padding:72px 56px;border-bottom:var(--brd);display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:end}
+.bh-l{}
+.eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:14px;height:2px;background:var(--g)}
+.bh-h{font-family:var(--d);font-size:clamp(48px,6vw,80px);font-weight:900;line-height:.92;letter-spacing:-.04em;margin-bottom:20px}
+.bh-h em{font-style:italic;font-weight:400;color:var(--g)}
+.bh-p{font-size:16px;color:var(--i70);line-height:1.75;max-width:380px}
+.bh-r{border-left:var(--brd);padding-left:56px;display:flex;flex-direction:column;gap:0}
+.bh-cat{border-top:1px solid var(--i08);padding:14px 0;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s}
+.bh-cat:first-child{border-top:none}
+.bh-cat:hover{padding-left:8px}
+.bh-cat-name{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);transition:color .2s}
+.bh-cat:hover .bh-cat-name{color:var(--ink)}
+.bh-cat.active .bh-cat-name{color:var(--ink)}
+.bh-cat-n{font-family:var(--d);font-size:14px;font-style:italic;color:var(--i40)}
+/* FEATURED POST */
+.feat-post{display:grid;grid-template-columns:1fr 1fr;border-bottom:var(--brd);cursor:pointer;transition:background .2s}
+.feat-post:hover{background:var(--w3)}
+.fp-vis{border-right:var(--brd);background:var(--ink);padding:64px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;min-height:400px;overflow:hidden}
+.fp-vis-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(184,137,42,.1),rgba(190,53,53,.05));pointer-events:none}
+.fp-vis-orb{position:absolute;width:300px;height:300px;border-radius:50%;border:1px solid rgba(184,137,42,.1);top:-80px;right:-80px}
+.fp-feat-badge{font-family:var(--m);font-size:9px;letter-spacing:.2em;text-transform:uppercase;background:var(--g);color:var(--w);padding:4px 12px;display:inline-block;margin-bottom:16px;position:relative;z-index:2}
+.fp-h{font-family:var(--d);font-size:clamp(28px,3vw,40px);font-weight:900;line-height:1.0;letter-spacing:-.02em;color:rgba(247,244,239,.9);position:relative;z-index:2;margin-bottom:8px}
+.fp-h em{font-style:italic;font-weight:400;color:var(--g)}
+.fp-meta{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(247,244,239,.3);position:relative;z-index:2}
+.fp-body{padding:64px}
+.fp-cat{font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.fp-excerpt{font-size:15px;color:var(--i70);line-height:1.8;margin-bottom:24px}
+.fp-read{display:inline-flex;align-items:center;gap:8px;font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--i15);padding-bottom:3px;transition:all .2s}
+.fp-read:hover{color:var(--g);border-color:var(--g)}
+.fp-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px}
+.fp-tag{font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--i15);color:var(--i70)}
+/* CAT FILTERS */
+.blog-filters{padding:18px 56px;border-bottom:var(--brd);display:flex;align-items:center;gap:0;overflow-x:auto;background:var(--w)}
+.bf-pill{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;border:1px solid var(--i15);cursor:pointer;margin-right:-1px;transition:all .2s;background:none;color:var(--i70);white-space:nowrap}
+.bf-pill:hover{background:var(--w3);color:var(--ink)}
+.bf-pill.active{background:var(--ink);color:var(--w);border-color:var(--ink)}
+/* GRID */
+.blog-grid-wrap{display:grid;grid-template-columns:1fr 300px;align-items:start}
+.blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-right:var(--brd)}
+.blog-card{border-right:var(--brd);border-bottom:var(--brd);cursor:pointer;transition:background .2s;overflow:hidden;position:relative}
+.blog-card:hover{background:var(--w3)}
+.blog-card:nth-child(2n){border-right:none}
+.blog-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.blog-card:hover::before{transform:scaleX(1)}
+.bc-vis{height:160px;background:var(--w2);border-bottom:var(--brd);display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;overflow:hidden}
+.bc-vis-num{position:absolute;bottom:8px;right:12px;font-family:var(--d);font-size:48px;font-weight:900;font-style:italic;color:rgba(15,14,14,.04);line-height:1}
+.bc-body{padding:22px}
+.bc-cat{font-family:var(--m);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--g);margin-bottom:8px}
+.bc-h{font-family:var(--d);font-size:18px;font-weight:900;line-height:1.15;margin-bottom:8px}
+.bc-excerpt{font-size:13px;color:var(--i70);line-height:1.6;margin-bottom:12px}
+.bc-foot{display:flex;align-items:center;justify-content:space-between;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40)}
+.bc-foot-read{color:var(--ink);display:flex;align-items:center;gap:4px}
+/* SIDEBAR */
+.blog-side{padding:32px 28px;position:sticky;top:68px}
+.bsi-t{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:16px}
+.bsi-section{margin-bottom:32px}
+.pop-item{border-bottom:1px solid var(--i08);padding:12px 0;cursor:pointer;transition:background .2s}
+.pop-item:last-child{border-bottom:none}
+.pop-item:hover{padding-left:6px}
+.pi-cat{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:3px}
+.pi-t{font-size:13px;font-weight:500;line-height:1.35}
+.pi-meta{font-family:var(--m);font-size:9px;color:var(--i40);margin-top:3px}
+/* EMAIL */
+.bsi-email{background:var(--ink);padding:20px;margin-top:4px}
+.be-t{font-family:var(--d);font-size:18px;font-weight:900;color:rgba(247,244,239,.9);margin-bottom:6px}
+.be-t em{font-style:italic;color:var(--g)}
+.be-d{font-size:12px;color:rgba(247,244,239,.35);line-height:1.55;margin-bottom:14px}
+.be-input{width:100%;border:1px solid rgba(247,244,239,.15);padding:10px 14px;background:transparent;color:var(--w);font-size:13px;outline:none;margin-bottom:8px}
+.be-input::placeholder{color:rgba(247,244,239,.25)}
+.be-btn{width:100%;height:40px;background:var(--g);color:var(--w);border:none;font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .25s}
+.be-btn:hover{background:rgba(184,137,42,.8)}
+/* PAGINATION */
+.blog-pag{padding:28px 56px;border-top:var(--brd);display:flex;align-items:center;justify-content:space-between}
+.bp-info{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70)}
+.bp-btns{display:flex;gap:0}
+.bp-btn{width:42px;height:42px;border:var(--brd);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--m);font-size:11px;margin-left:-2px;transition:all .2s;background:none;color:var(--ink)}
+.bp-btn:hover,.bp-btn.active{background:var(--ink);color:var(--w)}
+/* ARTICLE VIEW */
+.article-view{display:none;padding:0}
+.article-view.show{display:block}
+.art-hero{padding:72px 56px;border-bottom:var(--brd)}
+.art-back{display:inline-flex;align-items:center;gap:8px;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);cursor:pointer;background:none;border:none;margin-bottom:28px;transition:color .2s}
+.art-back:hover{color:var(--ink)}
+.art-cat{font-family:var(--m);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.art-cat::before{content:'';width:14px;height:2px;background:var(--g)}
+.art-h{font-family:var(--d);font-size:clamp(36px,5vw,64px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:16px}
+.art-h em{font-style:italic;font-weight:400;color:var(--g)}
+.art-meta{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i40);display:flex;gap:20px}
+.art-body-wrap{display:grid;grid-template-columns:1fr 280px;align-items:start;border-bottom:var(--brd)}
+.art-body{padding:48px 56px;font-size:16px;line-height:1.85;color:var(--i70)}
+.art-body h2{font-family:var(--d);font-size:26px;font-weight:900;color:var(--ink);margin:36px 0 14px;line-height:1.1}
+.art-body h3{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin:24px 0 10px}
+.art-body p{margin-bottom:18px}
+.art-body strong{color:var(--ink);font-weight:600}
+.art-body .callout{background:var(--w2);border:var(--brd);padding:20px 24px;margin:24px 0;font-size:14px;border-left:3px solid var(--g)}
+.art-body .callout b{display:block;font-family:var(--m);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--g);margin-bottom:8px}
+.art-toc{padding:32px 28px;position:sticky;top:68px;border-left:var(--brd)}
+.atoc-t{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.atoc-item{display:block;font-size:13px;color:var(--i70);padding:6px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-10px;transition:all .2s;cursor:pointer}
+.atoc-item:hover,.atoc-item.active{color:var(--ink);border-left-color:var(--g)}
+/* MOB NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
+.mni{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer}
+.mni.active{color:var(--ink)}
+.mni svg{width:22px;height:22px;stroke-width:1.5;fill:none;stroke:currentColor}
+.mn-cta{width:56px;height:56px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:-28px;box-shadow:0 4px 20px rgba(15,14,14,.3);flex-shrink:0;transition:background .25s}
+.mn-cta:hover{background:var(--g)}
+.mn-cta svg{stroke:var(--w)}
+@media(max-width:767px){
+  .ann,.nav{display:none}.mob-top{display:flex}.mob-nav{display:block}
+  .blog-hero{grid-template-columns:1fr;padding:44px 20px;gap:28px}
+  .bh-r{border-left:none;border-top:var(--brd);padding-left:0;padding-top:24px}
+  .feat-post{grid-template-columns:1fr}
+  .fp-vis{min-height:200px;padding:36px 20px}
+  .fp-body{padding:28px 20px}
+  .blog-filters{padding:12px 16px}
+  .blog-grid-wrap{grid-template-columns:1fr}
+  .blog-side{display:none}
+  .blog-grid{grid-template-columns:1fr}
+  .blog-card{border-right:none}
+  .blog-pag{padding:20px 16px;flex-direction:column;gap:12px}
+  .art-hero{padding:36px 20px}
+  .art-body-wrap{grid-template-columns:1fr}
+  .art-toc{display:none}
+  .art-body{padding:28px 20px}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curr"></div>
+<div class="ann"><div class="ann-track"><span class="ann-item">LED Fototerapi Rehberi · Cilt Tipleri · Anti-Aging Protokoller · Klinik Araştırmalar · LED Fototerapi Rehberi · Cilt Tipleri ·</span><span class="ann-item">LED Fototerapi Rehberi · Cilt Tipleri · Anti-Aging Protokoller · Klinik Araştırmalar ·</span></div></div>
+<nav class="nav">
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <ul class="nav-links"><li><a href="glame-collection.html">Alışveriş</a></li><li><a href="glame-about.html">Teknoloji</a></li><li><a href="glame-quiz.html">Cilt Testi</a></li></ul>
+  <a href="glame-search.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none">🔍 Ara</a>
+</nav>
+<div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">Journal</span></div>
+
+<!-- BLOG LIST VIEW -->
+<div id="blogList">
+  <!-- HERO -->
+  <div class="blog-hero">
+    <div class="bh-l">
+      <div class="eyebrow">Glame Journal</div>
+      <h1 class="bh-h">Bilim,<br>Cilt & <em>Teknoloji</em></h1>
+      <p class="bh-p">Dermatoloji araştırmalarından LED protokollerine, cilt bakımının bilimini keşfedin.</p>
+    </div>
+    <div class="bh-r">
+      <div class="bh-cat active" onclick="filterBlog(this,'')"><span class="bh-cat-name">Tüm İçerikler</span><span class="bh-cat-n">12</span></div>
+      <div class="bh-cat" onclick="filterBlog(this,'bilim')"><span class="bh-cat-name">Bilim & Araştırma</span><span class="bh-cat-n">4</span></div>
+      <div class="bh-cat" onclick="filterBlog(this,'rehber')"><span class="bh-cat-name">Kullanım Rehberleri</span><span class="bh-cat-n">5</span></div>
+      <div class="bh-cat" onclick="filterBlog(this,'trend')"><span class="bh-cat-name">Trend & Haberler</span><span class="bh-cat-n">3</span></div>
+    </div>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="feat-post" onclick="showArticle()">
+    <div class="fp-vis"><div class="fp-vis-bg"></div><div class="fp-vis-orb"></div><div style="position:relative;z-index:2;text-align:center;font-size:72px;margin-bottom:24px">💡</div><div class="fp-feat-badge">Öne Çıkan</div><h2 class="fp-h">LED Fototerapi'nin <em>Klinik Temelleri</em></h2><div class="fp-meta">Dr. Aylin Yılmaz · 8 Ocak 2026 · 12 dk okuma</div></div>
+    <div class="fp-body"><div class="fp-cat">Bilim & Araştırma</div><p class="fp-excerpt">633nm kırmızı ışık neden kolajen üretimini artırır? 415nm mavi ışık P.acnes bakterilerini nasıl imha eder? 830nm kızılötesi derin dokuya nasıl ulaşır? İstanbul Üniversitesi dermatoloji departmanı ile yürüttüğümüz 12 haftalık klinik çalışmanın detayları.</p><div class="fp-read">Makaleyi Oku <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div><div class="fp-tags"><span class="fp-tag">LED</span><span class="fp-tag">633nm</span><span class="fp-tag">Kolajen</span><span class="fp-tag">Klinik</span><span class="fp-tag">Anti-Aging</span></div></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="blog-filters">
+    <button class="bf-pill active" onclick="filterPill(this,'')">Tümü</button>
+    <button class="bf-pill" onclick="filterPill(this,'bilim')">Bilim</button>
+    <button class="bf-pill" onclick="filterPill(this,'rehber')">Rehber</button>
+    <button class="bf-pill" onclick="filterPill(this,'trend')">Trend</button>
+    <button class="bf-pill" onclick="filterPill(this,'akne')">Akne</button>
+    <button class="bf-pill" onclick="filterPill(this,'anti-aging')">Anti-Aging</button>
+    <button class="bf-pill" onclick="filterPill(this,'epilasyon')">Epilasyon</button>
+  </div>
+
+  <!-- GRID + SIDEBAR -->
+  <div class="blog-grid-wrap">
+    <div class="blog-grid" id="blogGrid">
+      <div class="blog-card" data-cat="rehber" onclick="showArticle()"><div class="bc-vis">🌿<div class="bc-vis-num">01</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">Kombine Cilt için Haftalık LED Protokolü</div><div class="bc-excerpt">Yağlı T-bölgesi ve kuru yanakları olan ciltler için optimum LED frekansı ve mod rotasyonu.</div><div class="bc-foot"><span>15 Oca 2026</span><span class="bc-foot-read">7 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="bilim" onclick="showArticle()"><div class="bc-vis">🔬<div class="bc-vis-num">02</div></div><div class="bc-body"><div class="bc-cat">Bilim</div><div class="bc-h">Mikro Akım Neden Yüz Konturunu Kaldırır?</div><div class="bc-excerpt">Adenozin trifosfat (ATP) sentezi, kas hafızası ve Dermaring Revive'ın klinik etki mekanizması.</div><div class="bc-foot"><span>10 Oca 2026</span><span class="bc-foot-read">9 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="akne anti-aging" onclick="showArticle()"><div class="bc-vis">💙<div class="bc-vis-num">03</div></div><div class="bc-body"><div class="bc-cat">Bilim</div><div class="bc-h">415nm Mavi Işık: Akne'nin Sessiz Düşmanı</div><div class="bc-excerpt">P.acnes bakterilerindeki porfirin aktivasyonu ve 6 haftalık mavi ışık tedavisinin histolojik bulguları.</div><div class="bc-foot"><span>4 Oca 2026</span><span class="bc-foot-read">11 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="rehber" onclick="showArticle()"><div class="bc-vis">⏰<div class="bc-vis-num">04</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">Sabah mı, Gece mi? LED Seansı İçin En İyi Zaman</div><div class="bc-excerpt">Sirkadiyen ritim, kortizol seviyeleri ve cilt yenilenmesi açısından hangi saatte LED kullanmalısınız?</div><div class="bc-foot"><span>28 Ara 2025</span><span class="bc-foot-read">5 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="epilasyon trend" onclick="showArticle()"><div class="bc-vis">❄️<div class="bc-vis-num">05</div></div><div class="bc-body"><div class="bc-cat">Trend</div><div class="bc-h">Ev IPL'i Kliniğe Karşı: 2026 Karşılaştırması</div><div class="bc-excerpt">Profesyonel IPL ve ev cihazları arasındaki etkinlik farkı gerçekten ne kadar?</div><div class="bc-foot"><span>20 Ara 2025</span><span class="bc-foot-read">8 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="anti-aging rehber" onclick="showArticle()"><div class="bc-vis">🪞<div class="bc-vis-num">06</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">35+ İçin Anti-Aging Başlangıç Protokolü</div><div class="bc-excerpt">İlk kez cihaz kullananlar için adım adım giriş programı. Ne zaman başlanmalı, nasıl ilerlenmeli?</div><div class="bc-foot"><span>12 Ara 2025</span><span class="bc-foot-read">6 dk →</span></div></div></div>
+    </div>
+    <div class="blog-side">
+      <div class="bsi-section"><div class="bsi-t">En Çok Okunanlar</div>
+        <div class="pop-item" onclick="showArticle()"><div class="pi-cat">Bilim</div><div class="pi-t">LED Fototerapi'nin Klinik Temelleri</div><div class="pi-meta">12 dk · 4.2k okuma</div></div>
+        <div class="pop-item" onclick="showArticle()"><div class="pi-cat">Rehber</div><div class="pi-t">Kombine Cilt LED Protokolü</div><div class="pi-meta">7 dk · 2.8k okuma</div></div>
+        <div class="pop-item" onclick="showArticle()"><div class="pi-cat">Trend</div><div class="pi-t">Ev IPL vs Klinik IPL</div><div class="pi-meta">8 dk · 1.9k okuma</div></div>
+      </div>
+      <div class="bsi-email"><div class="be-t">Journal'a <em>Abone Ol</em></div><div class="be-d">Haftada 1 e-posta. Bilim, protokol ve cilt teknolojisi.</div><input class="be-input" type="email" placeholder="E-posta adresiniz"><button class="be-btn" onclick="this.textContent='✓ Abone olundu!'">Abone Ol →</button></div>
+    </div>
+  </div>
+  <div class="blog-pag"><div class="bp-info">12 yazıdan 6 tanesi gösteriliyor</div><div class="bp-btns"><button class="bp-btn active">1</button><button class="bp-btn">2</button><button class="bp-btn"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div></div>
+</div>
+
+<!-- ARTICLE VIEW -->
+<div class="article-view" id="articleView">
+  <div class="art-hero">
+    <button class="art-back" onclick="backToBlog()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Tüm Yazılar</button>
+    <div class="art-cat">Bilim & Araştırma</div>
+    <h1 class="art-h">LED Fototerapi'nin<br><em>Klinik Temelleri</em></h1>
+    <div class="art-meta"><span>Dr. Aylin Yılmaz</span><span>8 Ocak 2026</span><span>12 dk okuma</span><span>4.2k görüntüleme</span></div>
+  </div>
+  <div class="art-body-wrap">
+    <div class="art-body">
+      <p>LED fototerapi, 1960'larda NASA'nın bitki büyüme araştırmalarıyla başlayan ve günümüzde dermatolojinin en güçlü araçlarından biri haline gelen bir teknolojidir. Peki bu ışıklar neden cilt hücrelerini aktive eder?</p>
+      <h2>Fotobiyomodülasyon: Hücresel Mekanizma</h2>
+      <p>LED ışığı cilt yüzeyine temas ettiğinde, belirli dalga boyları deri katmanlarına farklı derinliklerde nüfuz eder. Bu süreç <strong>fotobiyomodülasyon</strong> olarak adlandırılır: ışık enerjisi hücre içi mitokondri tarafından emilir ve ATP (adenozin trifosfat) üretimine dönüştürülür.</p>
+      <div class="callout"><b>Klinik Not</b>Mitokondride bulunan sitokrom c oksidaz enzimi, 600–1000nm aralığındaki ışığa özellikle duyarlıdır. Bu enzimin aktivasyonu hücre metabolizmasını doğrudan etkiler.</div>
+      <h2>633nm Kırmızı Işık: Kolajen Fabrikası</h2>
+      <p>Kırmızı ışık, dermis tabakasına 2–3mm derinliğe kadar ulaşır. Fibroblast hücrelerini aktive ederek <strong>Tip-I ve Tip-III kolajen sentezini</strong> artırır. İÜ Dermatoloji ile yürüttüğümüz 12 haftalık çalışmada 633nm'de:</p>
+      <p>Haftada 4 seans, 20 dakika protokolüyle katılımcıların %57'si dolgunluk artışı, %43'ü kırışıklık azalması bildirdi. Visiometer ölçümleri bu bulguları destekledi.</p>
+      <h2>415nm Mavi Işık: Akne Tedavisi</h2>
+      <p><em>Cutibacterium acnes</em> (eski adıyla P. acnes) bakterileri, porfirinler adı verilen ışığa duyarlı moleküller üretir. 415nm mavi ışık bu porfirin molekülleriyle etkileşime girerek <strong>reaktif oksijen türleri</strong> oluşturur ve bakteriyi imha eder.</p>
+      <div class="callout"><b>Önemli</b>Mavi ışık yalnızca aktif akne tedavisinde kullanılmalıdır. Aknesiz ciltlerde gereksiz sebum inhibisyonuna yol açabilir. Cilt testimizi kullanarak kendi protokolünüzü belirleyin.</div>
+      <h2>830nm Kızılötesi: Derin Doku Etkisi</h2>
+      <p>Kızılötesi ışık görünür spektrumun ötesine geçer ve 5–6mm derinliğe kadar nüfuz edebilir. Hipodermisteki yağ hücrelerine ulaşarak <strong>mikro dolaşımı iyileştirir</strong>, inflamasyonu azaltır ve doku iyileşmesini hızlandırır.</p>
+      <h2>Protokol Önerileri</h2>
+      <p>Klinik veriler ışığında önerilen protokol şudur: İlk 4 hafta haftada 3 seans kırmızı mod, 5. haftadan itibaren kırmızı + kızılötesi kombine mod. Akne endişesi varsa haftanın 1–2 seansı mavi mod olarak değiştirilebilir.</p>
+    </div>
+    <div class="art-toc"><div class="atoc-t">Bu Yazıda</div><div class="atoc-item active">Fotobiyomodülasyon</div><div class="atoc-item">633nm Kırmızı Işık</div><div class="atoc-item">415nm Mavi Işık</div><div class="atoc-item">830nm Kızılötesi</div><div class="atoc-item">Protokol Önerileri</div><div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--i15)"><div class="atoc-t">İlgili Ürün</div><a href="glame-pdp.html" style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--i70);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--i70)'"><div style="width:32px;height:32px;background:radial-gradient(circle,rgba(190,53,53,.15),transparent);border:1px solid var(--i15);border-radius:50%;flex-shrink:0"></div>Glame Glow Mask →</a></div></div>
+  </div>
+</div>
+
+<nav class="mob-nav"><div class="mob-nav-inner">
+  <button class="mni" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Ana</button>
+  <button class="mni" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
+  <button class="mn-cta" onclick="window.location='glame-checkout.html'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+  <button class="mni active"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Blog</button>
+  <button class="mni" onclick="window.location='glame-quiz.html'"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Test</button>
+</div></nav>
+
+<script>
+const cur=document.getElementById('cur'),curr=document.getElementById('curr');
+let mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia('(hover:hover)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
+  document.querySelectorAll('a,button,.blog-card,.feat-post,.pop-item').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});
+}
+function filterBlog(el,cat){
+  document.querySelectorAll('.bh-cat').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  filterCards(cat);
+}
+function filterPill(el,cat){
+  document.querySelectorAll('.bf-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  filterCards(cat);
+}
+function filterCards(cat){
+  document.querySelectorAll('.blog-card').forEach(c=>{
+    const ccat=c.dataset.cat||'';
+    c.style.display=(cat===''||ccat.includes(cat))?'':'none';
+  });
+}
+function showArticle(){
+  document.getElementById('blogList').style.display='none';
+  document.getElementById('articleView').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToBlog(){
+  document.getElementById('articleView').classList.remove('show');
+  document.getElementById('blogList').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
