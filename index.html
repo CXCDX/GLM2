@@ -291,7 +291,7 @@ h1 em { font-style:italic; font-weight:400; color:var(--g); }
 .hslide.exit { opacity:0; transform:translateX(-32px); }
 .slide-card {
   width:58%; max-width:320px; aspect-ratio:2/3;
-  background:rgba(247,244,239,.75); border:var(--brd);
+  background:var(--w2); border:var(--brd);
   box-shadow:6px 6px 0 var(--ink);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
   position:relative; overflow:hidden;
@@ -749,7 +749,7 @@ footer { background:var(--ink); padding:80px 56px 40px; }
       <div class="hslide active">
         <div class="slide-card">
           <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(190,53,53,.12) 0%,transparent 60%)"></div>
-          <div class="dmask" style="width:148px;height:148px;animation:float 8s ease-in-out infinite"></div>
+          <img src="product-assets/img/glow-mask-dekupe.jpg" alt="Glow Mask" style="max-height:148px;width:auto;object-fit:contain;mix-blend-mode:multiply;animation:float 8s ease-in-out infinite">
           <div class="slide-lbl">Glow Mask</div>
         </div>
         <div class="slide-info"><div class="si-tag">LED Fototerapi</div><div class="si-name">Glow Mask</div><div class="si-sub">94 LED · 633nm</div></div>
@@ -758,7 +758,7 @@ footer { background:var(--ink); padding:80px 56px 40px; }
       <div class="hslide">
         <div class="slide-card">
           <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(190,53,53,.07) 0%,transparent 60%)"></div>
-          <div class="dcyl" style="animation:float 8s ease-in-out infinite"></div>
+          <img src="product-assets/img/dermaring-dekupe.jpg" alt="Dermaring Revive" style="max-height:148px;width:auto;object-fit:contain;mix-blend-mode:multiply;animation:float 8s ease-in-out infinite">
           <div class="slide-lbl" style="margin-top:20px">Dermaring Revive</div>
         </div>
         <div class="slide-info"><div class="si-tag">Anti-Aging</div><div class="si-name">Dermaring Revive</div><div class="si-sub">Mikro Akım · Kızılötesi</div></div>
@@ -767,7 +767,7 @@ footer { background:var(--ink); padding:80px 56px 40px; }
       <div class="hslide">
         <div class="slide-card">
           <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(100,120,220,.07) 0%,transparent 60%)"></div>
-          <div class="dspin" style="animation:float 8s ease-in-out infinite"><div class="dspin-h"></div><div class="dspin-b"></div></div>
+          <img src="product-assets/img/duo-spin-dekupe.png" alt="Duo Spin Cleanser" style="max-height:148px;width:auto;object-fit:contain;mix-blend-mode:multiply;animation:float 8s ease-in-out infinite">
           <div class="slide-lbl" style="margin-top:20px">Duo Spin Cleanser</div>
         </div>
         <div class="slide-info"><div class="si-tag">Temizleme</div><div class="si-name">Duo Spin Cleanser</div><div class="si-sub">Sonik · 360° Spin</div></div>
@@ -776,7 +776,7 @@ footer { background:var(--ink); padding:80px 56px 40px; }
       <div class="hslide">
         <div class="slide-card">
           <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(100,160,220,.09) 0%,transparent 60%)"></div>
-          <div class="dipl" style="animation:float 8s ease-in-out infinite"></div>
+          <img src="product-assets/img/sapphire-ipl-dekupe.jpg" alt="Sapphire IPL" style="max-height:148px;width:auto;object-fit:contain;mix-blend-mode:multiply;animation:float 8s ease-in-out infinite">
           <div class="slide-lbl" style="margin-top:20px">Sapphire IPL</div>
         </div>
         <div class="slide-info"><div class="si-tag">Epilasyon</div><div class="si-name">Sapphire Freeze IPL</div><div class="si-sub">IPL · Safir Soğutma</div></div>
@@ -785,7 +785,7 @@ footer { background:var(--ink); padding:80px 56px 40px; }
       <div class="hslide">
         <div class="slide-card">
           <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(184,137,42,.07) 0%,transparent 60%)"></div>
-          <div class="dcomb" style="animation:float 8s ease-in-out infinite"></div>
+          <img src="product-assets/img/hair-light-dekupe.jpg" alt="Hair Light Pro" style="max-height:148px;width:auto;object-fit:contain;mix-blend-mode:multiply;animation:float 8s ease-in-out infinite">
           <div class="slide-lbl" style="margin-top:20px">Hair Light Pro</div>
         </div>
         <div class="slide-info"><div class="si-tag">Saç Bakımı</div><div class="si-name">Hair Light Pro Comb</div><div class="si-sub">Kızılötesi · Mikro Akım</div></div>
@@ -842,17 +842,17 @@ footer { background:var(--ink); padding:80px 56px 40px; }
     <a href="glame-collection.html" class="see-all">Tümünü Gör <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
   </div>
   <div class="pgrid">
-    <div class="pc feat fi" onclick="window.location='glame-pdp.html'" style="cursor:pointer">
+    <div class="pc feat fi" onclick="window.location='glame-pdp.html?product=glow-mask'" style="cursor:pointer">
       <div class="pin">
         <div><div class="ptag">★ En Çok Satan</div><div class="pname feat">Glame Glow Mask</div><p class="pdesc feat">94 LED kaynağı, 2cm yoğunluk dağılımı. Akne, kırışıklık ve lekelere karşı klinik etki.</p><div class="ppills"><span class="ppill">LED Fototerapi</span><span class="ppill">633nm</span><span class="ppill">Anti-Aging</span></div></div>
-        <div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(190,53,53,.15) 0%,transparent 65%)"></div><div class="dw"><div class="dmask feat"></div><div class="dlbl">Glow Mask</div></div></div>
+        <div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(190,53,53,.15) 0%,transparent 65%)"></div><img src="product-assets/img/glow-mask-dekupe.jpg" alt="Glame Glow Mask" style="max-height:280px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div>
         <div class="pbot"><div class="ppr"><sub>₺</sub>5.000</div><button class="padd"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Sepete Ekle</button></div>
       </div>
     </div>
-    <div class="pc fi" onclick="window.location='glame-pdp.html'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Anti-Aging</div><div class="pname">Dermaring Revive</div><p class="pdesc">REVIVE akım, kırmızı ve kızılötesi ışık terapilerini birleştirir.</p><div class="ppills"><span class="ppill">Mikro Akım</span><span class="ppill">Kızılötesi</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(190,53,53,.1) 0%,transparent 65%)"></div><div class="dw d2"><div class="dcyl"></div><div class="dlbl">Dermaring</div></div></div><div class="pbot"><div class="ppr"><sub>₺</sub>3.500</div><button class="padd">Ekle</button></div></div></div>
-    <div class="pc fi" onclick="window.location='glame-pdp.html'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Temizleme</div><div class="pname">Duo Spin Cleanser</div><p class="pdesc">Çift dönen başlık, gözenekleri derinlemesine temizler.</p><div class="ppills"><span class="ppill">Sonik</span><span class="ppill">360° Spin</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(100,120,200,.08) 0%,transparent 65%)"></div><div class="dw d3"><div class="dspin"><div class="dspin-h"></div><div class="dspin-b"></div></div><div class="dlbl">Duo Spin</div></div></div><div class="pbot"><div class="ppr"><sub>₺</sub>2.200</div><button class="padd">Ekle</button></div></div></div>
-    <div class="pc fi" onclick="window.location='glame-pdp.html'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Epilasyon</div><div class="pname">Sapphire Freeze IPL</div><p class="pdesc">Geniş çıkış penceresi ve enerji depolama teknolojisiyle kalıcı sonuçlar.</p><div class="ppills"><span class="ppill">IPL</span><span class="ppill">Safir Soğutma</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(100,160,220,.1) 0%,transparent 65%)"></div><div class="dw d4"><div class="dipl"></div><div class="dlbl">Sapphire IPL</div></div></div><div class="pbot"><div class="ppr"><sub>₺</sub>4.200</div><button class="padd">Ekle</button></div></div></div>
-    <div class="pc fi" onclick="window.location='glame-pdp.html'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Saç Bakımı</div><div class="pname">Hair Light Pro Comb</div><p class="pdesc">Saç dökülmesine karşı kızılötesi ışık ve mikro akım kombinasyonu.</p><div class="ppills"><span class="ppill">Kızılötesi</span><span class="ppill">Saç</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(184,137,42,.08) 0%,transparent 65%)"></div><div class="dw d5"><div class="dcomb"></div><div class="dlbl">Hair Light Pro</div></div></div><div class="pbot"><div class="ppr"><sub>₺</sub>4.000</div><button class="padd">Ekle</button></div></div></div>
+    <div class="pc fi" onclick="window.location='glame-pdp.html?product=dermaring'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Anti-Aging</div><div class="pname">Dermaring Revive</div><p class="pdesc">REVIVE akım, kırmızı ve kızılötesi ışık terapilerini birleştirir.</p><div class="ppills"><span class="ppill">Mikro Akım</span><span class="ppill">Kızılötesi</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(190,53,53,.1) 0%,transparent 65%)"></div><img src="product-assets/img/dermaring-dekupe.jpg" alt="Dermaring Revive" style="max-height:180px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div><div class="pbot"><div class="ppr"><sub>₺</sub>3.500</div><button class="padd">Ekle</button></div></div></div>
+    <div class="pc fi" onclick="window.location='glame-pdp.html?product=duo-spin'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Temizleme</div><div class="pname">Duo Spin Cleanser</div><p class="pdesc">Çift dönen başlık, gözenekleri derinlemesine temizler.</p><div class="ppills"><span class="ppill">Sonik</span><span class="ppill">360° Spin</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(100,120,200,.08) 0%,transparent 65%)"></div><img src="product-assets/img/duo-spin-dekupe.png" alt="Duo Spin Cleanser" style="max-height:180px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div><div class="pbot"><div class="ppr"><sub>₺</sub>2.200</div><button class="padd">Ekle</button></div></div></div>
+    <div class="pc fi" onclick="window.location='glame-pdp.html?product=sapphire-ipl'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Epilasyon</div><div class="pname">Sapphire Freeze IPL</div><p class="pdesc">Geniş çıkış penceresi ve enerji depolama teknolojisiyle kalıcı sonuçlar.</p><div class="ppills"><span class="ppill">IPL</span><span class="ppill">Safir Soğutma</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(100,160,220,.1) 0%,transparent 65%)"></div><img src="product-assets/img/sapphire-ipl-dekupe.jpg" alt="Sapphire Freeze IPL" style="max-height:180px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div><div class="pbot"><div class="ppr"><sub>₺</sub>4.200</div><button class="padd">Ekle</button></div></div></div>
+    <div class="pc fi" onclick="window.location='glame-pdp.html?product=hair-light'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Saç Bakımı</div><div class="pname">Hair Light Pro Comb</div><p class="pdesc">Saç dökülmesine karşı kızılötesi ışık ve mikro akım kombinasyonu.</p><div class="ppills"><span class="ppill">Kızılötesi</span><span class="ppill">Saç</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(184,137,42,.08) 0%,transparent 65%)"></div><img src="product-assets/img/hair-light-dekupe.jpg" alt="Hair Light Pro Comb" style="max-height:180px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div><div class="pbot"><div class="ppr"><sub>₺</sub>4.000</div><button class="padd">Ekle</button></div></div></div>
   </div>
 </section>
 
