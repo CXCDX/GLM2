@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#f7f4ef">
+<meta name="theme-color" content="#ffffff">
 <title>Glame — Hesabım</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;
+  --w:#ffffff;--w2:#F5F5F5;--w3:#EBEBEB;
   --ink:#0f0e0e;
   --i70:rgba(15,14,14,.70);--i40:rgba(15,14,14,.40);
   --i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);
-  --g:#b8892a;--g2:#d4a030;--r:#be3535;
-  --brd:2px solid var(--ink);--brdg:2px solid var(--g);
-  --d:'Playfair Display',Georgia,serif;
-  --b:'Figtree',sans-serif;
-  --m:'DM Mono',monospace;
+  --g:#E63628;--g2:#0D9488;--r:#be3535;
+  --brd:3px solid var(--ink);--brdg:3px solid var(--g);
+  --d:'Space Grotesk',sans-serif;
+  --b:'Inter',sans-serif;
+  --m:'JetBrains Mono',monospace;
   --safe-bottom:env(safe-area-inset-bottom,0px);
   --nav-h:72px;--top-h:60px;
 }
@@ -33,12 +33,12 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 /* ── ANN ── */
 .ann{height:34px;background:var(--ink);overflow:hidden;display:flex;align-items:center}
 .ann-track{display:flex;white-space:nowrap;animation:marquee 38s linear infinite}
-.ann-item{padding:0 32px;font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+.ann-item{padding:0 32px;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45)}
 .ann-item b{color:var(--g2);font-weight:400}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── NAV ── */
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(247,244,239,.96);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-bottom:var(--brd)}
 .logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
 .nav-back{display:flex;align-items:center;gap:8px;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);transition:color .2s;cursor:pointer}
@@ -53,20 +53,20 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .auth-left{background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:72px 64px;position:relative;overflow:hidden;border-right:var(--brd)}
 .auth-left-bg{position:absolute;inset:0;pointer-events:none}
 /* orbital decoration */
-.orb{position:absolute;border-radius:50%;border:1px solid rgba(247,244,239,.07)}
+.orb{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.07)}
 .orb1{width:480px;height:480px;top:-80px;right:-120px}
 .orb2{width:320px;height:320px;bottom:40px;left:-80px}
 .orb3{width:180px;height:180px;top:40%;right:10%;border-color:rgba(184,137,42,.15)}
 /* glow */
 .auth-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(184,137,42,.08) 0%,transparent 70%);top:30%;left:20%;pointer-events:none}
 .auth-brand{position:relative;z-index:2}
-.auth-brand-logo{font-family:var(--d);font-size:28px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,244,239,.9);margin-bottom:48px}
+.auth-brand-logo{font-family:var(--d);font-size:28px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.9);margin-bottom:48px}
 .auth-brand-logo em{font-style:italic;color:var(--g);font-weight:400}
-.auth-tagline{font-family:var(--d);font-size:clamp(32px,3vw,48px);font-weight:900;color:rgba(247,244,239,.9);line-height:.97;letter-spacing:-.025em;margin-bottom:20px}
+.auth-tagline{font-family:var(--d);font-size:clamp(32px,3vw,48px);font-weight:900;color:rgba(255,255,255,.9);line-height:.97;letter-spacing:-.025em;margin-bottom:20px}
 .auth-tagline em{font-style:italic;font-weight:400;color:var(--g)}
-.auth-desc{font-size:15px;color:rgba(247,244,239,.35);line-height:1.7;max-width:320px}
+.auth-desc{font-size:15px;color:rgba(255,255,255,.35);line-height:1.7;max-width:320px}
 .auth-perks{position:relative;z-index:2;display:flex;flex-direction:column;gap:16px}
-.auth-perk{display:flex;align-items:center;gap:14px;font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+.auth-perk{display:flex;align-items:center;gap:14px;font-family:var(--m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45)}
 .auth-perk-dot{width:6px;height:6px;border-radius:50%;background:var(--g);flex-shrink:0}
 .auth-device{position:absolute;bottom:72px;right:48px;z-index:2;opacity:.25}
 
@@ -122,7 +122,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 /* loading state */
 .fsubmit.loading{pointer-events:none}
 .fsubmit.loading span{opacity:0}
-.fsubmit.loading::before{content:'';position:absolute;width:18px;height:18px;border:2px solid rgba(247,244,239,.3);border-top-color:var(--w);border-radius:50%;animation:spin .7s linear infinite;z-index:2}
+.fsubmit.loading::before{content:'';position:absolute;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:var(--w);border-radius:50%;animation:spin .7s linear infinite;z-index:2}
 @keyframes spin{to{transform:rotate(360deg)}}
 /* divider */
 .fdiv{display:flex;align-items:center;gap:14px;margin-bottom:20px}
