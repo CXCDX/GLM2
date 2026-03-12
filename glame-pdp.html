@@ -23,17 +23,12 @@
   --b:'Inter',sans-serif;
   --m:'JetBrains Mono',monospace;
   --safe-b:env(safe-area-inset-bottom,0px);
-  --nav-h:72px;--ann-h:34px;
+  --nav-h:72px;--ann-h:34px;--desk-nav-h:82px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-b) + 72px)}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
-#cur,#curr{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-#cur{width:7px;height:7px;border-radius:50%;background:var(--ink)}
-#curr{width:32px;height:32px;border-radius:50%;border:var(--brd);z-index:9998;transition:width .3s,height .3s,border-color .3s}
-#curr.x{width:52px;height:52px;border-color:var(--g)}
-@media(hover:none){#cur,#curr{display:none}}
 
 /* ── ANN ── */
 .ann{height:var(--ann-h);background:var(--ink);overflow:hidden;display:flex;align-items:center;position:sticky;top:0;z-index:200}
@@ -43,18 +38,25 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── NAV ── */
-.nav{position:sticky;top:var(--ann-h);z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd);box-shadow:var(--sh)}
+.nav{position:sticky;top:var(--ann-h);z-index:150;display:flex;flex-direction:column;padding:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd);box-shadow:var(--sh)}
+.nav-top{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:0 48px;height:28px;border-bottom:1px solid var(--i08);font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+.nav-top a{color:var(--i40);text-decoration:none;transition:color .2s}
+.nav-top a:hover{color:var(--ink)}
+.nav-main{display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:54px}
 .logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
-.nav-bc{display:flex;align-items:center;gap:8px;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40)}
-.nav-bc a{color:var(--i40);transition:color .2s;text-decoration:none}
-.nav-bc a:hover{color:var(--ink)}
-.nav-r{display:flex;align-items:center;gap:16px}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-r{display:flex;align-items:center;gap:14px}
+.nav-search{display:flex;align-items:center;gap:6px;padding:6px 14px;border:var(--brd);border-radius:20px;background:var(--w2);transition:border-color .2s}
+.nav-search:focus-within{border-color:var(--i40)}
+.nav-search input{border:none;background:none;outline:none;font-family:var(--m);font-size:10px;letter-spacing:.08em;color:var(--ink);width:120px}
+.nav-search input::placeholder{color:var(--i40)}
+.nav-search svg{color:var(--i40);flex-shrink:0}
 .ni{color:var(--i70);display:flex;align-items:center;cursor:pointer;transition:color .2s;position:relative}
 .ni:hover{color:var(--ink)}
 .nb{position:absolute;top:-5px;right:-5px;width:15px;height:15px;background:var(--g);border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--m)}
-.hbg{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
-.hbg span{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s}
 
 /* ── MOB TOP ── */
 .mob-top{display:none;position:sticky;top:var(--ann-h);z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
@@ -76,16 +78,16 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 /* ── LEFT: media ── */
 .pdp-media{
   position:sticky;
-  top:calc(var(--ann-h) + 68px);
-  height:calc(100dvh - var(--ann-h) - 68px);
+  top:calc(var(--ann-h) + var(--desk-nav-h));
+  height:calc(100dvh - var(--ann-h) - var(--desk-nav-h));
   background:var(--ink);
   border-right:var(--brd);
-  display:flex;
-  flex-direction:column;
+  display:grid;
+  grid-template-columns:120px 1fr;
   overflow:hidden;
 }
 /* main visual */
-.pdp-viz{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:var(--brd)}
+.pdp-viz{display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 /* dark ambient glow */
 .viz-glow{position:absolute;inset:0;transition:background 1s ease}
 /* the mask SVG illustration */
@@ -97,17 +99,18 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 @keyframes bfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .vb-val{font-family:var(--d);font-size:18px;font-weight:700;font-style:italic;color:var(--g);line-height:1}
 
-/* thumbnail strip */
-.pdp-thumbs{display:flex;height:76px;border-top:var(--brd);flex-shrink:0}
-.pdp-thumb{flex:1;cursor:pointer;background:rgba(255,255,255,.04);border-right:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .2s;position:relative;overflow:hidden}
-.pdp-thumb:last-child{border-right:none}
-.pdp-thumb::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transition:transform .3s}
+/* thumbnail strip — vertical left column */
+.pdp-thumbs{display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;border-right:1px solid rgba(255,255,255,.08);scrollbar-width:none;-ms-overflow-style:none}
+.pdp-thumbs::-webkit-scrollbar{display:none}
+.pdp-thumb{min-height:120px;cursor:pointer;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .2s;position:relative;overflow:hidden;flex-shrink:0}
+.pdp-thumb:last-child{border-bottom:none}
+.pdp-thumb::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--g);transform:scaleY(0);transition:transform .3s}
 .pdp-thumb.active{background:rgba(255,255,255,.1)}
-.pdp-thumb.active::before,.pdp-thumb:hover::before{transform:scaleX(1)}
-.th-inner{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.pdp-thumb.active::before,.pdp-thumb:hover::before{transform:scaleY(1)}
+.th-inner{width:100px;height:100px;border-radius:8px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 
 /* ── RIGHT: info ── */
-.pdp-info{padding:52px 52px 80px;display:flex;flex-direction:column;overflow-y:auto;max-height:calc(100dvh - var(--ann-h) - 68px)}
+.pdp-info{padding:52px 52px 80px;display:flex;flex-direction:column;overflow-y:auto;max-height:calc(100dvh - var(--ann-h) - var(--desk-nav-h))}
 .pdp-cat{font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .pdp-cat::before{content:'';width:12px;height:2px;background:var(--g)}
 .pdp-h1{font-family:var(--d);font-size:clamp(38px,3.5vw,54px);font-weight:900;line-height:.95;letter-spacing:-.025em;margin-bottom:10px}
@@ -174,7 +177,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 /* ═══════════════════════════════════
    BELOW-FOLD TABS
 ═══════════════════════════════════ */
-.pdp-tabs{position:sticky;top:calc(var(--ann-h) + 68px);z-index:80;background:var(--w);border-bottom:var(--brd);border-top:var(--brd)}
+.pdp-tabs{position:sticky;top:calc(var(--ann-h) + var(--desk-nav-h));z-index:80;background:var(--w);border-bottom:var(--brd);border-top:var(--brd)}
 .pdp-tabs-inner{display:flex;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
 .pdp-tabs-inner::-webkit-scrollbar{display:none}
 .pdp-tab{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);padding:16px 32px;border:none;background:none;cursor:pointer;white-space:nowrap;border-right:var(--brd);border-bottom:2px solid transparent;transition:all .25s;position:relative}
@@ -342,7 +345,13 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
   body{padding-bottom:calc(var(--nav-h) + var(--safe-b) + 72px)}
   .nav{display:none}.mob-top{display:flex}.mob-nav{display:block}.mob-atc{display:flex}
   .pdp-hero{grid-template-columns:1fr}
-  .pdp-media{position:static;height:80vw;min-height:280px;border-right:none;border-bottom:var(--brd)}
+  .pdp-media{position:static;height:80vw;min-height:280px;border-right:none;border-bottom:var(--brd);grid-template-columns:1fr;grid-template-rows:1fr auto}
+  .pdp-thumbs{flex-direction:row;overflow-x:auto;overflow-y:hidden;border-right:none;border-top:1px solid rgba(255,255,255,.08)}
+  .pdp-thumb{min-height:auto;height:76px;min-width:76px;flex:1;border-bottom:none;border-right:1px solid rgba(255,255,255,.08)}
+  .pdp-thumb:last-child{border-right:none}
+  .pdp-thumb::before{top:auto;bottom:0;left:0;right:0;width:auto;height:2px;transform:scaleX(0);transform-origin:center}
+  .pdp-thumb.active::before,.pdp-thumb:hover::before{transform:scaleX(1)}
+  .th-inner{width:50px;height:50px;border-radius:50%}
   .pdp-info{padding:28px 18px 48px;max-height:none;overflow-y:visible}
   .pdp-h1{font-size:clamp(32px,9.5vw,46px)}
   .pdp-tabs{top:calc(var(--ann-h) + 56px)}
@@ -391,7 +400,6 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 </style>
 </head>
 <body>
-<div id="cur"></div><div id="curr"></div>
 
 <!-- ANN -->
 <div class="ann"><div class="ann-t">
@@ -414,19 +422,27 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 
 <!-- DESKTOP NAV -->
 <nav class="nav">
-  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
-  <div class="nav-bc">
-    <a href="glame-homepage.html">Ana Sayfa</a>
-    <span style="color:var(--i15)">→</span>
-    <a href="glame-collection.html">Cilt Bakımı</a>
-    <span style="color:var(--i15)">→</span>
-    <span style="color:var(--ink)">Glow Mask</span>
+  <div class="nav-top">
+    <a href="#">Ürünü Kaydet</a>
+    <a href="#">Sipariş Takibi</a>
   </div>
-  <div class="nav-r">
-    <span class="ni"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
-    <span class="ni"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
-    <span class="ni" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nb">2</span></span>
-    <button class="hbg" id="hbg"><span></span><span></span><span></span></button>
+  <div class="nav-main">
+    <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+    <div class="nav-links">
+      <a href="glame-collection.html">Ürünler</a>
+      <a href="glame-about.html">Hakkımızda</a>
+      <a href="glame-quiz.html">Cilt Testi</a>
+      <a href="glame-blog.html">Blog</a>
+      <a href="glame-contact.html">İletişim</a>
+    </div>
+    <div class="nav-r">
+      <div class="nav-search">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" placeholder="Ara...">
+      </div>
+      <span class="ni"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+      <span class="ni" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nb">2</span></span>
+    </div>
   </div>
 </nav>
 
@@ -441,8 +457,8 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 <div class="omenu" id="omenu">
   <button class="om-close" id="omclose">Kapat ✕</button>
   <a href="glame-homepage.html" class="om-link">Ana Sayfa <em>→</em></a>
-  <a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a>
-  <a href="glame-about.html" class="om-link">Teknoloji <em>→</em></a>
+  <a href="glame-collection.html" class="om-link">Ürünler <em>→</em></a>
+  <a href="glame-about.html" class="om-link">Hakkımızda <em>→</em></a>
   <a href="glame-quiz.html" class="om-link">Cilt Testi <em>→</em></a>
   <a href="glame-blog.html" class="om-link">Blog <em>→</em></a>
   <a href="glame-contact.html" class="om-link">İletişim <em>→</em></a>
@@ -980,18 +996,6 @@ const PRODUCTS = {
   const rcEl = document.querySelector('.rc');
   if(rcEl) rcEl.innerHTML = '<b>' + p.rating + '</b> · ' + p.reviews + ' Değerlendirme';
 
-  // Breadcrumb
-  const bcLast = document.querySelector('.nav-bc');
-  if(bcLast) {
-    const allSpans = bcLast.querySelectorAll('span');
-    // Last span with ink color is the product name
-    for(let i = allSpans.length - 1; i >= 0; i--){
-      if(allSpans[i].style.color && allSpans[i].style.color.includes('ink')){
-        allSpans[i].textContent = p.breadcrumb;
-        break;
-      }
-    }
-  }
 
   // Mobile sticky ATC
   const mobPrice = document.querySelector('.mob-atc-price');
@@ -1024,14 +1028,6 @@ const PRODUCTS = {
   if(rvBigT) rvBigT.textContent = p.reviews + ' Değerlendirme';
 })();
 
-/* ── CURSOR ── */
-const cur=document.getElementById('cur'),curr=document.getElementById('curr');
-let mx=0,my=0,rx=0,ry=0;
-if(window.matchMedia('(hover:hover)').matches){
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
-  document.querySelectorAll('a,button,.rel-card').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});
-}
 
 /* ── OVERLAY MENU ── */
 const omenu=document.getElementById('omenu');

@@ -115,8 +115,17 @@ button { font-family:inherit; }
 .desk-icon { position:relative; color:var(--i70); display:flex; align-items:center; transition:color .2s; }
 .desk-icon:hover { color:var(--ink); }
 .desk-badge { position:absolute; top:-5px; right:-5px; width:16px; height:16px; background:var(--g); border-radius:50%; font-size:9px; display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--m); }
-/* hamburger in desk nav */
-.hbg { display:flex; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px; }
+/* search bar in desk nav */
+.desk-search { flex:1; max-width:360px; margin:0 20px; }
+.dsb { display:flex; align-items:center; gap:8px; background:var(--w2); border:1px solid var(--i08); border-radius:8px; padding:0 12px; height:38px; transition:border-color .2s; }
+.dsb:focus-within { border-color:var(--ink); background:var(--w); }
+.dsb svg { flex-shrink:0; color:var(--i40); }
+.dsb-input { flex:1; border:none; background:transparent; font-family:var(--b); font-size:12px; color:var(--ink); outline:none; }
+.dsb-input::placeholder { color:var(--i40); }
+.desk-link-sm { font-family:var(--b); font-size:11px; color:var(--i40); transition:color .2s; white-space:nowrap; }
+.desk-link-sm:hover { color:var(--ink); }
+/* hamburger hidden on desktop */
+.hbg { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px; }
 .hbg span { display:block; width:26px; height:2.5px; background:var(--ink); border-radius:2px; transition:all .35s cubic-bezier(.16,1,.3,1); }
 .hbg.open span:nth-child(1) { transform:translateY(7.5px) rotate(45deg); }
 .hbg.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
@@ -348,7 +357,7 @@ button { font-family:inherit; }
    SECTION SYSTEM
 ════════════════════════════════════════ */
 .sec { padding:96px 56px; }
-.sec-alt { background:var(--w2); border-radius:32px; margin:24px; padding:80px 48px; }
+.sec-alt { background:transparent; border:1px solid var(--i08); border-radius:32px; margin:24px; padding:80px 48px; }
 .sec-dark { background:var(--ink); color:var(--w); border-radius:32px; margin:24px; }
 .sec-label { font-family:var(--b); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--g); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
 .sec-label::before { content:''; width:14px; height:2px; background:var(--g); flex-shrink:0; }
@@ -450,7 +459,7 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 /* ════════════════════════════════════════
    SMART SKINCARE BANNER
 ════════════════════════════════════════ */
-.smart-banner { background:var(--w2); border-radius:32px; margin:24px; padding:72px 56px; }
+.smart-banner { background:transparent; border:1px solid var(--i08); border-radius:32px; margin:24px; padding:72px 56px; }
 .smart-inner { display:grid; grid-template-columns:1fr 1fr 1fr; gap:40px; align-items:start; }
 .smart-left { }
 .smart-left h2 { font-family:var(--d); font-size:clamp(28px,3.5vw,44px); font-weight:600; line-height:1.08; margin-bottom:16px; }
@@ -621,7 +630,7 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 .qc-l h2 { font-family:var(--d); font-size:clamp(30px,3vw,42px); font-weight:600; line-height:1.1; margin:18px 0; }
 .qc-l h2 em { font-style:italic; font-weight:400; color:var(--g); }
 .qc-l p { font-size:15px; color:var(--i70); line-height:1.75; margin-bottom:32px; max-width:320px; }
-.qc-r { background:var(--w3); display:flex; align-items:center; justify-content:center; padding:48px 40px; }
+.qc-r { background:var(--w2); display:flex; align-items:center; justify-content:center; padding:48px 40px; }
 .qsteps { width:100%; }
 .qs { display:flex; align-items:center; gap:12px; padding:14px; border-radius:12px; margin-bottom:6px; font-family:var(--b); font-size:12px; color:var(--i70); transition:all .3s; }
 .qs:last-child { }
@@ -671,6 +680,50 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 /* ════════════════════════════════════════
    FADE IN
 ════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   LUXURY BUTTON OPACITY
+════════════════════════════════════════ */
+.btn-primary, .padd, .desk-cta, .satc-btn, .mn-cta {
+  opacity:.85;
+  transition:opacity .25s, color .35s, background .25s, transform .2s;
+}
+.btn-primary:hover, .padd:hover, .desk-cta:hover, .satc-btn:hover, .mn-cta:hover {
+  opacity:1;
+}
+/* ════════════════════════════════════════
+   SMART SKINCARE — HALF HEIGHT
+════════════════════════════════════════ */
+.smart-banner { padding:36px 56px; }
+.smart-inner { gap:24px; }
+.smart-icon-item { padding:10px 14px; background:transparent; box-shadow:none; border:1px solid var(--i08); }
+.smart-icon-item:hover { box-shadow:var(--sh); }
+.smart-icon-circle { width:40px; height:40px; font-size:16px; background:transparent; }
+.smart-img-placeholder { aspect-ratio:3/4; }
+/* ════════════════════════════════════════
+   QUIZ — COMPACT, BIGGER TEXT
+════════════════════════════════════════ */
+.sec-alt#quiz { padding:48px 48px; background:transparent; border:1px solid var(--i08); }
+.sec-alt#quiz .sec-h { font-size:clamp(32px,4vw,48px); margin-bottom:28px; }
+.quiz-card { box-shadow:none; border:1px solid var(--i08); }
+.qc-l { padding:36px 32px; }
+.qc-l p { font-size:16px; max-width:360px; margin-bottom:24px; }
+.qc-r { padding:36px 28px; background:var(--w2); }
+.qs { font-size:13px; padding:12px; }
+/* ════════════════════════════════════════
+   AVANTAJLAR — COMPACT
+════════════════════════════════════════ */
+.sec-alt#avantajlar { padding:40px 48px; }
+.sec-alt#avantajlar > div:first-child { margin-bottom:28px; }
+.avantaj-card { padding:20px 18px; }
+.avantaj-icon { width:44px; height:44px; margin-bottom:10px; font-size:20px; }
+.avantaj-title { font-size:16px; margin-bottom:4px; }
+/* ════════════════════════════════════════
+   KOLEKSIYON FRAMING
+════════════════════════════════════════ */
+#products { border:1px solid var(--i08); border-radius:32px; margin:24px; padding:80px 48px; }
+/* ════════════════════════════════════════
+   FADE IN
+════════════════════════════════════════ */
 .fi { opacity:0; transform:translateY(20px); transition:opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
 .fi.in { opacity:1; transform:none; }
 .fi:nth-child(2){transition-delay:.07s}.fi:nth-child(3){transition-delay:.14s}.fi:nth-child(4){transition-delay:.21s}
@@ -702,6 +755,9 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
   /* sections */
   .sec { padding:64px 20px; }
   .sec-row { flex-direction:column; align-items:flex-start; margin-bottom:32px; }
+  /* search bar hide mobile */
+  .desk-search { display:none; }
+  .desk-link-sm { display:none; }
   /* products: single column */
   .pgrid { grid-template-columns:1fr; gap:16px; }
   .pc.feat { grid-row:auto; }
@@ -715,8 +771,10 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
   .vid-title { font-size:clamp(26px,7vw,40px); }
   .vid-bar { padding:12px 20px; flex-wrap:wrap; gap:8px; }
   .vid-bar-item { font-size:9px; }
+  /* products framing mobile */
+  #products { margin:16px; padding:48px 20px; border-radius:20px; }
   /* smart banner */
-  .smart-banner { padding:48px 20px; margin:16px; }
+  .smart-banner { padding:32px 20px; margin:16px; }
   .smart-inner { grid-template-columns:1fr; gap:28px; }
   /* BA cards */
   .ba-cards { grid-template-columns:1fr; gap:16px; }
@@ -785,16 +843,16 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 <nav class="desk-nav">
   <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
   <ul class="desk-links">
-    <li><a href="glame-collection.html">Alışveriş</a></li>
-    <li><a href="#science">Teknoloji</a></li>
-    <li><a href="#ba">Sonuçlar</a></li>
-    <li><a href="#reviews">Yorumlar</a></li>
+    <li><a href="glame-collection.html">Ürünler</a></li>
+    <li><a href="glame-quiz.html">Cilt Testi</a></li>
+    <li><a href="glame-blog.html">Blog</a></li>
   </ul>
   <div class="desk-right">
-    <a href="glame-quiz.html" class="desk-cta">Cilt Testi</a>
+    <div class="desk-search"><div class="dsb"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input placeholder="Herhangi bir şey için ara..." class="dsb-input"></div></div>
+    <a href="#" class="desk-link-sm">Ürünü Kaydet</a>
+    <a href="glame-tracking.html" class="desk-link-sm">Sipariş Takibi</a>
     <a href="glame-account.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
     <a href="glame-checkout.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="desk-badge">2</span></a>
-    <button class="hbg" id="hbg" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <!-- MOBILE TOP BAR -->
@@ -809,12 +867,10 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 <!-- FULLSCREEN OVERLAY MENU -->
 <div class="overlay-menu" id="omenu">
   <button class="om-close" id="omclose">Kapat ✕</button>
-  <a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a>
-  <a href="#science" class="om-link">Teknoloji <em>→</em></a>
-  <a href="#ba" class="om-link">Sonuçlar <em>→</em></a>
-  <a href="#reviews" class="om-link">Yorumlar <em>→</em></a>
-  <a href="#quiz" class="om-link">Cilt Testi <em>→</em></a>
+  <a href="glame-collection.html" class="om-link">Ürünler <em>→</em></a>
+  <a href="glame-quiz.html" class="om-link">Cilt Testi <em>→</em></a>
   <a href="glame-blog.html" class="om-link">Blog <em>→</em></a>
+  <a href="glame-about.html" class="om-link">Hakkımızda <em>→</em></a>
   <a href="glame-contact.html" class="om-link">İletişim <em>→</em></a>
   <div class="om-foot">
     <a href="#" class="om-pill">TR 🇹🇷</a>
@@ -902,12 +958,7 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
     <div class="proof-item"><span class="proof-dot">✦</span>Klinik Kanıtlı</div>
   </div>
 </section>
-<!-- CLAIM STRIP -->
-<div class="claim">
-  <div class="claim-item"><div class="claim-n">94<sup>+</sup></div><div class="claim-t">LED Kaynağı</div><div class="claim-d">2cm yoğunluk dağılımı, tam yüz kapsama</div></div>
-  <div class="claim-item"><div class="claim-n">57<sup>%</sup></div><div class="claim-t">Dolgunluk Artışı</div><div class="claim-d">8 haftalık klinik çalışmada ölçülen sonuç</div></div>
-  <div class="claim-item"><div class="claim-n">98<sup>%</sup></div><div class="claim-t">Memnuniyet</div><div class="claim-d">5.000+ kullanıcı değerlendirmesi</div></div>
-</div>
+<!-- CLAIM STRIP removed -->
 <!-- PRODUCTS -->
 <section class="sec" id="products">
   <div class="sec-row">
@@ -952,17 +1003,17 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 <!-- ═══════ SMART SKINCARE STARTS HERE ═══════ -->
 <section class="smart-banner fi">
   <div class="sec-label">Akıllı Cilt Bakımı</div>
-  <h2 class="sec-h" style="margin-bottom:44px">Smart Skincare <em>Starts Here</em></h2>
+  <h2 class="sec-h" style="margin-bottom:24px">Smart Skincare <em>Starts Here</em></h2>
   <div class="smart-inner">
     <div class="smart-left">
       <p>Her cilt tipi için kişiselleştirilmiş teknoloji. Dermatoloji uzmanlarıyla geliştirilen protokoller ile evde klinik kalitesinde bakım.</p>
       <a href="glame-quiz.html" class="btn-primary" style="margin-top:24px;opacity:1;transform:none"><span>Cilt Testini Çöz</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <div class="smart-icons">
-      <div class="smart-icon-item"><div class="smart-icon-circle">💧</div><div><div class="smart-icon-text">Elastikiyet</div><div class="smart-icon-sub">Mikro akım ile cilt sıkılaştırma</div></div></div>
-      <div class="smart-icon-item"><div class="smart-icon-circle">🔬</div><div><div class="smart-icon-text">Sıkılık</div><div class="smart-icon-sub">Kolajen üretimini destekler</div></div></div>
-      <div class="smart-icon-item"><div class="smart-icon-circle">💎</div><div><div class="smart-icon-text">Nem</div><div class="smart-icon-sub">Derin nemlendirme teknolojisi</div></div></div>
-      <div class="smart-icon-item"><div class="smart-icon-circle">✨</div><div><div class="smart-icon-text">Esneklik</div><div class="smart-icon-sub">LED fototerapi ile yenilenme</div></div></div>
+      <div class="smart-icon-item"><div class="smart-icon-circle"><svg width="20" height="20" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div><div><div class="smart-icon-text">Elastikiyet</div><div class="smart-icon-sub">Mikro akım ile cilt sıkılaştırma</div></div></div>
+      <div class="smart-icon-item"><div class="smart-icon-circle"><svg width="20" height="20" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div><div><div class="smart-icon-text">Sıkılık</div><div class="smart-icon-sub">Kolajen üretimini destekler</div></div></div>
+      <div class="smart-icon-item"><div class="smart-icon-circle"><svg width="20" height="20" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><div><div class="smart-icon-text">Nem</div><div class="smart-icon-sub">Derin nemlendirme teknolojisi</div></div></div>
+      <div class="smart-icon-item"><div class="smart-icon-circle"><svg width="20" height="20" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 3v18M5.63 5.63l12.74 12.74M3 12h18M5.63 18.37l12.74-12.74"/></svg></div><div><div class="smart-icon-text">Esneklik</div><div class="smart-icon-sub">LED fototerapi ile yenilenme</div></div></div>
     </div>
     <div class="smart-visual">
       <div class="smart-img-placeholder">Görsel + CTA Alanı</div>
@@ -1029,7 +1080,7 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 <!-- QUIZ -->
 <section class="sec sec-alt" id="quiz">
   <div class="sec-label">Kişisel Bakım</div>
-  <h2 class="sec-h" style="margin-bottom:44px">Cildinize <em>özel</em><br>ürünü bulalım.</h2>
+  <h2 class="sec-h" style="margin-bottom:24px">Cildinize <em>özel</em><br>ürünü bulalım.</h2>
   <div class="quiz-card fi">
     <div class="qc-l">
       <p>3 dakikalık cilt testimizi tamamlayın. Kişisel Glame protokolünüzü belirleyelim.</p>
@@ -1048,7 +1099,7 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 <!-- ═══════ BASINDA GLAME — 4-ITEM PRESS CARDS ═══════ -->
 <section class="sec" id="press">
   <div class="sec-row">
-    <div><div class="sec-label">Basında Glame</div><h2 class="sec-h">Medyada <em>Biz</em></h2></div>
+    <div><div class="sec-label">Basında Glame</div><h2 class="sec-h">Medyada <em>Glame</em></h2></div>
   </div>
   <div class="press-cards fi">
     <div class="press-card">
@@ -1136,22 +1187,22 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
   </div>
   <div class="avantaj-grid fi">
     <div class="avantaj-card">
-      <div class="avantaj-icon">🏥</div>
+      <div class="avantaj-icon"><svg width="24" height="24" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg></div>
       <div class="avantaj-title">Klinik Onaylı</div>
       <div class="avantaj-desc">Tüm ürünlerimiz bağımsız dermatoloji klinikleri tarafından test edilmiştir.</div>
     </div>
     <div class="avantaj-card">
-      <div class="avantaj-icon">🛡️</div>
+      <div class="avantaj-icon"><svg width="24" height="24" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
       <div class="avantaj-title">2 Yıl Garanti</div>
       <div class="avantaj-desc">Tüm cihazlarımız 2 yıl resmi üretici garantisi ile korunur.</div>
     </div>
     <div class="avantaj-card">
-      <div class="avantaj-icon">🚚</div>
+      <div class="avantaj-icon"><svg width="24" height="24" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
       <div class="avantaj-title">Ücretsiz Kargo</div>
       <div class="avantaj-desc">500 TL üzeri siparişlerde Türkiye geneli ücretsiz kargo.</div>
     </div>
     <div class="avantaj-card">
-      <div class="avantaj-icon">↩️</div>
+      <div class="avantaj-icon"><svg width="24" height="24" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div>
       <div class="avantaj-title">14 Gün İade</div>
       <div class="avantaj-desc">Memnun kalmadığınız ürünleri 14 gün içinde koşulsuz iade edebilirsiniz.</div>
     </div>
@@ -1164,7 +1215,7 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
     <div><a href="glame-homepage.html" class="logo ft-logo">Gl<em>a</em>me</a><p class="ft-desc">Teknoloji ile güzelliği buluşturan Glame, evinizdeki klinik bakım deneyimini yeniden tanımlıyor.</p><div class="ft-nl"><input type="email" placeholder="E-posta adresiniz"><button>→</button></div></div>
     <div><div class="ft-t">Ürünler</div><ul class="ft-list"><li><a href="glame-pdp.html">Glow Mask</a></li><li><a href="glame-pdp.html">Dermaring Revive</a></li><li><a href="glame-pdp.html">Duo Spin Cleanser</a></li><li><a href="glame-pdp.html">Sapphire Freeze IPL</a></li><li><a href="glame-pdp.html">Hair Light Pro Comb</a></li></ul></div>
     <div><div class="ft-t">Keşfet</div><ul class="ft-list"><li><a href="glame-quiz.html">Cilt Testi</a></li><li><a href="glame-about.html">Teknoloji</a></li><li><a href="glame-collection.html">Sonuçlar</a></li><li><a href="glame-blog.html">Blog</a></li><li><a href="glame-about.html">Hakkımızda</a></li></ul></div>
-    <div><div class="ft-t">Destek</div><ul class="ft-list"><li><a href="glame-contact.html">İletişim</a></li><li><a href="glame-faq.html">Kılavuz</a></li><li><a href="glame-faq.html">Garanti</a></li><li><a href="glame-return.html">İade</a></li><li><a href="glame-legal.html">KVKK</a></li></ul></div>
+    <div><div class="ft-t">Destek</div><ul class="ft-list"><li><a href="glame-contact.html">İletişim</a></li><li><a href="glame-about.html">Hakkımızda</a></li><li><a href="glame-faq.html">Kılavuz</a></li><li><a href="glame-faq.html">Garanti</a></li><li><a href="glame-return.html">İade</a></li><li><a href="glame-legal.html">KVKK</a></li></ul></div>
   </div>
   <div class="ft-bot"><span class="ft-copy">© 2026 Glame Technology.</span><div class="ft-leg"><a href="glame-legal.html">Gizlilik</a><a href="glame-legal.html">KVKK</a><a href="glame-legal.html">Çerezler</a></div></div>
 </footer>
@@ -1207,10 +1258,11 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 const omenu=document.getElementById('omenu');
 function openMenu(){omenu.classList.add('open');document.body.style.overflow='hidden';}
 function closeMenu(){omenu.classList.remove('open');document.body.style.overflow='';}
-document.getElementById('hbg').addEventListener('click',()=>{
+const hbgEl=document.getElementById('hbg');
+if(hbgEl) hbgEl.addEventListener('click',()=>{
   const open=omenu.classList.contains('open');
   open?closeMenu():openMenu();
-  document.getElementById('hbg').classList.toggle('open',!open);
+  hbgEl.classList.toggle('open',!open);
 });
 // mobile hbg2
 const hbg2=document.getElementById('hbg2');
