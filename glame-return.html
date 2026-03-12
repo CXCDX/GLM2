@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Glame — İade & Değişim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--w:#f7f4ef;--w2:#efeae2;--w3:#e6e0d6;--ink:#0f0e0e;--i70:rgba(15,14,14,.7);--i40:rgba(15,14,14,.4);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#b8892a;--grn:#2d8a4e;--r:#be3535;--brd:2px solid var(--ink);--d:'Playfair Display',Georgia,serif;--b:'Figtree',sans-serif;--m:'DM Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px}
+:root{--w:#ffffff;--w2:#F5F5F5;--w3:#EBEBEB;--ink:#0f0e0e;--i70:rgba(15,14,14,.7);--i40:rgba(15,14,14,.4);--i15:rgba(15,14,14,.15);--i08:rgba(15,14,14,.08);--g:#E63628;--grn:#2d8a4e;--r:#be3535;--brd:1px solid rgba(15,14,14,.06);--rad:20px;--sh:0 2px 20px rgba(15,14,14,.06);--sh-hover:0 8px 32px rgba(15,14,14,.10);--d:'Cormorant Garamond',Georgia,serif;--b:'Inter',sans-serif;--m:'JetBrains Mono',monospace;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:72px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
 .logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
-.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(247,244,239,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
 /* HERO BANNER */
 .ret-hero{background:var(--w2);padding:64px 56px;border-bottom:var(--brd);display:flex;align-items:center;justify-content:space-between;gap:40px}
 .eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:18px;display:flex;align-items:center;gap:10px}
@@ -23,7 +23,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .rh-h em{font-style:italic;font-weight:400;color:var(--g)}
 .rh-p{font-size:16px;color:var(--i70);line-height:1.75;max-width:420px}
 .rh-badges{display:flex;gap:0;margin-left:auto;flex-shrink:0}
-.rh-badge{padding:20px 28px;border:var(--brd);margin-left:-2px;text-align:center}
+.rh-badge{padding:20px 28px;border:var(--brd);border-radius:var(--rad);margin-left:-2px;text-align:center}
 .rh-badge-n{font-family:var(--d);font-size:36px;font-weight:900;font-style:italic;color:var(--g);line-height:1}
 .rh-badge-t{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);margin-top:4px}
 /* STEP INDICATOR */
@@ -33,45 +33,45 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .step-tab.active{background:var(--ink)}
 .step-tab.done{background:var(--w3)}
 .step-n{font-family:var(--d);font-size:22px;font-weight:900;font-style:italic;color:var(--i15);margin-bottom:4px;transition:color .2s}
-.step-tab.active .step-n{color:rgba(247,244,239,.3)}
+.step-tab.active .step-n{color:rgba(15,14,14,.2)}
 .step-tab.done .step-n{color:var(--g)}
 .step-t{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40);transition:color .2s}
-.step-tab.active .step-t{color:rgba(247,244,239,.7)}
+.step-tab.active .step-t{color:rgba(255,255,255,.7)}
 .step-tab.done .step-t{color:var(--ink)}
 /* STEP CONTENT */
 .step-content{display:none;padding:56px}
 .step-content.active{display:block}
 /* STEP 1: ORDER LOOKUP */
 .s1-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:800px}
-.field-group{display:flex;flex-direction:column;gap:0;border:var(--brd)}
+.field-group{display:flex;flex-direction:column;gap:0;border:var(--brd);border-radius:var(--rad)}
 .field-row{border-bottom:var(--brd)}
 .field-row:last-child{border-bottom:none}
 .field-label{font-family:var(--m);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--i40);padding:10px 16px 0}
 .field-input{border:none;outline:none;padding:6px 16px 12px;font-family:var(--b);font-size:15px;color:var(--ink);background:transparent;width:100%}
 .field-input::placeholder{color:var(--i40)}
-.field-input:focus{background:rgba(184,137,42,.03)}
-.next-btn{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:var(--w);font-family:var(--m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:16px 40px;border:var(--brd);cursor:pointer;position:relative;overflow:hidden;transition:color .35s;margin-top:28px}
+.field-input:focus{background:rgba(230,54,40,.03)}
+.next-btn{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:var(--w);font-family:var(--m);font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:16px 40px;border:var(--brd);border-radius:var(--rad);cursor:pointer;position:relative;overflow:hidden;transition:color .35s;margin-top:28px}
 .next-btn::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
 .next-btn:hover::after{transform:translateX(0)}
 .next-btn span,.next-btn svg{position:relative;z-index:1}
 /* STEP 2: PRODUCTS */
-.product-sel{border:var(--brd);max-width:680px}
+.product-sel{border:var(--brd);border-radius:var(--rad);max-width:680px}
 .ps-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:20px 24px;border-bottom:var(--brd);cursor:pointer;transition:background .2s}
 .ps-row:last-child{border-bottom:none}
 .ps-row:hover{background:var(--w3)}
 .ps-row.selected{background:rgba(45,138,78,.06);border-left:3px solid var(--grn)}
-.ps-img{width:56px;height:56px;background:var(--w2);border:var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ps-img{width:56px;height:56px;background:var(--w2);border:var(--brd);border-radius:var(--rad);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ps-name{font-family:var(--d);font-size:16px;font-weight:700;margin-bottom:3px}
 .ps-sub{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--i70)}
 .ps-chk{width:24px;height:24px;border-radius:50%;border:2px solid var(--i15);display:flex;align-items:center;justify-content:center;transition:all .25s;flex-shrink:0}
 .ps-row.selected .ps-chk{background:var(--grn);border-color:var(--grn);color:#fff}
-.qty-sel{display:flex;align-items:center;gap:0;border:var(--brd);max-width:120px;margin-top:12px}
+.qty-sel{display:flex;align-items:center;gap:0;border:var(--brd);border-radius:var(--rad);max-width:120px;margin-top:12px}
 .qty-btn{width:36px;height:36px;border:none;background:none;font-size:18px;cursor:pointer;border-right:var(--brd);transition:background .2s}
 .qty-btn:last-child{border-right:none;border-left:var(--brd)}
 .qty-btn:hover{background:var(--w3)}
 .qty-val{flex:1;text-align:center;font-family:var(--m);font-size:14px}
 /* STEP 3: REASON */
-.reason-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--brd);max-width:680px}
+.reason-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--brd);border-radius:var(--rad);max-width:680px}
 .reason-opt{padding:22px 24px;border-right:var(--brd);border-bottom:var(--brd);cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:14px}
 .reason-opt:nth-child(2n){border-right:none}
 .reason-opt:nth-last-child(-n+2){border-bottom:none}
@@ -82,18 +82,18 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .ro-label{font-family:var(--d);font-size:15px;font-weight:700;margin-bottom:2px}
 .ro-sub{font-size:12px;color:var(--i70)}
 /* TYPE SELECTOR */
-.type-sel{display:flex;gap:0;border:var(--brd);max-width:400px;margin-bottom:32px}
+.type-sel{display:flex;gap:0;border:var(--brd);border-radius:var(--rad);max-width:400px;margin-bottom:32px}
 .type-opt{flex:1;padding:14px 20px;text-align:center;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-right:var(--brd);transition:background .2s}
 .type-opt:last-child{border-right:none}
 .type-opt.sel{background:var(--ink);color:var(--w)}
 .type-opt:not(.sel):hover{background:var(--w3)}
 /* STEP 4 CONFIRM */
-.confirm-box{border:var(--brd);max-width:680px}
+.confirm-box{border:var(--brd);border-radius:var(--rad);max-width:680px}
 .cb-row{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:var(--brd)}
 .cb-row:last-child{border-bottom:none}
 .cb-l{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70)}
 .cb-r{font-size:14px;font-weight:500}
-.info-note{background:rgba(184,137,42,.07);border:var(--brd);border-color:rgba(184,137,42,.3);padding:18px 22px;max-width:680px;margin-top:20px}
+.info-note{background:rgba(230,54,40,.07);border:var(--brd);border-radius:var(--rad);border-color:rgba(230,54,40,.2);padding:18px 22px;max-width:680px;margin-top:20px}
 .in-t{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:6px}
 .in-d{font-size:13px;color:var(--i70);line-height:1.65}
 /* SUCCESS */
@@ -101,10 +101,10 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .ret-success.show{display:flex;flex-direction:column;align-items:center;gap:20px}
 .rs-icon{font-size:56px}
 .rs-t{font-family:var(--d);font-size:36px;font-weight:900;font-style:italic;color:var(--grn)}
-.rs-code{font-family:var(--m);font-size:14px;letter-spacing:.2em;text-transform:uppercase;background:var(--w2);padding:12px 28px;border:var(--brd);margin:4px 0}
+.rs-code{font-family:var(--m);font-size:14px;letter-spacing:.2em;text-transform:uppercase;background:var(--w2);padding:12px 28px;border:var(--brd);border-radius:var(--rad);margin:4px 0}
 .rs-d{font-size:15px;color:var(--i70);line-height:1.7;max-width:440px}
 /* MOB NAV */
-.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(247,244,239,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-bottom);height:calc(var(--nav-h) + var(--safe-bottom))}
 .mob-nav-inner{display:flex;align-items:center;justify-content:space-around;height:var(--nav-h)}
 .mni{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40);flex:1;padding:8px 0;border:none;background:none;cursor:pointer}
 .mni svg{width:22px;height:22px;stroke-width:1.5;fill:none;stroke:currentColor}
@@ -124,11 +124,11 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 </head>
 <body>
 <nav class="nav">
-  <a href="index.html" class="logo">Gl<em>a</em>me</a>
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
   <div style="font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70)">İade & Değişim Formu</div>
   <a href="glame-faq.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none">SSS</a>
 </nav>
-<div class="mob-top"><a href="index.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">İade Formu</span></div>
+<div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">İade Formu</span></div>
 
 <div class="ret-hero">
   <div>
@@ -178,7 +178,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
     </div>
   </div>
   <div style="display:flex;gap:12px;margin-top:28px">
-    <button class="next-btn" onclick="goStep(1)" style="background:none;color:var(--ink);border:var(--brd)"><span style="color:var(--ink)">← Geri</span></button>
+    <button class="next-btn" onclick="goStep(1)" style="background:none;color:var(--ink);border:var(--brd);border-radius:var(--rad)"><span style="color:var(--ink)">← Geri</span></button>
     <button class="next-btn" onclick="goStep(3)"><span>Devam →</span></button>
   </div>
 </div>
@@ -202,12 +202,12 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
     <div class="reason-opt" onclick="selReason(this)"><div class="ro-icon">🎁</div><div><div class="ro-label">Hediye Mükerrer</div><div class="ro-sub">Zaten aynı ürüne sahibim</div></div></div>
     <div class="reason-opt" onclick="selReason(this)"><div class="ro-icon">❓</div><div><div class="ro-label">Diğer</div><div class="ro-sub">Açıklamak istiyorum</div></div></div>
   </div>
-  <div style="margin-top:20px;border:var(--brd);max-width:680px">
+  <div style="margin-top:20px;border:var(--brd);border-radius:var(--rad);max-width:680px">
     <div class="field-label" style="padding:10px 16px 0">Ek Açıklama (İsteğe Bağlı)</div>
     <textarea style="border:none;outline:none;padding:8px 16px 14px;font-family:var(--b);font-size:14px;color:var(--ink);background:transparent;width:100%;resize:none;min-height:80px" placeholder="Daha fazla bilgi vermek ister misiniz?"></textarea>
   </div>
   <div style="display:flex;gap:12px;margin-top:28px">
-    <button class="next-btn" onclick="goStep(2)" style="background:none;color:var(--ink);border:var(--brd)"><span style="color:var(--ink)">← Geri</span></button>
+    <button class="next-btn" onclick="goStep(2)" style="background:none;color:var(--ink);border:var(--brd);border-radius:var(--rad)"><span style="color:var(--ink)">← Geri</span></button>
     <button class="next-btn" onclick="goStep(4)"><span>Devam →</span></button>
   </div>
 </div>
@@ -229,7 +229,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
     <div class="in-d">Talebi onayladıktan sonra kargo etiketi e-posta adresinize gönderilecek. Ürünü orijinal ambalajında paketleyip kargoya verin. Kargo tesliminden 3–5 iş günü sonra ödemeniz iade edilir.</div>
   </div>
   <div style="display:flex;gap:12px;margin-top:28px">
-    <button class="next-btn" onclick="goStep(3)" style="background:none;color:var(--ink);border:var(--brd)"><span style="color:var(--ink)">← Geri</span></button>
+    <button class="next-btn" onclick="goStep(3)" style="background:none;color:var(--ink);border:var(--brd);border-radius:var(--rad)"><span style="color:var(--ink)">← Geri</span></button>
     <button class="next-btn" onclick="submitReturn()"><span>İade Talebini Onayla →</span></button>
   </div>
 </div>
@@ -245,7 +245,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 </div>
 
 <nav class="mob-nav"><div class="mob-nav-inner">
-  <button class="mni" onclick="window.location='index.html'"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Ana</button>
+  <button class="mni" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Ana</button>
   <button class="mni" onclick="window.location='glame-collection.html'"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Ürünler</button>
   <button class="mn-cta" onclick="window.location='glame-checkout.html'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
   <button class="mni active"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>İade</button>

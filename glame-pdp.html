@@ -43,7 +43,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── NAV ── */
-.nav{position:sticky;top:var(--ann-h);z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
+.nav{position:sticky;top:var(--ann-h);z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd);box-shadow:var(--sh)}
 .logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
 .nav-bc{display:flex;align-items:center;gap:8px;font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40)}
@@ -93,18 +93,18 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 @keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-18px)}}
 
 /* floating spec badges around the mask */
-.viz-badge{position:absolute;z-index:4;display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(12px);font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,239,.55);white-space:nowrap;animation:bfloat 7s ease-in-out infinite}
+.viz-badge{position:absolute;z-index:4;display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(12px);font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;animation:bfloat 7s ease-in-out infinite}
 @keyframes bfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .vb-val{font-family:var(--d);font-size:18px;font-weight:700;font-style:italic;color:var(--g);line-height:1}
 
 /* thumbnail strip */
 .pdp-thumbs{display:flex;height:76px;border-top:var(--brd);flex-shrink:0}
-.pdp-thumb{flex:1;cursor:pointer;background:rgba(255,255,255,.04);border-right:1px solid rgba(247,244,239,.08);display:flex;align-items:center;justify-content:center;transition:background .2s;position:relative;overflow:hidden}
+.pdp-thumb{flex:1;cursor:pointer;background:rgba(255,255,255,.04);border-right:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .2s;position:relative;overflow:hidden}
 .pdp-thumb:last-child{border-right:none}
 .pdp-thumb::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transition:transform .3s}
-.pdp-thumb.active{background:rgba(247,244,239,.1)}
+.pdp-thumb.active{background:rgba(255,255,255,.1)}
 .pdp-thumb.active::before,.pdp-thumb:hover::before{transform:scaleX(1)}
-.th-inner{width:40px;height:40px;border-radius:50%;border:1px solid rgba(247,244,239,.15);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.th-inner{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 
 /* ── RIGHT: info ── */
 .pdp-info{padding:52px 52px 80px;display:flex;flex-direction:column;overflow-y:auto;max-height:calc(100dvh - var(--ann-h) - 68px)}
@@ -119,7 +119,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .stars{color:var(--g);font-size:14px;letter-spacing:2px}
 .rc{font-family:var(--m);font-size:11px;letter-spacing:.1em;color:var(--i70)}
 .rc b{color:var(--ink);font-weight:400}
-.rv-badge{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);background:rgba(184,137,42,.1);padding:3px 8px;margin-left:auto}
+.rv-badge{font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);background:rgba(230,54,40,.10);padding:3px 8px;margin-left:auto}
 
 /* price */
 .pdp-price-row{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
@@ -132,7 +132,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 
 /* modes */
 .pdp-modes-lbl{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--i70);margin-bottom:10px}
-.pdp-modes{display:grid;grid-template-columns:repeat(3,1fr);border:var(--brd);margin-bottom:24px}
+.pdp-modes{display:grid;grid-template-columns:repeat(3,1fr);border:var(--brd);margin-bottom:24px;border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .pdp-mode{padding:14px 10px;text-align:center;cursor:pointer;border-right:var(--brd);transition:background .2s;position:relative;overflow:hidden}
 .pdp-mode:last-child{border-right:none}
 .pdp-mode.active{background:var(--ink);color:var(--w)}
@@ -143,12 +143,12 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .pdp-mode.active .mode-desc{color:rgba(255,255,255,.45)}
 
 /* urgency */
-.urgency{display:flex;align-items:center;gap:8px;padding:11px 14px;border:1px solid rgba(190,53,53,.2);background:rgba(190,53,53,.04);margin-bottom:16px;font-family:var(--m);font-size:11px;letter-spacing:.08em;color:var(--r)}
+.urgency{display:flex;align-items:center;gap:8px;padding:11px 14px;border:1px solid rgba(190,53,53,.2);background:rgba(190,53,53,.04);margin-bottom:16px;font-family:var(--m);font-size:11px;letter-spacing:.08em;color:var(--r);border-radius:var(--rad)}
 .udot{width:7px;height:7px;border-radius:50%;background:var(--r);flex-shrink:0;animation:blink 1.4s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
 /* buy row */
-.pdp-buy{display:grid;grid-template-columns:auto 1fr;border:var(--brd);margin-bottom:12px}
+.pdp-buy{display:grid;grid-template-columns:auto 1fr;border:var(--brd);margin-bottom:12px;border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .pdp-qty{display:flex;align-items:center;border-right:var(--brd)}
 .pdp-qty button{width:44px;height:56px;background:none;border:none;cursor:pointer;font-size:20px;color:var(--ink);transition:background .2s;font-family:var(--b)}
 .pdp-qty button:hover{background:var(--w3)}
@@ -157,7 +157,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .pdp-atc::after{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
 .pdp-atc:hover::after{transform:translateX(0)}
 .pdp-atc span,.pdp-atc svg{position:relative;z-index:1}
-.pdp-wl{width:100%;height:52px;border:var(--brd);border-top:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);transition:all .25s;margin-bottom:20px}
+.pdp-wl{width:100%;height:52px;border:var(--brd);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);transition:all .25s;margin-bottom:20px;border-radius:var(--rad)}
 .pdp-wl:hover{background:var(--w3);color:var(--ink)}
 
 /* ship strip */
@@ -190,7 +190,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .panel-h em{font-style:italic;font-weight:400;color:var(--g)}
 
 /* SPECS GRID */
-.specs-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--brd)}
+.specs-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--brd);border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .spec{padding:28px 22px;border-right:var(--brd);border-bottom:var(--brd);transition:background .2s}
 .spec:hover{background:var(--w3)}
 .spec:nth-child(4n){border-right:none}
@@ -201,7 +201,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .spec-d{font-size:13px;color:var(--i70);margin-top:4px;line-height:1.55}
 
 /* TECH PANEL */
-.tech-split{display:grid;grid-template-columns:1fr 1fr;border:var(--brd)}
+.tech-split{display:grid;grid-template-columns:1fr 1fr;border:var(--brd);border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .tech-l{padding:52px;border-right:var(--brd)}
 .tech-l h3{font-family:var(--d);font-size:clamp(26px,2.8vw,38px);font-weight:900;line-height:1.0;letter-spacing:-.02em;margin-bottom:18px}
 .tech-l h3 em{font-style:italic;font-weight:400;color:var(--g)}
@@ -218,7 +218,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .ws-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-family:var(--m);font-size:8px;letter-spacing:.06em;color:var(--i70);white-space:nowrap}
 
 /* HOW-TO */
-.how-grid{display:grid;grid-template-columns:repeat(5,1fr);border:var(--brd)}
+.how-grid{display:grid;grid-template-columns:repeat(5,1fr);border:var(--brd);border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .how-i{padding:36px 22px;border-right:var(--brd);position:relative;transition:background .2s}
 .how-i:last-child{border-right:none}
 .how-i:hover{background:var(--w3)}
@@ -229,7 +229,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .how-i:last-child .how-arrow{display:none}
 
 /* CLINICAL */
-.clin-split{display:grid;grid-template-columns:1fr 1.3fr;border:var(--brd)}
+.clin-split{display:grid;grid-template-columns:1fr 1.3fr;border:var(--brd);border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .clin-l{padding:52px 48px;border-right:var(--brd)}
 .clin-l p{font-size:15px;color:var(--i70);line-height:1.8;margin:16px 0 32px;max-width:340px}
 .clin-stat{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--i08)}
@@ -262,7 +262,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .rv-bar-fill{height:100%;background:var(--g);transform:scaleX(0);transform-origin:left;animation:fill .9s .4s cubic-bezier(.16,1,.3,1) forwards}
 @keyframes fill{to{transform:scaleX(1)}}
 .rv-bar-count{font-family:var(--m);font-size:10px;color:var(--i40);min-width:28px}
-.rv-grid{display:grid;grid-template-columns:repeat(3,1fr);border:var(--brd)}
+.rv-grid{display:grid;grid-template-columns:repeat(3,1fr);border:var(--brd);border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .rvc{padding:28px;border-right:var(--brd);transition:background .2s;display:flex;flex-direction:column}
 .rvc:last-child{border-right:none}
 .rvc:hover{background:var(--w3)}
@@ -271,13 +271,13 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .rvc-nm{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
 .rvc-loc{font-size:12px;color:var(--i70)}
 .rvc-stars{color:var(--g);font-size:12px;letter-spacing:1px;margin-left:auto}
-.rvc-badge{font-family:var(--m);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);background:rgba(184,137,42,.08);padding:2px 7px;display:inline-block;margin-bottom:10px}
+.rvc-badge{font-family:var(--m);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);background:rgba(230,54,40,.08);padding:2px 7px;display:inline-block;margin-bottom:10px}
 .rvc-text{font-family:var(--d);font-size:16px;font-style:italic;line-height:1.65;color:var(--ink);flex:1;margin-bottom:12px}
 .rvc-prod{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--g)}
 
 /* ═══ BUNDLE ═══ */
 .bundle-sec{padding:72px 48px;background:var(--w2);border-bottom:var(--brd)}
-.bundle-grid{display:grid;grid-template-columns:1.4fr 1fr;border:var(--brd);margin-top:44px}
+.bundle-grid{display:grid;grid-template-columns:1.4fr 1fr;border:var(--brd);margin-top:44px;border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .bundle-prods{padding:36px;border-right:var(--brd)}
 .bp{display:flex;align-items:center;gap:18px;padding:18px 0;border-bottom:var(--brd);position:relative}
 .bp:last-child{border-bottom:none}
@@ -302,7 +302,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 
 /* ═══ RELATED ═══ */
 .related-sec{padding:72px 48px;border-bottom:var(--brd)}
-.rel-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--brd);margin-top:44px}
+.rel-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--brd);margin-top:44px;border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
 .rel-card{border-right:var(--brd);display:flex;flex-direction:column;cursor:pointer;transition:background .2s;position:relative;overflow:hidden}
 .rel-card:last-child{border-right:none}
 .rel-card:hover{background:var(--w3)}
@@ -414,9 +414,9 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 
 <!-- DESKTOP NAV -->
 <nav class="nav">
-  <a href="index.html" class="logo">Gl<em>a</em>me</a>
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
   <div class="nav-bc">
-    <a href="index.html">Ana Sayfa</a>
+    <a href="glame-homepage.html">Ana Sayfa</a>
     <span style="color:var(--i15)">→</span>
     <a href="glame-collection.html">Cilt Bakımı</a>
     <span style="color:var(--i15)">→</span>
@@ -433,14 +433,14 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 <!-- MOB TOP -->
 <div class="mob-top">
   <button onclick="history.back()" style="display:flex;align-items:center;gap:6px;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);border:none;background:none;cursor:pointer"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Geri</button>
-  <a href="index.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a>
+  <a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a>
   <span class="ni" style="position:relative"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nb">2</span></span>
 </div>
 
 <!-- OVERLAY MENU -->
 <div class="omenu" id="omenu">
   <button class="om-close" id="omclose">Kapat ✕</button>
-  <a href="index.html" class="om-link">Ana Sayfa <em>→</em></a>
+  <a href="glame-homepage.html" class="om-link">Ana Sayfa <em>→</em></a>
   <a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a>
   <a href="glame-about.html" class="om-link">Teknoloji <em>→</em></a>
   <a href="glame-quiz.html" class="om-link">Cilt Testi <em>→</em></a>
@@ -457,16 +457,16 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 
       <!-- Floating badges -->
       <div class="viz-badge" style="top:14%;left:8%;animation-delay:0s">
-        <div><div class="vb-val">94</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">LED Kaynağı</div></div>
+        <div><div class="vb-val">94</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(255,255,255,.3);margin-top:2px">LED Kaynağı</div></div>
       </div>
       <div class="viz-badge" style="top:14%;right:8%;animation-delay:1.5s">
-        <div><div class="vb-val">3</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">Dalga Boyu</div></div>
+        <div><div class="vb-val">3</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(255,255,255,.3);margin-top:2px">Dalga Boyu</div></div>
       </div>
       <div class="viz-badge" style="bottom:22%;left:6%;animation-delay:3s">
-        <div><div class="vb-val">IP54</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">Su Dayanımı</div></div>
+        <div><div class="vb-val">IP54</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(255,255,255,.3);margin-top:2px">Su Dayanımı</div></div>
       </div>
       <div class="viz-badge" style="bottom:22%;right:6%;animation-delay:4.5s">
-        <div><div class="vb-val">20dk</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">Seans</div></div>
+        <div><div class="vb-val">20dk</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(255,255,255,.3);margin-top:2px">Seans</div></div>
       </div>
 
       <!-- The product image -->
@@ -485,13 +485,13 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
         <div class="th-inner"><img src="product-assets/img/glow-mask-dekupe.jpg" alt="Glow Mask Dekupe" style="width:100%;height:100%;object-fit:contain"></div>
       </div>
       <div class="pdp-thumb" onclick="setThumb(this,3)">
-        <div class="th-inner" style="border-color:rgba(184,137,42,.3)">
-          <svg width="16" height="16" fill="none" stroke="rgba(247,244,239,.3)" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <div class="th-inner" style="border-color:rgba(230,54,40,.3)">
+          <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </div>
       </div>
       <div class="pdp-thumb" onclick="setThumb(this,4)">
         <div class="th-inner">
-          <svg width="16" height="16" fill="none" stroke="rgba(247,244,239,.3)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+          <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
         </div>
       </div>
     </div>
@@ -833,7 +833,7 @@ const PRODUCTS = {
     img2: 'product-assets/img/dermaring-2.png',
     img3: 'product-assets/img/dermaring-1.png',
     video: 'product-assets/img/dermaring-video.mp4',
-    glow: 'radial-gradient(ellipse 60% 55% at 50% 55%, rgba(184,137,42,.18) 0%, rgba(184,137,42,.06) 45%, transparent 70%)',
+    glow: 'radial-gradient(ellipse 60% 55% at 50% 55%, rgba(230,54,40,.18) 0%, rgba(230,54,40,.06) 45%, transparent 70%)',
     badges: [
       {pos:'top:14%;left:8%',val:'EMS',label:'Mikro Akım',delay:'0s'},
       {pos:'top:14%;right:8%',val:'2',label:'Mod',delay:'1.5s'},
@@ -899,7 +899,7 @@ const PRODUCTS = {
     img2: 'product-assets/img/hair-light-2.png',
     img3: 'product-assets/img/hair-light-1.png',
     video: 'product-assets/img/hair-light-video.mp4',
-    glow: 'radial-gradient(ellipse 60% 55% at 50% 55%, rgba(184,137,42,.18) 0%, rgba(184,137,42,.06) 45%, transparent 70%)',
+    glow: 'radial-gradient(ellipse 60% 55% at 50% 55%, rgba(230,54,40,.18) 0%, rgba(230,54,40,.06) 45%, transparent 70%)',
     badges: [
       {pos:'top:14%;left:8%',val:'650nm',label:'Kızılötesi',delay:'0s'},
       {pos:'top:14%;right:8%',val:'EMS',label:'Mikro Akım',delay:'1.5s'},
@@ -933,8 +933,8 @@ const PRODUCTS = {
   const badgeEls = document.querySelectorAll('.viz-badge');
   p.badges.forEach((b,i) => {
     if(badgeEls[i]){
-      badgeEls[i].style.cssText = 'position:absolute;z-index:4;display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(12px);font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,239,.55);white-space:nowrap;animation:bfloat 7s ease-in-out infinite;'+b.pos+';animation-delay:'+b.delay;
-      badgeEls[i].innerHTML = '<div><div class="vb-val">'+b.val+'</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(247,244,239,.3);margin-top:2px">'+b.label+'</div></div>';
+      badgeEls[i].style.cssText = 'position:absolute;z-index:4;display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(12px);font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;animation:bfloat 7s ease-in-out infinite;'+b.pos+';animation-delay:'+b.delay;
+      badgeEls[i].innerHTML = '<div><div class="vb-val">'+b.val+'</div><div style="font-size:8px;letter-spacing:.12em;color:rgba(255,255,255,.3);margin-top:2px">'+b.label+'</div></div>';
     }
   });
 
