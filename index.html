@@ -55,12 +55,6 @@ button { font-family:inherit; }
 ::-webkit-scrollbar { width:2px; }
 ::-webkit-scrollbar-thumb { background:var(--ink); }
 
-/* desktop cursor — hidden on touch */
-#cur  { position:fixed; width:7px; height:7px; border-radius:50%; background:var(--ink); pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
-#curr { position:fixed; width:32px; height:32px; border-radius:50%; border:var(--brd); pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s,height .3s,border-color .3s; }
-#curr.x { width:52px; height:52px; border-color:var(--g); }
-@media(hover:none){ #cur,#curr{display:none} }
-
 /* ════════════════════════════════════════
    ANN BAR — ROTATING + CLOSABLE
 ════════════════════════════════════════ */
@@ -768,9 +762,6 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 </head>
 <body>
 
-<!-- CURSOR (desktop only) -->
-<div id="cur"></div><div id="curr"></div>
-
 <!-- ANN BAR -->
 <div class="ann" id="annBar">
   <div class="ann-carousel" id="annCarousel">
@@ -1167,18 +1158,6 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 </nav>
 
 <script>
-/* ── CURSOR ── */
-const cur=document.getElementById('cur'),curr=document.getElementById('curr');
-let mx=0,my=0,rx=0,ry=0;
-if(window.matchMedia('(hover:hover)').matches){
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-  (function loop(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(loop)})();
-  document.querySelectorAll('a,button,.pc,.bac,.rv,.sn').forEach(el=>{
-    el.addEventListener('mouseenter',()=>curr.classList.add('x'));
-    el.addEventListener('mouseleave',()=>curr.classList.remove('x'));
-  });
-}
-
 /* ── OVERLAY MENU ── */
 const omenu=document.getElementById('omenu');
 function openMenu(){omenu.classList.add('open');document.body.style.overflow='hidden';}

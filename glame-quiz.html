@@ -13,10 +13,6 @@
 html{scroll-behavior:smooth}
 body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;min-height:100dvh}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
-#cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
-#curr.x{width:52px;height:52px;border-color:var(--g)}
-@media(hover:none){#cur,#curr{display:none}}
 
 .nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);box-shadow:0 1px 12px rgba(15,14,14,.04)}
 .logo{font-family:var(--d);font-size:22px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
@@ -200,7 +196,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 </style>
 </head>
 <body>
-<div id="cur"></div><div id="curr"></div>
+
 
 <nav class="nav">
   <div class="nav-back" onclick="history.back()"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Ana Sayfa</div>
@@ -285,11 +281,6 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 </div></nav>
 
 <script>
-const cur=document.getElementById('cur'),curr=document.getElementById('curr');
-let mx=0,my=0,rx=0,ry=0;
-if(window.matchMedia('(hover:hover)').matches){
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
 }
 
 const QS=[

@@ -13,10 +13,6 @@
 html{scroll-behavior:smooth}
 body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
-#cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
-#curr.x{width:52px;height:52px;border-color:var(--g)}
-@media(hover:none){#cur,#curr{display:none}}
 .ann{height:34px;background:var(--ink);overflow:hidden;display:flex;align-items:center}
 .ann-track{display:flex;white-space:nowrap;animation:marquee 38s linear infinite}
 .ann-item{padding:0 36px;font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45)}
@@ -230,7 +226,7 @@ footer{background:var(--ink);padding:72px 56px 36px}
 </style>
 </head>
 <body>
-<div id="cur"></div><div id="curr"></div>
+
 <div class="ann"><div class="ann-track"><span class="ann-item">Klinik Onaylı Teknoloji · Dermatoloji Testi · FDA Sertifikalı · 5.000+ Mutlu Kullanıcı · Klinik Onaylı Teknoloji · Dermatoloji Testi · FDA Sertifikalı · 5.000+ Mutlu Kullanıcı ·</span><span class="ann-item">Klinik Onaylı Teknoloji · Dermatoloji Testi · FDA Sertifikalı · 5.000+ Mutlu Kullanıcı ·</span></div></div>
 <nav class="nav">
   <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
@@ -417,8 +413,6 @@ footer{background:var(--ink);padding:72px 56px 36px}
 </div></nav>
 
 <script>
-const cur=document.getElementById('cur'),curr=document.getElementById('curr');let mx=0,my=0,rx=0,ry=0;
-if(window.matchMedia('(hover:hover)').matches){document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});(function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});}
 const omenu=document.getElementById('omenu');
 document.getElementById('hbg').addEventListener('click',()=>{const o=omenu.classList.toggle('open');document.getElementById('hbg').classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
 document.getElementById('omclose').addEventListener('click',()=>{omenu.classList.remove('open');document.getElementById('hbg').classList.remove('open');document.body.style.overflow='';});

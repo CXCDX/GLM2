@@ -24,10 +24,6 @@
 html{scroll-behavior:smooth}
 body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;min-height:100dvh}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
-#cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
-#curr.x{width:52px;height:52px;border-color:var(--g)}
-@media(hover:none){#cur,#curr{display:none}}
 
 /* ── NAV ── */
 .nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;border-bottom:var(--brd);background:rgba(255,255,255,.97);position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
@@ -241,7 +237,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 </style>
 </head>
 <body>
-<div id="cur"></div><div id="curr"></div>
+
 
 <!-- NAV -->
 <nav class="nav">
@@ -553,13 +549,6 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 </div>
 
 <script>
-/* CURSOR */
-const cur=document.getElementById('cur'),curr=document.getElementById('curr');
-let mx=0,my=0,rx=0,ry=0;
-if(window.matchMedia('(hover:hover)').matches){
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-  (function l(){rx+=(mx-rx)*.09;ry+=(my-ry)*.09;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(l)})();
-  document.querySelectorAll('a,button,input,select').forEach(el=>{el.addEventListener('mouseenter',()=>curr.classList.add('x'));el.addEventListener('mouseleave',()=>curr.classList.remove('x'))});
 }
 
 /* STEP NAVIGATION */
