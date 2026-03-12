@@ -3,33 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#f7f4ef">
+<meta name="theme-color" content="#ffffff">
 <title>Glame — Science of Skin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Figtree:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 /* ════════════════════════════════════════
    TOKENS
 ════════════════════════════════════════ */
 :root {
-  --w:    #f7f4ef;
-  --w2:   #efeae2;
-  --w3:   #e6e0d6;
+  --w:    #ffffff;
+  --w2:   #F5F5F5;
+  --w3:   #EBEBEB;
   --ink:  #0f0e0e;
   --i70:  rgba(15,14,14,.70);
   --i40:  rgba(15,14,14,.40);
   --i15:  rgba(15,14,14,.15);
   --i08:  rgba(15,14,14,.08);
-  --g:    #b8892a;
-  --g2:   #d4a030;
-  --gt:   rgba(184,137,42,.12);
+  --g:    #E63628;
+  --g2:   #0D9488;
+  --gt:   rgba(230,54,40,.10);
   --r:    #be3535;
-  --brd:  2px solid var(--ink);
-  --brdg: 2px solid var(--g);
+  --brd:  3px solid var(--ink);
+  --brdg: 3px solid var(--g);
   --rad:  16px;   /* app-style card radius */
-  --d: 'Playfair Display', Georgia, serif;
-  --b: 'Figtree', sans-serif;
-  --m: 'DM Mono', monospace;
+  --d: 'Space Grotesk', sans-serif;
+  --b: 'Inter', sans-serif;
+  --m: 'JetBrains Mono', monospace;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --nav-h: 72px;     /* bottom nav height mobile */
   --top-h: 60px;     /* top bar mobile */
@@ -60,20 +60,47 @@ button { font-family:inherit; }
 @media(hover:none){ #cur,#curr{display:none} }
 
 /* ════════════════════════════════════════
-   ANN BAR
+   ANN BAR — ROTATING + CLOSABLE
 ════════════════════════════════════════ */
 .ann {
-  height:36px; background:var(--ink);
-  overflow:hidden; display:flex; align-items:center;
+  height:44px; background:var(--ink);
+  display:flex; align-items:center; justify-content:center;
   position:relative; z-index:200;
+  transition:height .3s, opacity .3s;
 }
-.ann-track { display:flex; white-space:nowrap; animation:marquee 38s linear infinite; }
-.ann-track:hover { animation-play-state:paused; }
-.ann-item { display:inline-flex; align-items:center; gap:12px; padding:0 40px;
-  font-family:var(--m); font-size:10px; letter-spacing:.2em; text-transform:uppercase;
-  color:rgba(247,244,239,.55); }
-.ann-item b { color:var(--g2); font-weight:400; }
-.ann-dot { width:3px; height:3px; border-radius:50%; background:rgba(247,244,239,.2); }
+.ann.closed { height:0; opacity:0; overflow:hidden; pointer-events:none; }
+
+.ann-carousel {
+  display:flex; align-items:center; justify-content:center;
+  width:100%; height:100%; position:relative; overflow:hidden;
+}
+.ann-msg {
+  position:absolute; display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; text-align:center;
+  font-family:var(--m); font-size:12px; letter-spacing:.10em; text-transform:uppercase;
+  color:rgba(255,255,255,.75);
+  opacity:0; transform:translateY(8px);
+  transition:opacity .4s, transform .4s;
+  text-decoration:none;
+}
+.ann-msg.active { opacity:1; transform:translateY(0); }
+.ann-msg b { color:var(--g); font-weight:500; }
+.ann-msg:hover { color:#fff; }
+
+.ann-close {
+  position:absolute; right:16px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer;
+  color:rgba(255,255,255,.3); font-size:18px; line-height:1;
+  transition:color .2s; z-index:2; padding:4px;
+}
+.ann-close:hover { color:rgba(255,255,255,.7); }
+
+/* Progress bar at bottom of ann */
+.ann-progress {
+  position:absolute; bottom:0; left:0; height:2px;
+  background:var(--g); transition:width linear;
+}
+
 @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 /* ════════════════════════════════════════
@@ -83,17 +110,17 @@ button { font-family:inherit; }
   position:sticky; top:0; z-index:150;
   display:flex; align-items:center; justify-content:space-between;
   padding:0 56px; height:72px;
-  background:rgba(247,244,239,.96);
+  background:rgba(255,255,255,.96);
   backdrop-filter:blur(20px);
   border-bottom:var(--brd);
 }
 .logo { font-family:var(--d); font-size:24px; font-weight:900; letter-spacing:.2em; text-transform:uppercase; }
 .logo em { font-style:italic; color:var(--g); font-weight:400; }
 .desk-links { display:flex; gap:40px; list-style:none; }
-.desk-links a { font-family:var(--m); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--i70); transition:color .2s; }
+.desk-links a { font-family:var(--m); font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--i70); transition:color .2s; }
 .desk-links a:hover { color:var(--ink); }
 .desk-right { display:flex; align-items:center; gap:16px; }
-.desk-cta { font-family:var(--m); font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+.desk-cta { font-family:var(--m); font-size:12px; letter-spacing:.10em; text-transform:uppercase;
   border:var(--brd); padding:10px 24px; transition:all .25s; }
 .desk-cta:hover { background:var(--ink); color:var(--w); }
 .desk-icon { position:relative; color:var(--i70); display:flex; align-items:center; transition:color .2s; }
@@ -114,7 +141,7 @@ button { font-family:inherit; }
   position:sticky; top:0; z-index:150;
   align-items:center; justify-content:space-between;
   padding:0 20px; height:var(--top-h);
-  background:rgba(247,244,239,.97);
+  background:rgba(255,255,255,.97);
   backdrop-filter:blur(20px);
   border-bottom:var(--brd);
 }
@@ -161,7 +188,7 @@ button { font-family:inherit; }
 .mob-nav {
   display:none;
   position:fixed; bottom:0; left:0; right:0; z-index:150;
-  background:rgba(247,244,239,.97);
+  background:rgba(255,255,255,.97);
   backdrop-filter:blur(24px);
   border-top:var(--brd);
   padding-bottom:var(--safe-bottom);
@@ -197,49 +224,126 @@ button { font-family:inherit; }
 @keyframes pulse { 0%{opacity:.4;transform:scale(1)} 100%{opacity:0;transform:scale(1.45)} }
 
 /* ════════════════════════════════════════
-   HERO — MOBILE FIRST
+   HERO — FULL-BLEED SLIDER
 ════════════════════════════════════════ */
 .hero {
-  display:grid; grid-template-columns:1fr 1fr;
-  min-height:calc(100vh - 36px - 72px);
+  position:relative;
+  width:100%;
+  height:calc(100vh - 36px - 72px);
+  min-height:560px;
+  overflow:hidden;
   border-bottom:var(--brd);
 }
-.hero-l {
-  display:flex; flex-direction:column; justify-content:center;
-  padding:80px 56px 80px 56px;
-  border-right:var(--brd);
+.hslider { position:absolute; inset:0; }
+.hslide {
+  position:absolute; inset:0;
+  opacity:0; transition:opacity .7s ease;
+  pointer-events:none;
 }
-.eyebrow {
-  font-family:var(--m); font-size:11px; letter-spacing:.28em; text-transform:uppercase;
-  color:var(--g); margin-bottom:36px;
-  display:flex; align-items:center; gap:12px;
-  opacity:0; transform:translateY(14px);
-  animation:up .8s .1s cubic-bezier(.16,1,.3,1) forwards;
+.hslide.active { opacity:1; pointer-events:auto; }
+.hslide.exit { opacity:0; }
+
+/* slide background image */
+.hslide-bg {
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+  transform:scale(1.04);
+  transition:transform 6s ease-out;
 }
-.eyebrow-line { width:18px; height:2px; background:var(--g); }
-h1 {
-  font-family:var(--d); font-size:clamp(64px,7.5vw,116px); font-weight:900;
-  line-height:.93; letter-spacing:-.03em; margin-bottom:32px;
-  opacity:0; transform:translateY(24px);
-  animation:up 1s .2s cubic-bezier(.16,1,.3,1) forwards;
+.hslide.active .hslide-bg { transform:scale(1); }
+
+/* gradient overlay for text readability */
+.hslide-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to right, rgba(0,0,0,.55) 0%, rgba(0,0,0,.2) 50%, transparent 100%);
 }
-h1 em { font-style:italic; font-weight:400; color:var(--g); }
-.hero-sub {
-  font-size:17px; line-height:1.75; color:var(--i70); max-width:360px;
-  margin-bottom:44px; font-weight:300;
-  opacity:0; transform:translateY(14px);
-  animation:up .9s .4s cubic-bezier(.16,1,.3,1) forwards;
+
+/* slide content */
+.hslide-content {
+  position:absolute; left:56px; bottom:120px; z-index:3;
+  max-width:560px;
+  opacity:0; transform:translateY(28px);
+  transition:opacity .6s .3s ease, transform .6s .3s cubic-bezier(.16,1,.3,1);
 }
-/* CTA group */
-.hero-ctas {
-  display:flex; align-items:center; gap:16px;
-  opacity:0; transform:translateY(14px);
-  animation:up .9s .55s cubic-bezier(.16,1,.3,1) forwards;
+.hslide.active .hslide-content { opacity:1; transform:translateY(0); }
+
+.hslide-tag {
+  font-family:var(--m); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--g); margin-bottom:14px;
+  display:flex; align-items:center; gap:10px;
 }
+.hslide-tag::before { content:''; width:16px; height:3px; background:var(--g); }
+.hslide-title {
+  font-family:var(--d); font-size:clamp(40px,5.5vw,72px); font-weight:700;
+  line-height:1.0; letter-spacing:-.03em; color:#fff; margin-bottom:16px;
+}
+.hslide-sub {
+  font-size:16px; line-height:1.7; color:rgba(255,255,255,.7); margin-bottom:28px;
+  max-width:420px;
+}
+.hslide-cta {
+  display:inline-flex; align-items:center; gap:10px;
+  background:#fff; color:var(--ink);
+  font-family:var(--m); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+  padding:16px 32px; border:none; cursor:pointer;
+  transition:all .3s; white-space:nowrap;
+}
+.hslide-cta:hover { background:var(--g); color:#fff; }
+
+/* hero proof bar — overlay at bottom */
+.hero-proof-bar {
+  position:absolute; bottom:0; left:0; right:0; z-index:4;
+  display:flex; align-items:center; justify-content:center; gap:36px;
+  padding:16px 56px;
+  background:rgba(0,0,0,.4); backdrop-filter:blur(12px);
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.proof-item {
+  display:flex; align-items:center; gap:7px;
+  font-family:var(--m); font-size:11px; letter-spacing:.10em; text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+}
+.proof-dot { color:var(--g); font-size:14px; }
+
+/* slider controls */
+.slider-ctrl {
+  position:absolute; bottom:72px; right:56px;
+  display:flex; align-items:center; gap:12px; z-index:5;
+}
+.sc-btn {
+  width:44px; height:44px; border:2px solid rgba(255,255,255,.3);
+  background:rgba(0,0,0,.3); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:all .25s; border-radius:0;
+}
+.sc-btn:hover { background:#fff; border-color:#fff; }
+.sc-btn svg { stroke:#fff; }
+.sc-btn:hover svg { stroke:var(--ink); }
+.sc-dots { display:flex; gap:6px; align-items:center; }
+.sc-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(255,255,255,.3); border:none; cursor:pointer;
+  transition:all .3s;
+}
+.sc-dot.active { background:#fff; width:28px; border-radius:4px; }
+
+/* urgency badge */
+.urgency {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(230,54,40,.12); border:1px solid rgba(230,54,40,.3);
+  padding:8px 14px; margin-bottom:16px;
+  font-family:var(--m); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#fff;
+}
+.urgency-dot { width:6px; height:6px; border-radius:50%; background:var(--g); animation:blink 1.4s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+@keyframes up { to{opacity:1;transform:translateY(0)} }
+
+/* shared buttons (used elsewhere too) */
 .btn-primary {
   display:inline-flex; align-items:center; gap:10px;
   background:var(--ink); color:var(--w);
-  font-family:var(--m); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+  font-family:var(--m); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
   padding:18px 36px; border:var(--brd); position:relative; overflow:hidden;
   transition:color .35s; white-space:nowrap;
 }
@@ -252,63 +356,6 @@ h1 em { font-style:italic; font-weight:400; color:var(--g); }
   color:var(--i70); border-bottom:1px solid var(--i15); padding-bottom:2px; transition:color .2s,border-color .2s;
 }
 .btn-ghost:hover { color:var(--ink); border-color:var(--ink); }
-
-/* social proof bar */
-.hero-proof {
-  display:flex; gap:24px; flex-wrap:wrap;
-  margin-top:44px; padding-top:36px; border-top:var(--brd);
-  opacity:0; animation:up .9s .7s cubic-bezier(.16,1,.3,1) forwards;
-}
-.proof-item { display:flex; align-items:center; gap:7px;
-  font-family:var(--m); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--i70); }
-.proof-dot { color:var(--g); font-size:14px; }
-
-/* urgency badge */
-.urgency {
-  display:inline-flex; align-items:center; gap:8px;
-  background:rgba(190,53,53,.08); border:1px solid rgba(190,53,53,.2);
-  padding:8px 14px; margin-bottom:28px;
-  font-family:var(--m); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--r);
-  opacity:0; transform:translateY(14px);
-  animation:up .8s .08s cubic-bezier(.16,1,.3,1) forwards;
-}
-.urgency-dot { width:6px; height:6px; border-radius:50%; background:var(--r); animation:blink 1.4s ease-in-out infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-@keyframes up { to{opacity:1;transform:translateY(0)} }
-
-/* HERO RIGHT — slider */
-.hero-r {
-  position:relative; background:var(--w2); overflow:hidden;
-  display:flex; align-items:center; justify-content:center;
-}
-.hr-glow { position:absolute; inset:0; background:radial-gradient(ellipse 60% 55% at 50% 52%, rgba(190,53,53,.09) 0%, transparent 60%); pointer-events:none; }
-
-/* SLIDER */
-.hslider { position:relative; width:100%; height:100%; min-height:500px; }
-.hslide { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; opacity:0; transform:translateX(32px); transition:opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1); pointer-events:none; }
-.hslide.active { opacity:1; transform:translateX(0); pointer-events:auto; }
-.hslide.exit { opacity:0; transform:translateX(-32px); }
-.slide-card {
-  width:58%; max-width:320px; aspect-ratio:2/3;
-  background:rgba(247,244,239,.75); border:var(--brd);
-  box-shadow:6px 6px 0 var(--ink);
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
-  position:relative; overflow:hidden;
-}
-.slide-glow { position:absolute; inset:0; pointer-events:none; }
-.slide-lbl { font-family:var(--m); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--i40); position:relative; z-index:1; }
-.slide-info { position:absolute; bottom:40px; left:36px; z-index:3; }
-.si-tag { font-family:var(--m); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--g); margin-bottom:4px; }
-.si-name { font-family:var(--d); font-size:22px; font-weight:700; color:var(--ink); line-height:1.1; }
-.si-sub { font-family:var(--m); font-size:11px; color:var(--i70); margin-top:4px; }
-.slider-ctrl { position:absolute; bottom:36px; right:32px; display:flex; align-items:center; gap:12px; z-index:3; }
-.sc-btn { width:40px; height:40px; border:var(--brd); background:var(--w); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .25s; }
-.sc-btn:hover { background:var(--ink); }
-.sc-btn:hover svg { stroke:var(--w); }
-.sc-dots { display:flex; gap:6px; align-items:center; }
-.sc-dot { width:7px; height:7px; border-radius:50%; background:var(--i15); border:none; cursor:pointer; transition:all .3s; }
-.sc-dot.active { background:var(--ink); width:22px; border-radius:3px; }
 
 /* ════════════════════════════════════════
    CLAIM STRIP — 3 big numbers
@@ -340,7 +387,7 @@ h1 em { font-style:italic; font-weight:400; color:var(--g); }
 ════════════════════════════════════════ */
 .sec { padding:112px 56px; border-bottom:var(--brd); }
 .sec-alt { background:var(--w2); }
-.sec-dark { background:var(--ink); color:var(--w); border-color:rgba(247,244,239,.1); }
+.sec-dark { background:var(--ink); color:var(--w); border-color:rgba(255,255,255,.1); }
 .sec-label { font-family:var(--m); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--g); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
 .sec-label::before { content:''; width:14px; height:2px; background:var(--g); flex-shrink:0; }
 h2.sec-h { font-family:var(--d); font-size:clamp(48px,5.5vw,76px); font-weight:900; line-height:.97; letter-spacing:-.025em; }
@@ -394,7 +441,7 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 .dcomb::before { content:''; position:absolute; top:8%; left:50%; transform:translateX(-50%); width:50%; height:28%; background:linear-gradient(to bottom, rgba(190,53,53,.28), transparent); filter:blur(9px); }
 .d2{animation-delay:1s}.d3{animation-delay:2s}.d4{animation-delay:3s}.d5{animation-delay:1.5s}
 /* product text */
-.ptag { font-family:var(--m); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--g); border:var(--brdg); padding:4px 10px; display:inline-block; margin-bottom:12px; }
+.ptag { font-family:var(--m); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--g); border:var(--brdg); padding:4px 10px; display:inline-block; margin-bottom:12px; }
 .pname { font-family:var(--d); font-size:19px; font-weight:700; margin-bottom:7px; line-height:1.1; }
 .feat .pname { font-size:28px; font-weight:900; }
 .pdesc { font-size:13px; color:var(--i70); line-height:1.6; margin-bottom:12px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
@@ -412,7 +459,7 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 ════════════════════════════════════════ */
 .sticky-atc {
   position:fixed; bottom:calc(var(--nav-h) + var(--safe-bottom)); left:0; right:0; z-index:130;
-  background:rgba(247,244,239,.97); backdrop-filter:blur(20px);
+  background:rgba(255,255,255,.97); backdrop-filter:blur(20px);
   border-top:var(--brd);
   padding:14px 24px;
   display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -430,7 +477,7 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 .sp-ticker {
   background:var(--ink); padding:10px 24px;
   font-family:var(--m); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
-  color:rgba(247,244,239,.6); display:flex; align-items:center; gap:12px;
+  color:rgba(255,255,255,.6); display:flex; align-items:center; gap:12px;
   overflow:hidden;
 }
 .sp-ticker b { color:var(--g2); }
@@ -471,28 +518,101 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 .wll1{top:8%;left:0}.wll2{bottom:9%;right:0}.wll3{top:46%;right:0;flex-direction:column;align-items:flex-end;gap:3px}
 
 /* ════════════════════════════════════════
-   BEFORE / AFTER
+   BEFORE / AFTER — INTERACTIVE SLIDER
 ════════════════════════════════════════ */
-.bagrid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:var(--brd); margin-top:0; }
-.bac { border-right:var(--brd); overflow:hidden; cursor:pointer; transition:transform .4s cubic-bezier(.16,1,.3,1); }
-.bac:last-child { border-right:none; }
-.bac:hover { transform:translateY(-4px); z-index:2; box-shadow:0 8px 0 var(--ink); }
-.bav { height:250px; position:relative; overflow:hidden; border-bottom:var(--brd); }
-.ba-b,.ba-a { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
-.ba-after { clip-path:inset(0 50% 0 0); background:var(--w3); z-index:2; transition:clip-path .6s cubic-bezier(.16,1,.3,1); }
-.ba-before { background:var(--w2); z-index:1; }
-.bac:hover .ba-after { clip-path:inset(0 0% 0 0); }
-.skin { width:100px; height:100px; border-radius:50%; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
-.skin-b { background:radial-gradient(circle at 38% 35%, rgba(140,100,78,.42) 0%, rgba(72,52,40,.85) 65%, rgba(55,40,30,1) 100%); filter:brightness(.88); }
-.skin-a { background:radial-gradient(circle at 32% 28%, rgba(255,224,198,.95) 0%, rgba(235,196,168,.82) 38%, rgba(205,166,136,.72) 65%, rgba(175,138,108,.62) 100%); box-shadow:0 0 22px rgba(184,137,42,.14); }
-.ba-sep { position:absolute; top:0; bottom:0; left:50%; width:2px; background:var(--g); opacity:.5; z-index:3; transition:opacity .3s; }
-.bac:hover .ba-sep { opacity:0; }
-.ba-lbl { position:absolute; font-family:var(--m); font-size:8px; letter-spacing:.14em; text-transform:uppercase; z-index:4; bottom:12px; }
-.ba-b-l{left:12px;color:var(--i70)}.ba-a-l{right:12px;color:var(--g)}
-.bai { padding:22px 22px 26px; }
-.bai-tag { font-family:var(--m); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--g); margin-bottom:5px; }
-.bai-h { font-family:var(--d); font-size:18px; font-weight:700; }
-.bai-t { font-family:var(--m); font-size:11px; color:var(--i70); margin-top:4px; }
+.ba-section { max-width:1100px; margin:0 auto; }
+
+/* Region tabs — NIRA style */
+.ba-tabs {
+  display:flex; gap:0; border:var(--brd); margin-bottom:0;
+}
+.ba-tab {
+  flex:1; padding:14px 20px; text-align:center;
+  font-family:var(--m); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+  background:none; border:none; border-right:var(--brd); cursor:pointer;
+  color:var(--i40); transition:all .25s;
+}
+.ba-tab:last-child { border-right:none; }
+.ba-tab.active { background:var(--ink); color:#fff; }
+.ba-tab:not(.active):hover { background:var(--w2); color:var(--ink); }
+
+/* Tab panels */
+.ba-panels { border:var(--brd); border-top:none; }
+.ba-panel { display:none; }
+.ba-panel.active { display:block; }
+
+/* Comparison container */
+.ba-compare {
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+}
+.ba-side {
+  position:relative; overflow:hidden;
+  aspect-ratio:4/5; background:var(--w2);
+}
+.ba-side:first-child { border-right:var(--brd); }
+
+/* Photo placeholder */
+.ba-photo {
+  width:100%; height:100%;
+  background:var(--w3);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--m); font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--i40);
+}
+
+/* Day labels — LYMA style */
+.ba-day-label {
+  position:absolute; top:16px; left:16px;
+  font-family:var(--m); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  padding:6px 14px; z-index:2;
+}
+.ba-day-before { background:var(--w); color:var(--ink); border:var(--brd); }
+.ba-day-after { background:var(--g); color:#fff; }
+
+/* Interactive drag slider overlay */
+.ba-slider-wrap {
+  position:relative; aspect-ratio:4/5; overflow:hidden;
+  cursor:ew-resize; border:var(--brd); border-top:none;
+}
+.ba-img-layer {
+  position:absolute; inset:0;
+  background:var(--w3);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--m); font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--i40);
+}
+.ba-img-after { clip-path:inset(0 50% 0 0); z-index:2; background:var(--w2); }
+.ba-img-before { z-index:1; }
+.ba-drag-line {
+  position:absolute; top:0; bottom:0; left:50%; width:3px;
+  background:var(--g); z-index:3; transform:translateX(-50%);
+  pointer-events:none;
+}
+.ba-drag-handle {
+  position:absolute; top:50%; left:50%; z-index:4;
+  width:44px; height:44px; border-radius:50%;
+  background:#fff; border:3px solid var(--g);
+  transform:translate(-50%,-50%);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:var(--g);
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+  pointer-events:none;
+}
+
+/* Info grid below */
+.ba-info-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+  border:var(--brd); border-top:none;
+}
+.ba-info-card {
+  padding:24px; border-right:var(--brd); text-align:center;
+  transition:background .25s;
+}
+.ba-info-card:last-child { border-right:none; }
+.ba-info-card:hover { background:var(--w2); }
+.ba-info-tag { font-family:var(--m); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--g); margin-bottom:6px; }
+.ba-info-h { font-family:var(--d); font-size:20px; font-weight:700; margin-bottom:4px; }
+.ba-info-t { font-family:var(--m); font-size:11px; color:var(--i70); }
 
 /* ════════════════════════════════════════
    QUIZ
@@ -538,21 +658,21 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 ════════════════════════════════════════ */
 footer { background:var(--ink); padding:80px 56px 40px; }
 .ft-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:48px; margin-bottom:56px; }
-.ft-logo { color:rgba(247,244,239,.9); }
-.ft-desc { font-size:13px; color:rgba(247,244,239,.25); line-height:1.75; margin-top:14px; max-width:220px; }
-.ft-nl { display:flex; margin-top:18px; border:1px solid rgba(247,244,239,.14); }
-.ft-nl input { flex:1; background:transparent; border:none; padding:11px 14px; font-size:12px; color:rgba(247,244,239,.8); outline:none; font-family:var(--b); }
-.ft-nl input::placeholder { color:rgba(247,244,239,.2); }
+.ft-logo { color:rgba(255,255,255,.9); }
+.ft-desc { font-size:13px; color:rgba(255,255,255,.25); line-height:1.75; margin-top:14px; max-width:220px; }
+.ft-nl { display:flex; margin-top:18px; border:1px solid rgba(255,255,255,.14); }
+.ft-nl input { flex:1; background:transparent; border:none; padding:11px 14px; font-size:12px; color:rgba(255,255,255,.8); outline:none; font-family:var(--b); }
+.ft-nl input::placeholder { color:rgba(255,255,255,.2); }
 .ft-nl button { background:var(--g); border:none; color:var(--ink); padding:11px 18px; font-size:15px; cursor:pointer; }
-.ft-t { font-family:var(--m); font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(247,244,239,.3); margin-bottom:16px; }
+.ft-t { font-family:var(--m); font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:16px; }
 .ft-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
-.ft-list a { font-size:13px; color:rgba(247,244,239,.25); transition:color .25s; }
-.ft-list a:hover { color:rgba(247,244,239,.55); }
-.ft-bot { border-top:1px solid rgba(247,244,239,.08); padding-top:26px; display:flex; align-items:center; justify-content:space-between; }
-.ft-copy { font-family:var(--m); font-size:9px; color:rgba(247,244,239,.2); letter-spacing:.1em; }
+.ft-list a { font-size:13px; color:rgba(255,255,255,.25); transition:color .25s; }
+.ft-list a:hover { color:rgba(255,255,255,.55); }
+.ft-bot { border-top:1px solid rgba(255,255,255,.08); padding-top:26px; display:flex; align-items:center; justify-content:space-between; }
+.ft-copy { font-family:var(--m); font-size:9px; color:rgba(255,255,255,.2); letter-spacing:.1em; }
 .ft-leg { display:flex; gap:20px; }
-.ft-leg a { font-family:var(--m); font-size:9px; color:rgba(247,244,239,.2); letter-spacing:.1em; transition:color .25s; }
-.ft-leg a:hover { color:rgba(247,244,239,.45); }
+.ft-leg a { font-family:var(--m); font-size:9px; color:rgba(255,255,255,.2); letter-spacing:.1em; transition:color .25s; }
+.ft-leg a:hover { color:rgba(255,255,255,.45); }
 
 /* ════════════════════════════════════════
    FADE IN
@@ -572,20 +692,17 @@ footer { background:var(--ink); padding:80px 56px 40px; }
   .ann { height:30px; }
   .ann-track { font-size:9px; }
 
-  /* hero goes single column stacked */
-  .hero { grid-template-columns:1fr; min-height:auto; }
-  .hero-l { padding:40px 20px 36px; border-right:none; border-bottom:var(--brd); }
-  h1 { font-size:clamp(52px,13vw,80px); margin-bottom:20px; }
-  .hero-sub { font-size:15px; margin-bottom:32px; }
-  .hero-ctas { flex-direction:column; align-items:flex-start; gap:12px; }
-  .btn-primary { width:100%; justify-content:center; }
-  .hero-proof { gap:16px; }
-  .hero-r { height:70vw; min-height:300px; }
-  .hslider { min-height:300px; }
-  .slide-card { width:44%; }
-  .slide-info { left:20px; bottom:90px; }
-  .slider-ctrl { bottom:16px; right:16px; }
-  .si-name { font-size:16px; }
+  /* hero full-bleed mobile */
+  .hero { height:85vh; min-height:480px; }
+  .hslide-content { left:20px; right:20px; bottom:100px; }
+  .hslide-title { font-size:clamp(32px,9vw,52px); }
+  .hslide-sub { font-size:14px; }
+  .hslide-cta { padding:14px 24px; font-size:11px; }
+  .slider-ctrl { bottom:62px; right:20px; }
+  .sc-btn { width:36px; height:36px; }
+  .hero-proof-bar { gap:16px; padding:12px 20px; flex-wrap:wrap; justify-content:center; }
+  .proof-item { font-size:9px; }
+  .urgency { font-size:9px; padding:6px 10px; }
 
   /* claim strip vertical */
   .claim { grid-template-columns:1fr; }
@@ -616,8 +733,12 @@ footer { background:var(--ink); padding:80px 56px 40px; }
   .sci-vis { width:280px; height:280px; }
   .svr1{width:260px;height:260px}.svr2{width:182px;height:182px}.svr3{width:108px;height:108px}
 
-  /* before/after: scroll horizontal on mobile */
-  .bagrid { grid-template-columns:repeat(3,80vw); overflow-x:auto; scroll-snap-type:x mandatory; border:none; border-top:var(--brd); border-bottom:var(--brd); }
+  /* before/after: stack on mobile */
+  .ba-tabs { flex-wrap:wrap; }
+  .ba-tab { font-size:10px; padding:10px 12px; }
+  .ba-info-grid { grid-template-columns:1fr; }
+  .ba-info-card { border-right:none; border-bottom:var(--brd); }
+  .ba-info-card:last-child { border-bottom:none; }
   .bac { scroll-snap-align:start; border:var(--brd); margin-right:-1px; }
   .bav { height:220px; }
 
@@ -649,7 +770,7 @@ footer { background:var(--ink); padding:80px 56px 40px; }
 /* TABLET 768–1024 */
 @media(min-width:768px) and (max-width:1024px){
   .desk-nav { padding:0 32px; }
-  .hero-l { padding:64px 40px; }
+  .hslide-content { left:32px; }
   .sec { padding:80px 40px; }
   .pgrid { grid-template-columns:1fr 1fr; }
   .pc.feat { grid-row:1/3; }
@@ -666,40 +787,40 @@ footer { background:var(--ink); padding:80px 56px 40px; }
 <div id="cur"></div><div id="curr"></div>
 
 <!-- ANN BAR -->
-<div class="ann">
-  <div class="ann-track">
-    <span class="ann-item">İlk Siparişte %10 <span class="ann-dot"></span> <b>GLAME10</b></span>
-    <span class="ann-item">Ücretsiz Kargo · 500 TL Üzeri <span class="ann-dot"></span></span>
-    <span class="ann-item">94 LED · Klinik Onaylı · Dermatoloji Testi <span class="ann-dot"></span></span>
-    <span class="ann-item">İlk Siparişte %10 <span class="ann-dot"></span> <b>GLAME10</b></span>
-    <span class="ann-item">Ücretsiz Kargo · 500 TL Üzeri <span class="ann-dot"></span></span>
-    <span class="ann-item">94 LED · Klinik Onaylı · Dermatoloji Testi <span class="ann-dot"></span></span>
+<div class="ann" id="annBar">
+  <div class="ann-carousel" id="annCarousel">
+    <a href="glame-collection.html" class="ann-msg active">İlk Siparişte <b>%10 İndirim</b> — Kod: <b>GLAME10</b></a>
+    <a href="glame-collection.html" class="ann-msg">500 TL Üzeri <b>Ücretsiz Kargo</b> — Tüm Türkiye</a>
+    <a href="glame-pdp.html" class="ann-msg"><b>Glow Mask Yeni Seri</b> — 94 LED · Klinik Onaylı</a>
+    <a href="glame-quiz.html" class="ann-msg">Cilt Testini Çöz → <b>Kişisel Protokolünü Al</b></a>
   </div>
+  <div class="ann-progress" id="annProgress" style="width:0%"></div>
+  <button class="ann-close" id="annClose" aria-label="Kapat">×</button>
 </div>
 
 <!-- DESKTOP NAV -->
 <nav class="desk-nav">
-  <a href="#" class="logo">Gl<em>a</em>me</a>
+  <a href="index.html" class="logo">Gl<em>a</em>me</a>
   <ul class="desk-links">
-    <li><a href="#products">Alışveriş</a></li>
+    <li><a href="glame-collection.html">Alışveriş</a></li>
     <li><a href="#science">Teknoloji</a></li>
     <li><a href="#ba">Sonuçlar</a></li>
     <li><a href="#reviews">Yorumlar</a></li>
   </ul>
   <div class="desk-right">
-    <a href="#quiz" class="desk-cta">Cilt Testi</a>
-    <span class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
-    <span class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="desk-badge">2</span></span>
+    <a href="glame-quiz.html" class="desk-cta">Cilt Testi</a>
+    <a href="glame-account.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+    <a href="glame-checkout.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="desk-badge">2</span></a>
     <button class="hbg" id="hbg" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
 <!-- MOBILE TOP BAR -->
 <div class="mob-top">
-  <a href="#" class="logo">Gl<em>a</em>me</a>
+  <a href="index.html" class="logo">Gl<em>a</em>me</a>
   <div class="mob-right">
-    <span class="mob-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
-    <span class="mob-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="mob-badge">2</span></span>
+    <a href="glame-search.html" class="mob-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></a>
+    <a href="glame-checkout.html" class="mob-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="mob-badge">2</span></a>
     <button class="hbg" id="hbg2" aria-label="Menu" style="display:flex;flex-direction:column;gap:5px;background:none;border:none;padding:4px"><span style="display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s"></span><span style="display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s"></span><span style="display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s"></span></button>
   </div>
 </div>
@@ -707,99 +828,100 @@ footer { background:var(--ink); padding:80px 56px 40px; }
 <!-- FULLSCREEN OVERLAY MENU -->
 <div class="overlay-menu" id="omenu">
   <button class="om-close" id="omclose">Kapat ✕</button>
-  <a href="#products" class="om-link">Alışveriş <em>→</em></a>
+  <a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a>
   <a href="#science" class="om-link">Teknoloji <em>→</em></a>
   <a href="#ba" class="om-link">Sonuçlar <em>→</em></a>
   <a href="#reviews" class="om-link">Yorumlar <em>→</em></a>
   <a href="#quiz" class="om-link">Cilt Testi <em>→</em></a>
+  <a href="glame-blog.html" class="om-link">Blog <em>→</em></a>
+  <a href="glame-contact.html" class="om-link">İletişim <em>→</em></a>
   <div class="om-foot">
     <a href="#" class="om-pill">TR 🇹🇷</a>
     <a href="#" class="om-pill">Instagram</a>
-    <a href="#" class="om-pill">Destek</a>
+    <a href="glame-contact.html" class="om-pill">Destek</a>
   </div>
 </div>
 
-<!-- ═══════ HERO ═══════ -->
+<!-- ═══════ HERO — FULL-BLEED SLIDER ═══════ -->
 <section class="hero">
-  <div class="hero-l">
-    <div class="urgency"><span class="urgency-dot"></span>Son 24 saatte 47 satış</div>
-    <div class="eyebrow"><span class="eyebrow-line"></span>Cilt Teknolojisi · 2026</div>
-    <h1>Cildinizin<br><em>geleceği</em><br>burada<br>başlar.</h1>
-    <p class="hero-sub">Klinik düzeyde LED, mikro akım ve IPL. Dermatoloji onaylı. Artık evinizde.</p>
-    <div class="hero-ctas">
-      <a href="#products" class="btn-primary">
-        <span>Koleksiyonu Keşfet</span>
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#science" class="btn-ghost">Nasıl çalışır? <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  <div class="hslider" id="hslider">
+    <!-- Slide 1: Glow Mask -->
+    <div class="hslide active">
+      <div class="hslide-bg" style="background-image:url('product-assets/img/glow-mask-hero.jpg');background-color:var(--ink)"></div>
+      <div class="hslide-overlay"></div>
+      <div class="hslide-content">
+        <div class="urgency"><span class="urgency-dot"></span>Son 24 saatte 47 satış</div>
+        <div class="hslide-tag">LED Fototerapi · 633nm</div>
+        <h2 class="hslide-title">Cildinizin Geleceği<br>Burada Başlar</h2>
+        <p class="hslide-sub">94 LED kaynağı, klinik düzeyde fototerapi. 8 haftada %57 dolgunluk artışı.</p>
+        <a href="glame-pdp.html" class="hslide-cta">Glow Mask'i Keşfet <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
     </div>
-    <div class="hero-proof">
-      <div class="proof-item"><span class="proof-dot">✦</span>FDA Onaylı</div>
-      <div class="proof-item"><span class="proof-dot">✦</span>Dermatoloji Testi</div>
-      <div class="proof-item"><span class="proof-dot">✦</span>5.000+ Kullanıcı</div>
+    <!-- Slide 2: Dermaring -->
+    <div class="hslide">
+      <div class="hslide-bg" style="background-image:url('product-assets/img/dermaring-hero.jpg');background-color:#1a1520"></div>
+      <div class="hslide-overlay"></div>
+      <div class="hslide-content">
+        <div class="hslide-tag">Anti-Aging · Mikro Akım</div>
+        <h2 class="hslide-title">Mikro Akım<br>Teknolojisi</h2>
+        <p class="hslide-sub">Kızılötesi + mikro akım ile cilt elastikiyetini yeniden kazanın. Dermatoloji onaylı.</p>
+        <a href="glame-pdp.html" class="hslide-cta">Dermaring'i Keşfet <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <!-- Slide 3: Duo Spin -->
+    <div class="hslide">
+      <div class="hslide-bg" style="background-image:url('product-assets/img/duo-spin-hero.jpg');background-color:#0f1518"></div>
+      <div class="hslide-overlay"></div>
+      <div class="hslide-content">
+        <div class="hslide-tag">Temizleme · Sonik</div>
+        <h2 class="hslide-title">Derinlemesine<br>Temizlik</h2>
+        <p class="hslide-sub">360° sonik spin teknolojisi ile gözeneklerin derinliğine kadar temizlik.</p>
+        <a href="glame-pdp.html" class="hslide-cta">Duo Spin'i Keşfet <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <!-- Slide 4: Sapphire IPL -->
+    <div class="hslide">
+      <div class="hslide-bg" style="background-image:url('product-assets/img/sapphire-ipl-hero.jpg');background-color:#0a0f14"></div>
+      <div class="hslide-overlay"></div>
+      <div class="hslide-content">
+        <div class="hslide-tag">Epilasyon · IPL</div>
+        <h2 class="hslide-title">Safir Soğutma<br>Ağrısız Epilasyon</h2>
+        <p class="hslide-sub">IPL teknolojisi ile kalıcı tüy azalması. Safir soğutma sayesinde konforlu kullanım.</p>
+        <a href="glame-pdp.html" class="hslide-cta">Sapphire IPL'i Keşfet <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <!-- Slide 5: Hair Light Pro -->
+    <div class="hslide">
+      <div class="hslide-bg" style="background-image:url('product-assets/img/hair-light-hero.jpg');background-color:#12100e"></div>
+      <div class="hslide-overlay"></div>
+      <div class="hslide-content">
+        <div class="hslide-tag">Saç Bakımı · Kızılötesi</div>
+        <h2 class="hslide-title">Saç Bakımında<br>Yeni Dönem</h2>
+        <p class="hslide-sub">Kızılötesi LED ve mikro akım ile saç köklerini güçlendirin.</p>
+        <a href="glame-pdp.html" class="hslide-cta">Hair Light'ı Keşfet <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
     </div>
   </div>
 
-  <div class="hero-r">
-    <div class="hr-glow"></div>
-    <div class="hslider" id="hslider">
-      <!-- Slide 1 -->
-      <div class="hslide active">
-        <div class="slide-card">
-          <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(190,53,53,.12) 0%,transparent 60%)"></div>
-          <div class="dmask" style="width:148px;height:148px;animation:float 8s ease-in-out infinite"></div>
-          <div class="slide-lbl">Glow Mask</div>
-        </div>
-        <div class="slide-info"><div class="si-tag">LED Fototerapi</div><div class="si-name">Glow Mask</div><div class="si-sub">94 LED · 633nm</div></div>
-      </div>
-      <!-- Slide 2 -->
-      <div class="hslide">
-        <div class="slide-card">
-          <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(190,53,53,.07) 0%,transparent 60%)"></div>
-          <div class="dcyl" style="animation:float 8s ease-in-out infinite"></div>
-          <div class="slide-lbl" style="margin-top:20px">Dermaring Revive</div>
-        </div>
-        <div class="slide-info"><div class="si-tag">Anti-Aging</div><div class="si-name">Dermaring Revive</div><div class="si-sub">Mikro Akım · Kızılötesi</div></div>
-      </div>
-      <!-- Slide 3 -->
-      <div class="hslide">
-        <div class="slide-card">
-          <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(100,120,220,.07) 0%,transparent 60%)"></div>
-          <div class="dspin" style="animation:float 8s ease-in-out infinite"><div class="dspin-h"></div><div class="dspin-b"></div></div>
-          <div class="slide-lbl" style="margin-top:20px">Duo Spin Cleanser</div>
-        </div>
-        <div class="slide-info"><div class="si-tag">Temizleme</div><div class="si-name">Duo Spin Cleanser</div><div class="si-sub">Sonik · 360° Spin</div></div>
-      </div>
-      <!-- Slide 4 -->
-      <div class="hslide">
-        <div class="slide-card">
-          <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(100,160,220,.09) 0%,transparent 60%)"></div>
-          <div class="dipl" style="animation:float 8s ease-in-out infinite"></div>
-          <div class="slide-lbl" style="margin-top:20px">Sapphire IPL</div>
-        </div>
-        <div class="slide-info"><div class="si-tag">Epilasyon</div><div class="si-name">Sapphire Freeze IPL</div><div class="si-sub">IPL · Safir Soğutma</div></div>
-      </div>
-      <!-- Slide 5 -->
-      <div class="hslide">
-        <div class="slide-card">
-          <div class="slide-glow" style="background:radial-gradient(ellipse 55% 50% at 50% 55%,rgba(184,137,42,.07) 0%,transparent 60%)"></div>
-          <div class="dcomb" style="animation:float 8s ease-in-out infinite"></div>
-          <div class="slide-lbl" style="margin-top:20px">Hair Light Pro</div>
-        </div>
-        <div class="slide-info"><div class="si-tag">Saç Bakımı</div><div class="si-name">Hair Light Pro Comb</div><div class="si-sub">Kızılötesi · Mikro Akım</div></div>
-      </div>
+  <!-- Slider Controls -->
+  <div class="slider-ctrl">
+    <button class="sc-btn" id="scprev"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+    <div class="sc-dots" id="scdots">
+      <button class="sc-dot active" data-i="0"></button>
+      <button class="sc-dot" data-i="1"></button>
+      <button class="sc-dot" data-i="2"></button>
+      <button class="sc-dot" data-i="3"></button>
+      <button class="sc-dot" data-i="4"></button>
     </div>
-    <div class="slider-ctrl">
-      <button class="sc-btn" id="scprev"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
-      <div class="sc-dots" id="scdots">
-        <button class="sc-dot active" data-i="0"></button>
-        <button class="sc-dot" data-i="1"></button>
-        <button class="sc-dot" data-i="2"></button>
-        <button class="sc-dot" data-i="3"></button>
-        <button class="sc-dot" data-i="4"></button>
-      </div>
-      <button class="sc-btn" id="scnext"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-    </div>
+    <button class="sc-btn" id="scnext"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+  </div>
+
+  <!-- Proof Bar -->
+  <div class="hero-proof-bar">
+    <div class="proof-item"><span class="proof-dot">✦</span>FDA Onaylı</div>
+    <div class="proof-item"><span class="proof-dot">✦</span>Dermatoloji Testi</div>
+    <div class="proof-item"><span class="proof-dot">✦</span>5.000+ Kullanıcı</div>
+    <div class="proof-item"><span class="proof-dot">✦</span>Klinik Kanıtlı</div>
   </div>
 </section>
 
@@ -837,20 +959,20 @@ footer { background:var(--ink); padding:80px 56px 40px; }
 <section class="sec" id="products">
   <div class="sec-row">
     <div><div class="sec-label">Koleksiyon — 2026</div><h2 class="sec-h">Profesyonel Bakımı<br><em>Eve Taşıyın</em></h2></div>
-    <a href="#" class="see-all">Tümünü Gör <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <a href="glame-collection.html" class="see-all">Tümünü Gör <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
   </div>
   <div class="pgrid">
-    <div class="pc feat fi">
+    <div class="pc feat fi" onclick="window.location='glame-pdp.html?product=glow-mask'" style="cursor:pointer">
       <div class="pin">
         <div><div class="ptag">★ En Çok Satan</div><div class="pname feat">Glame Glow Mask</div><p class="pdesc feat">94 LED kaynağı, 2cm yoğunluk dağılımı. Akne, kırışıklık ve lekelere karşı klinik etki.</p><div class="ppills"><span class="ppill">LED Fototerapi</span><span class="ppill">633nm</span><span class="ppill">Anti-Aging</span></div></div>
-        <div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(190,53,53,.15) 0%,transparent 65%)"></div><div class="dw"><div class="dmask feat"></div><div class="dlbl">Glow Mask</div></div></div>
+        <div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(190,53,53,.15) 0%,transparent 65%)"></div><img src="product-assets/img/glow-mask-dekupe.jpg" alt="Glame Glow Mask" style="max-height:280px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div>
         <div class="pbot"><div class="ppr"><sub>₺</sub>5.000</div><button class="padd"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Sepete Ekle</button></div>
       </div>
     </div>
-    <div class="pc fi"><div class="pin"><div><div class="ptag">Anti-Aging</div><div class="pname">Dermaring Revive</div><p class="pdesc">REVIVE akım, kırmızı ve kızılötesi ışık terapilerini birleştirir.</p><div class="ppills"><span class="ppill">Mikro Akım</span><span class="ppill">Kızılötesi</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(190,53,53,.1) 0%,transparent 65%)"></div><div class="dw d2"><div class="dcyl"></div><div class="dlbl">Dermaring</div></div></div><div class="pbot"><div class="ppr"><sub>₺</sub>3.500</div><button class="padd">Ekle</button></div></div></div>
-    <div class="pc fi"><div class="pin"><div><div class="ptag">Temizleme</div><div class="pname">Duo Spin Cleanser</div><p class="pdesc">Çift dönen başlık, gözenekleri derinlemesine temizler.</p><div class="ppills"><span class="ppill">Sonik</span><span class="ppill">360° Spin</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(100,120,200,.08) 0%,transparent 65%)"></div><div class="dw d3"><div class="dspin"><div class="dspin-h"></div><div class="dspin-b"></div></div><div class="dlbl">Duo Spin</div></div></div><div class="pbot"><div class="ppr"><sub>₺</sub>2.200</div><button class="padd">Ekle</button></div></div></div>
-    <div class="pc fi"><div class="pin"><div><div class="ptag">Epilasyon</div><div class="pname">Sapphire Freeze IPL</div><p class="pdesc">Geniş çıkış penceresi ve enerji depolama teknolojisiyle kalıcı sonuçlar.</p><div class="ppills"><span class="ppill">IPL</span><span class="ppill">Safir Soğutma</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(100,160,220,.1) 0%,transparent 65%)"></div><div class="dw d4"><div class="dipl"></div><div class="dlbl">Sapphire IPL</div></div></div><div class="pbot"><div class="ppr"><sub>₺</sub>4.200</div><button class="padd">Ekle</button></div></div></div>
-    <div class="pc fi"><div class="pin"><div><div class="ptag">Saç Bakımı</div><div class="pname">Hair Light Pro Comb</div><p class="pdesc">Saç dökülmesine karşı kızılötesi ışık ve mikro akım kombinasyonu.</p><div class="ppills"><span class="ppill">Kızılötesi</span><span class="ppill">Saç</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(184,137,42,.08) 0%,transparent 65%)"></div><div class="dw d5"><div class="dcomb"></div><div class="dlbl">Hair Light Pro</div></div></div><div class="pbot"><div class="ppr"><sub>₺</sub>4.000</div><button class="padd">Ekle</button></div></div></div>
+    <div class="pc fi" onclick="window.location='glame-pdp.html?product=dermaring'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Anti-Aging</div><div class="pname">Dermaring Revive</div><p class="pdesc">REVIVE akım, kırmızı ve kızılötesi ışık terapilerini birleştirir.</p><div class="ppills"><span class="ppill">Mikro Akım</span><span class="ppill">Kızılötesi</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(190,53,53,.1) 0%,transparent 65%)"></div><img src="product-assets/img/dermaring-dekupe.jpg" alt="Dermaring Revive" style="max-height:180px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div><div class="pbot"><div class="ppr"><sub>₺</sub>3.500</div><button class="padd">Ekle</button></div></div></div>
+    <div class="pc fi" onclick="window.location='glame-pdp.html?product=duo-spin'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Temizleme</div><div class="pname">Duo Spin Cleanser</div><p class="pdesc">Çift dönen başlık, gözenekleri derinlemesine temizler.</p><div class="ppills"><span class="ppill">Sonik</span><span class="ppill">360° Spin</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(100,120,200,.08) 0%,transparent 65%)"></div><img src="product-assets/img/duo-spin-dekupe.png" alt="Duo Spin Cleanser" style="max-height:180px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div><div class="pbot"><div class="ppr"><sub>₺</sub>2.200</div><button class="padd">Ekle</button></div></div></div>
+    <div class="pc fi" onclick="window.location='glame-pdp.html?product=sapphire-ipl'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Epilasyon</div><div class="pname">Sapphire Freeze IPL</div><p class="pdesc">Geniş çıkış penceresi ve enerji depolama teknolojisiyle kalıcı sonuçlar.</p><div class="ppills"><span class="ppill">IPL</span><span class="ppill">Safir Soğutma</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(100,160,220,.1) 0%,transparent 65%)"></div><img src="product-assets/img/sapphire-ipl-dekupe.jpg" alt="Sapphire Freeze IPL" style="max-height:180px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div><div class="pbot"><div class="ppr"><sub>₺</sub>4.200</div><button class="padd">Ekle</button></div></div></div>
+    <div class="pc fi" onclick="window.location='glame-pdp.html?product=hair-light'" style="cursor:pointer"><div class="pin"><div><div class="ptag">Saç Bakımı</div><div class="pname">Hair Light Pro Comb</div><p class="pdesc">Saç dökülmesine karşı kızılötesi ışık ve mikro akım kombinasyonu.</p><div class="ppills"><span class="ppill">Kızılötesi</span><span class="ppill">Saç</span></div></div><div class="pphoto"><div class="pglow" style="background:radial-gradient(ellipse at center,rgba(184,137,42,.08) 0%,transparent 65%)"></div><img src="product-assets/img/hair-light-dekupe.jpg" alt="Hair Light Pro Comb" style="max-height:180px;width:auto;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply"></div><div class="pbot"><div class="ppr"><sub>₺</sub>4.000</div><button class="padd">Ekle</button></div></div></div>
   </div>
 </section>
 
@@ -882,16 +1004,88 @@ footer { background:var(--ink); padding:80px 56px 40px; }
   </div>
 </section>
 
-<!-- B/A -->
+<!-- B/A — INTERACTIVE SLIDER -->
 <section class="sec" id="ba">
   <div class="sec-row">
-    <div><div class="sec-label">Klinik Sonuçlar</div><h2 class="sec-h">Gerçek <em>Dönüşümler</em></h2></div>
-    <span style="font-family:var(--m);font-size:10px;color:var(--i70);text-align:right;line-height:1.6;letter-spacing:.06em">Hover<br>önce / sonra</span>
+    <div><div class="sec-label">Klinik Sonuçlar</div><h2 class="sec-h">Gerçek Dönüşümler</h2></div>
+    <span style="font-family:var(--m);font-size:10px;color:var(--i70);text-align:right;line-height:1.6;letter-spacing:.06em">Kaydırarak<br>karşılaştır</span>
   </div>
-  <div class="bagrid fi">
-    <div class="bac"><div class="bav"><div class="ba-b ba-before"><div class="skin skin-b"></div><span class="ba-lbl ba-b-l">ÖNCE</span></div><div class="ba-a ba-after"><div class="skin skin-a"></div><span class="ba-lbl ba-a-l">SONRA</span></div><div class="ba-sep"></div></div><div class="bai"><div class="bai-tag">Glow Mask</div><div class="bai-h">Akne & Leke Azalması</div><div class="bai-t">8 hafta · günlük 20 dk</div></div></div>
-    <div class="bac"><div class="bav"><div class="ba-b ba-before"><div class="skin skin-b" style="background:radial-gradient(circle at 38% 35%,rgba(90,65,50,.5) 0%,rgba(50,36,28,.88) 65%,rgba(38,27,21,1) 100%)"></div><span class="ba-lbl ba-b-l">ÖNCE</span></div><div class="ba-a ba-after"><div class="skin skin-a" style="background:radial-gradient(circle at 32% 28%,rgba(255,230,210,.95) 0%,rgba(235,202,175,.82) 38%,rgba(205,170,142,.72) 65%,rgba(175,142,112,.62) 100%)"></div><span class="ba-lbl ba-a-l">SONRA</span></div><div class="ba-sep"></div></div><div class="bai"><div class="bai-tag">Dermaring Revive</div><div class="bai-h">Cilt Elastikiyeti</div><div class="bai-t">6 hafta · haftada 5 kez</div></div></div>
-    <div class="bac"><div class="bav"><div class="ba-b ba-before"><div class="skin skin-b" style="width:82px;height:140px;border-radius:10px;background:linear-gradient(to bottom,rgba(85,60,48,.6),rgba(55,40,30,.9))"></div><span class="ba-lbl ba-b-l">ÖNCE</span></div><div class="ba-a ba-after"><div class="skin skin-a" style="width:82px;height:140px;border-radius:10px;background:linear-gradient(to bottom,rgba(255,222,198,.92),rgba(230,194,168,.8))"></div><span class="ba-lbl ba-a-l">SONRA</span></div><div class="ba-sep"></div></div><div class="bai"><div class="bai-tag">Sapphire IPL</div><div class="bai-h">Kalıcı Tüy Azalması</div><div class="bai-t">12 hafta · 3 haftada bir</div></div></div>
+  <div class="ba-section fi">
+    <!-- Region tabs -->
+    <div class="ba-tabs">
+      <button class="ba-tab active" data-panel="face">Yüz</button>
+      <button class="ba-tab" data-panel="neck">Boyun & Dekolte</button>
+      <button class="ba-tab" data-panel="body">Vücut</button>
+    </div>
+
+    <div class="ba-panels">
+      <!-- Panel: Yüz -->
+      <div class="ba-panel active" data-panel="face">
+        <div class="ba-slider-wrap" data-ba="face">
+          <div class="ba-img-layer ba-img-before">
+            <span>Gün 1 — Yüz — Fotoğraf Alanı</span>
+          </div>
+          <div class="ba-img-layer ba-img-after">
+            <span>Gün 30 — Yüz — Fotoğraf Alanı</span>
+          </div>
+          <div class="ba-day-label ba-day-before">Gün 1</div>
+          <div class="ba-day-label ba-day-after" style="left:auto;right:16px">Gün 30</div>
+          <div class="ba-drag-line"></div>
+          <div class="ba-drag-handle">⟷</div>
+        </div>
+      </div>
+
+      <!-- Panel: Boyun -->
+      <div class="ba-panel" data-panel="neck">
+        <div class="ba-slider-wrap" data-ba="neck">
+          <div class="ba-img-layer ba-img-before">
+            <span>Gün 1 — Boyun — Fotoğraf Alanı</span>
+          </div>
+          <div class="ba-img-layer ba-img-after">
+            <span>Gün 30 — Boyun — Fotoğraf Alanı</span>
+          </div>
+          <div class="ba-day-label ba-day-before">Gün 1</div>
+          <div class="ba-day-label ba-day-after" style="left:auto;right:16px">Gün 30</div>
+          <div class="ba-drag-line"></div>
+          <div class="ba-drag-handle">⟷</div>
+        </div>
+      </div>
+
+      <!-- Panel: Vücut -->
+      <div class="ba-panel" data-panel="body">
+        <div class="ba-slider-wrap" data-ba="body">
+          <div class="ba-img-layer ba-img-before">
+            <span>Gün 1 — Vücut — Fotoğraf Alanı</span>
+          </div>
+          <div class="ba-img-layer ba-img-after">
+            <span>Gün 30 — Vücut — Fotoğraf Alanı</span>
+          </div>
+          <div class="ba-day-label ba-day-before">Gün 1</div>
+          <div class="ba-day-label ba-day-after" style="left:auto;right:16px">Gün 30</div>
+          <div class="ba-drag-line"></div>
+          <div class="ba-drag-handle">⟷</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info cards below -->
+    <div class="ba-info-grid">
+      <div class="ba-info-card">
+        <div class="ba-info-tag">Glow Mask</div>
+        <div class="ba-info-h">Akne & Leke Azalması</div>
+        <div class="ba-info-t">8 hafta · günlük 20 dk</div>
+      </div>
+      <div class="ba-info-card">
+        <div class="ba-info-tag">Dermaring Revive</div>
+        <div class="ba-info-h">Cilt Elastikiyeti</div>
+        <div class="ba-info-t">6 hafta · haftada 5 kez</div>
+      </div>
+      <div class="ba-info-card">
+        <div class="ba-info-tag">Sapphire IPL</div>
+        <div class="ba-info-h">Kalıcı Tüy Azalması</div>
+        <div class="ba-info-t">12 hafta · 3 haftada bir</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -902,7 +1096,7 @@ footer { background:var(--ink); padding:80px 56px 40px; }
   <div class="quiz-card fi">
     <div class="qc-l">
       <p>3 dakikalık cilt testimizi tamamlayın. Kişisel Glame protokolünüzü belirleyelim.</p>
-      <a href="#" class="btn-primary" style="opacity:1;transform:none;animation:none;align-self:flex-start"><span>Teste Başla</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="glame-quiz.html" class="btn-primary" style="opacity:1;transform:none;animation:none;align-self:flex-start"><span>Teste Başla</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <div class="qc-r">
       <div class="qsteps" id="qsteps">
@@ -943,12 +1137,12 @@ footer { background:var(--ink); padding:80px 56px 40px; }
 <!-- FOOTER -->
 <footer>
   <div class="ft-grid">
-    <div><a href="#" class="logo ft-logo">Gl<em>a</em>me</a><p class="ft-desc">Teknoloji ile güzelliği buluşturan Glame, evinizdeki klinik bakım deneyimini yeniden tanımlıyor.</p><div class="ft-nl"><input type="email" placeholder="E-posta adresiniz"><button>→</button></div></div>
-    <div><div class="ft-t">Ürünler</div><ul class="ft-list"><li><a href="#">Glow Mask</a></li><li><a href="#">Dermaring Revive</a></li><li><a href="#">Duo Spin Cleanser</a></li><li><a href="#">Sapphire Freeze IPL</a></li><li><a href="#">Hair Light Pro Comb</a></li></ul></div>
-    <div><div class="ft-t">Keşfet</div><ul class="ft-list"><li><a href="#">Cilt Testi</a></li><li><a href="#">Teknoloji</a></li><li><a href="#">Sonuçlar</a></li><li><a href="#">Blog</a></li><li><a href="#">Hakkımızda</a></li></ul></div>
-    <div><div class="ft-t">Destek</div><ul class="ft-list"><li><a href="#">İletişim</a></li><li><a href="#">Kılavuz</a></li><li><a href="#">Garanti</a></li><li><a href="#">İade</a></li><li><a href="#">KVKK</a></li></ul></div>
+    <div><a href="index.html" class="logo ft-logo">Gl<em>a</em>me</a><p class="ft-desc">Teknoloji ile güzelliği buluşturan Glame, evinizdeki klinik bakım deneyimini yeniden tanımlıyor.</p><div class="ft-nl"><input type="email" placeholder="E-posta adresiniz"><button>→</button></div></div>
+    <div><div class="ft-t">Ürünler</div><ul class="ft-list"><li><a href="glame-pdp.html">Glow Mask</a></li><li><a href="glame-pdp.html">Dermaring Revive</a></li><li><a href="glame-pdp.html">Duo Spin Cleanser</a></li><li><a href="glame-pdp.html">Sapphire Freeze IPL</a></li><li><a href="glame-pdp.html">Hair Light Pro Comb</a></li></ul></div>
+    <div><div class="ft-t">Keşfet</div><ul class="ft-list"><li><a href="glame-quiz.html">Cilt Testi</a></li><li><a href="glame-about.html">Teknoloji</a></li><li><a href="glame-collection.html">Sonuçlar</a></li><li><a href="glame-blog.html">Blog</a></li><li><a href="glame-about.html">Hakkımızda</a></li></ul></div>
+    <div><div class="ft-t">Destek</div><ul class="ft-list"><li><a href="glame-contact.html">İletişim</a></li><li><a href="glame-faq.html">Kılavuz</a></li><li><a href="glame-faq.html">Garanti</a></li><li><a href="glame-return.html">İade</a></li><li><a href="glame-legal.html">KVKK</a></li></ul></div>
   </div>
-  <div class="ft-bot"><span class="ft-copy">© 2026 Glame Technology.</span><div class="ft-leg"><a href="#">Gizlilik</a><a href="#">KVKK</a><a href="#">Çerezler</a></div></div>
+  <div class="ft-bot"><span class="ft-copy">© 2026 Glame Technology.</span><div class="ft-leg"><a href="glame-legal.html">Gizlilik</a><a href="glame-legal.html">KVKK</a><a href="glame-legal.html">Çerezler</a></div></div>
 </footer>
 
 <!-- STICKY ATC (desktop CRO) -->
@@ -972,7 +1166,7 @@ footer { background:var(--ink); padding:80px 56px 40px; }
       Ürünler
     </button>
     <!-- CENTER CART CTA -->
-    <button class="mn-cta" onclick="window.location='#cart'">
+    <button class="mn-cta" onclick="window.location='glame-checkout.html'">
       <div class="mn-pulse"></div>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
     </button>
@@ -1015,6 +1209,31 @@ if(hbg2) hbg2.addEventListener('click',openMenu);
 document.getElementById('omclose').addEventListener('click',closeMenu);
 omenu.querySelectorAll('.om-link').forEach(l=>l.addEventListener('click',closeMenu));
 
+/* ── ANNOUNCEMENT BAR CAROUSEL ── */
+(function(){
+  const msgs=document.querySelectorAll('.ann-msg');
+  const prog=document.getElementById('annProgress');
+  const bar=document.getElementById('annBar');
+  const closeBtn=document.getElementById('annClose');
+  let ai=0,annInterval=4000,annTimer;
+  function nextMsg(){
+    msgs[ai].classList.remove('active');
+    ai=(ai+1)%msgs.length;
+    msgs[ai].classList.add('active');
+    if(prog){prog.style.transition='none';prog.style.width='0%';
+      requestAnimationFrame(()=>{prog.style.transition='width '+annInterval+'ms linear';prog.style.width='100%';});
+    }
+  }
+  function startAnn(){
+    if(prog){prog.style.transition='width '+annInterval+'ms linear';prog.style.width='100%';}
+    annTimer=setInterval(nextMsg,annInterval);
+  }
+  startAnn();
+  if(closeBtn) closeBtn.addEventListener('click',()=>{
+    bar.classList.add('closed');clearInterval(annTimer);
+  });
+})();
+
 /* ── HERO SLIDER ── */
 const slides=document.querySelectorAll('.hslide');
 const dots=document.querySelectorAll('.sc-dot');
@@ -1022,11 +1241,11 @@ let cur2=0,autoT;
 function goTo(n){
   slides[cur2].classList.remove('active');slides[cur2].classList.add('exit');
   dots[cur2].classList.remove('active');
-  setTimeout(()=>slides[cur2].classList.remove('exit'),580);
+  setTimeout(()=>slides[cur2].classList.remove('exit'),800);
   cur2=(n+slides.length)%slides.length;
   slides[cur2].classList.add('active');dots[cur2].classList.add('active');
 }
-function startAuto(){autoT=setInterval(()=>goTo(cur2+1),4500);}
+function startAuto(){autoT=setInterval(()=>goTo(cur2+1),5500);}
 function resetAuto(){clearInterval(autoT);startAuto();}
 startAuto();
 document.getElementById('scnext').addEventListener('click',()=>{goTo(cur2+1);resetAuto();});
@@ -1037,6 +1256,38 @@ let tx=0;
 const sl=document.getElementById('hslider');
 sl.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
 sl.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>44){goTo(dx<0?cur2+1:cur2-1);resetAuto();}},{passive:true});
+
+/* ── BEFORE/AFTER TABS ── */
+document.querySelectorAll('.ba-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.ba-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.ba-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelector('.ba-panel[data-panel="'+tab.dataset.panel+'"]').classList.add('active');
+  });
+});
+
+/* ── BEFORE/AFTER DRAG SLIDER ── */
+document.querySelectorAll('.ba-slider-wrap').forEach(wrap=>{
+  const afterLayer=wrap.querySelector('.ba-img-after');
+  const dragLine=wrap.querySelector('.ba-drag-line');
+  const dragHandle=wrap.querySelector('.ba-drag-handle');
+  let dragging=false;
+  function setPos(x){
+    const rect=wrap.getBoundingClientRect();
+    let pct=((x-rect.left)/rect.width)*100;
+    pct=Math.max(2,Math.min(98,pct));
+    afterLayer.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';
+    dragLine.style.left=pct+'%';
+    dragHandle.style.left=pct+'%';
+  }
+  wrap.addEventListener('mousedown',e=>{dragging=true;setPos(e.clientX);});
+  window.addEventListener('mousemove',e=>{if(dragging)setPos(e.clientX);});
+  window.addEventListener('mouseup',()=>{dragging=false;});
+  wrap.addEventListener('touchstart',e=>{dragging=true;setPos(e.touches[0].clientX);},{passive:true});
+  wrap.addEventListener('touchmove',e=>{if(dragging)setPos(e.touches[0].clientX);},{passive:true});
+  wrap.addEventListener('touchend',()=>{dragging=false;});
+});
 
 /* ── QUIZ STEPS ── */
 const qsteps=document.querySelectorAll('.qs');let qi=0;
