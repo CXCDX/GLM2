@@ -29,7 +29,7 @@ html{scroll-behavior:smooth}
 body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;min-height:100dvh}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
 #cur{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--ink);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:var(--brd);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+#curr{position:fixed;width:32px;height:32px;border-radius:50%;border:1px solid var(--ink);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
 #curr.x{width:52px;height:52px;border-color:var(--g)}
 @media(hover:none){#cur,#curr{display:none}}
 
@@ -178,7 +178,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .dstat-t{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);margin-top:7px}
 /* tabs */
 .dash-tabs{display:flex;gap:0;border-bottom:var(--brd);margin-bottom:44px}
-.dash-tab{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:16px 28px;border:none;background:none;cursor:pointer;color:var(--i70);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .25s}
+.dash-tab{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:16px 28px;border:none;background:none;cursor:pointer;color:var(--i70);border-bottom:1px solid transparent;margin-bottom:-1px;transition:all .25s}
 .dash-tab.active{color:var(--ink);border-bottom-color:var(--ink)}
 .dash-tab:hover:not(.active){color:var(--ink)}
 /* orders */
@@ -259,7 +259,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
     Alışverişe Devam
   </div>
-  <a href="index.html" class="logo">Gl<em>a</em>me</a>
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
   <div style="width:160px;display:flex;justify-content:flex-end">
     <span style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i40)">Güvenli Bağlantı 🔒</span>
   </div>
@@ -468,7 +468,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
         <div class="skin-tag">30–40 Yaş</div>
       </div>
     </div>
-    <div style="border:var(--brd);padding:32px 28px">
+    <div style="border:var(--brd);padding:32px 28px;border-radius:var(--rad);box-shadow:var(--sh)">
       <div style="font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:18px">Mevcut Glame Protokolünüz</div>
       <div style="display:flex;flex-direction:column;gap:14px">
         <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--i08)"><img src="product-assets/img/glow-mask-dekupe.jpg" alt="Glow Mask" style="width:36px;height:36px;object-fit:contain;mix-blend-mode:multiply;flex-shrink:0"><div><div style="font-family:var(--d);font-size:15px;font-weight:700">Glow Mask</div><div style="font-family:var(--m);font-size:10px;letter-spacing:.1em;color:var(--i70);margin-top:2px">Pazartesi · Çarşamba · Cuma · 20dk</div></div></div>
