@@ -502,13 +502,19 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
       </div>
       <div class="pdp-thumb" onclick="setThumb(this,3)">
         <div class="th-inner" style="border-color:rgba(230,54,40,.3)">
-          <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg width="24" height="24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </div>
       </div>
       <div class="pdp-thumb" onclick="setThumb(this,4)">
         <div class="th-inner">
-          <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+          <svg width="24" height="24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
         </div>
+      </div>
+      <div class="pdp-thumb" onclick="setThumb(this,5)">
+        <div class="th-inner"><img src="product-assets/img/glow-mask-1.png" alt="Glow Mask Angle" style="width:100%;height:100%;object-fit:contain"></div>
+      </div>
+      <div class="pdp-thumb" onclick="setThumb(this,6)">
+        <div class="th-inner"><img src="product-assets/img/glow-mask-dekupe.jpg" alt="Glow Mask Detail" style="width:100%;height:100%;object-fit:contain"></div>
       </div>
     </div>
   </div>
@@ -834,7 +840,7 @@ const PRODUCTS = {
       {pos:'bottom:22%;left:6%',val:'IP54',label:'Su Dayanımı',delay:'3s'},
       {pos:'bottom:22%;right:6%',val:'20dk',label:'Seans',delay:'4.5s'}
     ],
-    breadcrumb: 'Glow Mask',
+
     slug: 'glow-mask'
   },
   'dermaring': {
@@ -856,7 +862,7 @@ const PRODUCTS = {
       {pos:'bottom:22%;left:6%',val:'850nm',label:'Kızılötesi',delay:'3s'},
       {pos:'bottom:22%;right:6%',val:'15dk',label:'Seans',delay:'4.5s'}
     ],
-    breadcrumb: 'Dermaring Revive',
+
     slug: 'dermaring'
   },
   'duo-spin': {
@@ -878,7 +884,7 @@ const PRODUCTS = {
       {pos:'bottom:22%;left:6%',val:'IPX7',label:'Su Geçirmez',delay:'3s'},
       {pos:'bottom:22%;right:6%',val:'45gün',label:'Batarya',delay:'4.5s'}
     ],
-    breadcrumb: 'Duo Spin Cleanser',
+
     slug: 'duo-spin'
   },
   'sapphire-ipl': {
@@ -900,7 +906,7 @@ const PRODUCTS = {
       {pos:'bottom:22%;left:6%',val:'3cm²',label:'Çıkış Penceresi',delay:'3s'},
       {pos:'bottom:22%;right:6%',val:'∞',label:'Atım',delay:'4.5s'}
     ],
-    breadcrumb: 'Sapphire Freeze IPL',
+
     slug: 'sapphire-ipl'
   },
   'hair-light': {
@@ -922,7 +928,7 @@ const PRODUCTS = {
       {pos:'bottom:22%;left:6%',val:'5',label:'Mod',delay:'3s'},
       {pos:'bottom:22%;right:6%',val:'25dk',label:'Seans',delay:'4.5s'}
     ],
-    breadcrumb: 'Hair Light Pro Comb',
+
     slug: 'hair-light'
   }
 };
@@ -1031,12 +1037,16 @@ const PRODUCTS = {
 
 /* ── OVERLAY MENU ── */
 const omenu=document.getElementById('omenu');
-document.getElementById('hbg').addEventListener('click',()=>{
-  const o=omenu.classList.toggle('open');
-  document.getElementById('hbg').classList.toggle('open',o);
-  document.body.style.overflow=o?'hidden':'';
+const hbgBtn=document.getElementById('hbg');
+if(hbgBtn){
+  hbgBtn.addEventListener('click',()=>{
+    const o=omenu.classList.toggle('open');
+    hbgBtn.classList.toggle('open',o);
+    document.body.style.overflow=o?'hidden':'';
+  });
+}
+document.getElementById('omclose').addEventListener('click',()=>{omenu.classList.remove('open');if(hbgBtn)hbgBtn.classList.remove('open');document.body.style.overflow='';
 });
-document.getElementById('omclose').addEventListener('click',()=>{omenu.classList.remove('open');document.getElementById('hbg').classList.remove('open');document.body.style.overflow='';});
 
 /* ── TABS ── */
 function setTab(btn,p){
@@ -1053,8 +1063,10 @@ const _p = PRODUCTS[_slug] || PRODUCTS['glow-mask'];
 const pdpImages = [
   _p.img,
   _p.img2,
-  _p.img3,
+  _p.img,
   _p.video,
+  _p.img,
+  _p.img3,
   _p.img
 ];
 function setThumb(el,i){
