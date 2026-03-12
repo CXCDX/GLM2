@@ -93,7 +93,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 @keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-18px)}}
 
 /* floating spec badges around the mask */
-.viz-badge{position:absolute;z-index:4;display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(12px);font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;animation:bfloat 7s ease-in-out infinite}
+.viz-badge{position:absolute;z-index:4;display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(12px);font-family:var(--m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;animation:bfloat 7s ease-in-out infinite;border-radius:var(--rad)}
 @keyframes bfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .vb-val{font-family:var(--d);font-size:18px;font-weight:700;font-style:italic;color:var(--g);line-height:1}
 
@@ -296,8 +296,8 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .bundle-total{font-family:var(--d);font-size:48px;font-weight:900;line-height:1;margin-bottom:4px}
 .bundle-total sub{font-size:22px;font-weight:400}
 .bundle-old{font-family:var(--d);font-size:22px;color:var(--i40);text-decoration:line-through;margin-bottom:8px}
-.bundle-save{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:rgba(190,53,53,.09);color:var(--r);padding:4px 10px;display:inline-block;margin-bottom:28px}
-.bundle-atc{height:52px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;transition:background .25s;display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
+.bundle-save{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:rgba(190,53,53,.09);color:var(--r);padding:4px 10px;display:inline-block;margin-bottom:28px;border-radius:var(--rad)}
+.bundle-atc{height:52px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;transition:background .25s;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border-radius:var(--rad)}
 .bundle-atc:hover{background:var(--g)}
 
 /* ═══ RELATED ═══ */
@@ -319,7 +319,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .mob-atc{position:fixed;bottom:calc( var(--safe-b));left:0;right:0;z-index:130;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:var(--brd);padding:12px 20px;display:none;align-items:center;gap:12px}
 .mob-atc-price{font-family:var(--d);font-size:26px;font-weight:900;line-height:1}
 .mob-atc-price sub{font-size:14px;font-weight:400}
-.mob-atc-btn{flex:1;height:52px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.mob-atc-btn{flex:1;height:52px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;border-radius:var(--rad)}
 
 /* ═══ MOB NAV ═══ */
 .mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);border-top:var(--brd);padding-bottom:var(--safe-b);height:calc(var(--nav-h) + var(--safe-b))}

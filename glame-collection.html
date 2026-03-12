@@ -50,7 +50,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .om-close{position:absolute;top:20px;right:22px;background:none;border:none;cursor:pointer;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70);padding:8px}
 
 /* HERO BANNER */
-.col-hero{padding:72px 56px 56px;border-bottom:var(--brd);display:flex;align-items:flex-end;justify-content:space-between;gap:24px;background:var(--w2)}
+.col-hero{padding:72px 56px 56px;border-bottom:var(--brd);display:flex;align-items:flex-end;justify-content:space-between;gap:24px;background:var(--w2);border-radius:0 0 var(--rad) var(--rad)}
 .col-hero-l .eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .col-hero-l .eyebrow::before{content:'';width:12px;height:2px;background:var(--g)}
 .col-hero-l h1{font-family:var(--d);font-size:clamp(48px,6vw,80px);font-weight:900;line-height:.95;letter-spacing:-.03em}
@@ -176,7 +176,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 .compare-item-slot{width:48px;height:48px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-family:var(--m);font-size:10px;color:rgba(255,255,255,.3);border-radius:var(--rad)}
 .compare-item-slot.filled{border-color:var(--g)}
 .cb-right{display:flex;gap:12px;align-items:center}
-.cb-label{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,239,.5)}
+.cb-label{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
 .cb-btn{font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:12px 28px;border:1px solid var(--g);background:var(--g);color:var(--w);cursor:pointer;transition:all .25s;border-radius:var(--rad)}
 .cb-btn:hover{background:var(--g2)}
 .cb-clear{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;border-bottom:1px solid rgba(255,255,255,.15)}
@@ -225,7 +225,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   .col-layout{grid-template-columns:1fr}
   .sidebar{display:none}
   .pgrid-4,.pgrid-3{grid-template-columns:1fr 1fr}
-  .pcard:nth-child(2n){border-right:none!important}
+  .pcard:nth-child(2n){}
   .pc-img{height:180px}
   .pc-info{padding:14px 14px 16px}
   .pc-name{font-size:15px}
@@ -281,7 +281,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 
 <div class="omenu" id="omenu">
   <button class="om-close" id="omclose">Kapat ✕</button>
-  <a href="index.html" class="om-link">Ana Sayfa <em>→</em></a>
+  <a href="glame-homepage.html" class="om-link">Ana Sayfa <em>→</em></a>
   <a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a>
   <a href="glame-about.html" class="om-link">Teknoloji <em>→</em></a>
   <a href="glame-quiz.html" class="om-link">Cilt Testi <em>→</em></a>
@@ -545,7 +545,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 <!-- MOBILE BOTTOM NAV -->
 <nav class="mob-nav">
   <div class="mob-nav-inner">
-    <button class="mn-item" onclick="window.location='index.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Ana</button>
+    <button class="mn-item" onclick="window.location='glame-homepage.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Ana</button>
     <button class="mn-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Ürünler</button>
     <button class="mn-cta" onclick="window.location='glame-checkout.html'"><div class="mn-pulse"></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
     <button class="mn-item" onclick="window.location='glame-quiz.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Test</button>
@@ -594,7 +594,7 @@ function filterCat(btn,cat){
 function fixBorders(){
   const cards=[...document.querySelectorAll('.pcard')].filter(c=>c.style.display!=='none');
   const cols=document.getElementById('productGrid').classList.contains('pgrid-3')?3:2;
-  cards.forEach((c,i)=>{c.style.borderRight=(i+1)%cols===0?'none':'2px solid var(--ink)';c.style.borderBottom=i>=cards.length-cols?'none':'2px solid var(--ink)';});
+  cards.forEach((c,i)=>{c.style.borderRight='';c.style.borderBottom='';});
 }
 
 /* SORT */
