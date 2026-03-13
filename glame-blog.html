@@ -20,7 +20,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .logo{font-family:var(--d);font-size:35px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
 .desk-links{display:flex;gap:36px;list-style:none}
-.desk-links a{font-family:var(--b);font-size:14px;font-weight:400;letter-spacing:.02em;color:var(--i70);transition:color .2s;text-decoration:none}
+.desk-links a{font-family:var(--b);font-size:14px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--i70);transition:color .2s;text-decoration:none}
 .desk-links a:hover{color:var(--ink)}
 .desk-right{display:flex;align-items:center;gap:16px}
 .desk-icon{position:relative;color:var(--i70);display:flex;align-items:center;transition:color .2s}
@@ -79,7 +79,8 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .blog-card{border-right:var(--brd);border-bottom:var(--brd);cursor:pointer;transition:background .2s;overflow:hidden;position:relative;border-radius:var(--rad)}
 .blog-card:hover{background:var(--w3)}
 .blog-card:nth-child(2n){border-right:none}
-.blog-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.blog-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0F1F3D,#2C4F82,#1B3A6B,#0F1F3D);background-size:300% 100%;animation:navyhue 4s ease-in-out infinite;transform:scaleX(0);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+@keyframes navyhue{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .blog-card:hover::before{transform:scaleX(1)}
 .bc-vis{height:160px;background:var(--w2);border-bottom:var(--brd);display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;overflow:hidden}
 .bc-vis-num{position:absolute;bottom:8px;right:12px;font-family:var(--d);font-size:48px;font-weight:900;font-style:italic;color:rgba(15,14,14,.04);line-height:1}
@@ -239,14 +240,6 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
         <a href="glame-pdp.html" class="prod-card">
           <div class="prod-img"></div>
           <div class="prod-info"><div class="prod-name">Glame Glow Mask</div><div class="prod-tag">LED Fototerapi</div><div class="prod-price">&#8378;5.000</div></div>
-        </a>
-        <a href="glame-pdp.html" class="prod-card">
-          <div class="prod-img"></div>
-          <div class="prod-info"><div class="prod-name">Dermaring Revive</div><div class="prod-tag">Mikro Akım</div><div class="prod-price">&#8378;3.500</div></div>
-        </a>
-        <a href="glame-pdp.html" class="prod-card">
-          <div class="prod-img"></div>
-          <div class="prod-info"><div class="prod-name">Duo Spin Cleanser</div><div class="prod-tag">Sonik Temizleme</div><div class="prod-price">&#8378;2.200</div></div>
         </a>
       </div>
       <div class="bsi-email"><div class="be-t">Journal'a <em>Abone Ol</em></div><div class="be-d">Haftada 1 e-posta. Bilim, protokol ve cilt teknolojisi.</div><input class="be-input" type="email" placeholder="E-posta adresiniz"><button class="be-btn" onclick="this.textContent='Abone olundu!'">Abone Ol</button></div>

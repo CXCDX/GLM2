@@ -24,7 +24,8 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .logo{font-family:var(--d);font-size:35px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
 .desk-links{display:flex;gap:36px;list-style:none}
-.desk-links a{font-family:var(--b);font-size:14px;font-weight:400;letter-spacing:.02em;color:var(--i70);transition:color .2s;text-decoration:none}
+.desk-links a{font-family:var(--b);font-size:14px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--i70);transition:color .2s;text-decoration:none}
+.pc-taksit{font-family:var(--m);font-size:9px;letter-spacing:.06em;color:var(--i40);margin-top:3px}
 .desk-links a:hover{color:var(--ink)}
 .desk-right{display:flex;align-items:center;gap:16px}
 .desk-icon{position:relative;color:var(--i70);display:flex;align-items:center;transition:color .2s}
@@ -124,7 +125,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 
 .pcard{border:var(--brd);border-radius:var(--rad);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .25s,box-shadow .25s;cursor:pointer;box-shadow:var(--sh);margin:8px}
 .pcard:hover{background:var(--w2);z-index:2;box-shadow:var(--sh-hover)}
-.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0F1F3D,#2C4F82,#1B3A6B,#0F1F3D);background-size:300% 100%;animation:navyhue 4s ease-in-out infinite;transform:scaleX(0);transition:transform .55s cubic-bezier(.16,1,.3,1)}
+@keyframes navyhue{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .pcard:hover::before{transform:scaleX(1)}
 /* grid spacing handled by card margin */
 
@@ -285,8 +287,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 <div class="omenu" id="omenu">
   <button class="om-close" id="omclose">Kapat ✕</button>
   <a href="glame-homepage.html" class="om-link">Ana Sayfa <em>→</em></a>
-  <a href="glame-collection.html" class="om-link">Alışveriş <em>→</em></a>
-  <a href="glame-about.html" class="om-link">Teknoloji <em>→</em></a>
+  <a href="glame-collection.html" class="om-link">Ürünler <em>→</em></a>
   <a href="glame-quiz.html" class="om-link">Cilt Testi <em>→</em></a>
   <a href="glame-blog.html" class="om-link">Blog <em>→</em></a>
   <a href="glame-contact.html" class="om-link">İletişim <em>→</em></a>
@@ -408,7 +409,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
           <div class="pc-desc">94 LED kaynağı, 2cm yoğunluk dağılımı. Akne, kırışıklık ve leke tedavisine yönelik klinik fototerapi maskesi.</div>
           <div class="pc-pills"><span class="pc-pill">633nm</span><span class="pc-pill">415nm</span><span class="pc-pill">830nm</span></div>
           <div class="pc-bottom">
-            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>5.000</div><div class="pc-price-old">₺6.500</div></div>
+            <div><div class="pc-price"><div class="pc-price-main"><sub>₺</sub>5.000</div><div class="pc-price-old">₺6.500</div></div><div class="pc-taksit">12 × ₺417 taksitle</div></div>
             <div class="pc-rating"><div class="pc-stars">★★★★★</div><div class="pc-rc">(847)</div></div>
           </div>
         </div>
@@ -433,7 +434,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
           <div class="pc-desc">REVIVE mikro akım teknolojisi, kırmızı ve kızılötesi ışık terapilerini birleştirerek cilt elastikiyetini artırır.</div>
           <div class="pc-pills"><span class="pc-pill">Mikro Akım</span><span class="pc-pill">Kızılötesi</span></div>
           <div class="pc-bottom">
-            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>3.500</div></div>
+            <div><div class="pc-price"><div class="pc-price-main"><sub>₺</sub>3.500</div></div><div class="pc-taksit">12 × ₺292 taksitle</div></div>
             <div class="pc-rating"><div class="pc-stars">★★★★★</div><div class="pc-rc">(312)</div></div>
           </div>
         </div>
@@ -457,7 +458,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
           <div class="pc-desc">Çift dönen başlık, sonik titreşim ile gözenekleri derinlemesine temizler. Siyah nokta ve gözenek sorunlarına karşı.</div>
           <div class="pc-pills"><span class="pc-pill">Sonik</span><span class="pc-pill">360° Spin</span></div>
           <div class="pc-bottom">
-            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>2.200</div></div>
+            <div><div class="pc-price"><div class="pc-price-main"><sub>₺</sub>2.200</div></div><div class="pc-taksit">6 × ₺367 taksitle</div></div>
             <div class="pc-rating"><div class="pc-stars">★★★★★</div><div class="pc-rc">(215)</div></div>
           </div>
         </div>
@@ -482,7 +483,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
           <div class="pc-desc">Geniş çıkış penceresi ve safir soğutma teknolojisiyle kalıcı tüy azalması. Klinikte 12 seans = Evde 12 hafta.</div>
           <div class="pc-pills"><span class="pc-pill">IPL</span><span class="pc-pill">Safir Soğutma</span></div>
           <div class="pc-bottom">
-            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>4.200</div><div class="pc-price-old">₺4.950</div></div>
+            <div><div class="pc-price"><div class="pc-price-main"><sub>₺</sub>4.200</div><div class="pc-price-old">₺4.950</div></div><div class="pc-taksit">12 × ₺350 taksitle</div></div>
             <div class="pc-rating"><div class="pc-stars">★★★★★</div><div class="pc-rc">(189)</div></div>
           </div>
         </div>
@@ -506,7 +507,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
           <div class="pc-desc">Saç dökülmesine karşı kızılötesi ışık ve mikro akım kombinasyonu. Saç kökü aktivasyonu, yoğunluk artışı.</div>
           <div class="pc-pills"><span class="pc-pill">Kızılötesi</span><span class="pc-pill">Mikro Akım</span></div>
           <div class="pc-bottom">
-            <div class="pc-price"><div class="pc-price-main"><sub>₺</sub>4.000</div></div>
+            <div><div class="pc-price"><div class="pc-price-main"><sub>₺</sub>4.000</div></div><div class="pc-taksit">12 × ₺333 taksitle</div></div>
             <div class="pc-rating"><div class="pc-stars">★★★★☆</div><div class="pc-rc">(94)</div></div>
           </div>
         </div>
@@ -561,7 +562,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 
 /* OVERLAY MENU */
 const omenu=document.getElementById('omenu');
-document.getElementById('hbg').addEventListener('click',()=>{const o=omenu.classList.toggle('open');document.getElementById('hbg').classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
+const hbgEl=document.getElementById('hbg');
+if(hbgEl) hbgEl.addEventListener('click',()=>{const o=omenu.classList.toggle('open');hbgEl.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
 document.getElementById('omclose').addEventListener('click',()=>{omenu.classList.remove('open');document.getElementById('hbg').classList.remove('open');document.body.style.overflow='';});
 
 /* SIDEBAR FILTER ACCORDION */
