@@ -16,12 +16,24 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .ann-track{display:flex;white-space:nowrap;animation:mq 44s linear infinite}
 .ann-item{padding:0 36px;font-family:var(--m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
-.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.nav{position:sticky;top:0;z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:72px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);box-shadow:0 1px 12px rgba(15,14,14,.04);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:35px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
-.nav-links{display:flex;gap:36px;list-style:none}
-.nav-links a{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--i70);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--ink)}
+.desk-links{display:flex;gap:36px;list-style:none}
+.desk-links a{font-family:var(--b);font-size:14px;font-weight:400;letter-spacing:.02em;color:var(--i70);transition:color .2s;text-decoration:none}
+.desk-links a:hover{color:var(--ink)}
+.desk-right{display:flex;align-items:center;gap:16px}
+.desk-icon{position:relative;color:var(--i70);display:flex;align-items:center;transition:color .2s}
+.desk-icon:hover{color:var(--ink)}
+.desk-badge{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--g);border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--m)}
+.desk-search{flex:1;max-width:360px;margin:0 20px}
+.dsb{display:flex;align-items:center;gap:8px;background:var(--w2);border:1px solid var(--i08);border-radius:8px;padding:0 12px;height:38px;transition:border-color .2s}
+.dsb:focus-within{border-color:var(--ink);background:var(--w)}
+.dsb svg{flex-shrink:0;color:var(--i40)}
+.dsb-input{flex:1;border:none;background:transparent;font-family:var(--b);font-size:12px;color:var(--ink);outline:none}
+.dsb-input::placeholder{color:var(--i40)}
+.desk-link-sm{font-family:var(--b);font-size:11px;color:var(--i40);transition:color .2s;white-space:nowrap}
+.desk-link-sm:hover{color:var(--ink)}
 .mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
 /* HERO */
 .blog-hero{padding:72px 56px;border-bottom:var(--brd);display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:end}
@@ -78,7 +90,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .bc-foot{display:flex;align-items:center;justify-content:space-between;font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40)}
 .bc-foot-read{color:var(--ink);display:flex;align-items:center;gap:4px}
 /* SIDEBAR */
-.blog-side{padding:32px 28px;position:sticky;top:68px}
+.blog-side{padding:32px 28px;position:sticky;top:72px}
 .bsi-t{font-family:var(--m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:16px}
 .bsi-section{margin-bottom:32px}
 .pop-item{border-bottom:1px solid var(--i08);padding:12px 0;cursor:pointer;transition:background .2s}
@@ -87,6 +99,15 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .pi-cat{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:3px}
 .pi-t{font-size:13px;font-weight:500;line-height:1.35}
 .pi-meta{font-family:var(--m);font-size:9px;color:var(--i40);margin-top:3px}
+/* PRODUCT CARDS */
+.prod-card{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--i08);text-decoration:none;color:var(--ink);transition:padding-left .2s}
+.prod-card:last-of-type{border-bottom:none}
+.prod-card:hover{padding-left:6px}
+.prod-img{width:48px;height:48px;border-radius:10px;background:var(--w2);border:1px solid var(--i15);flex-shrink:0}
+.prod-info{display:flex;flex-direction:column;gap:2px}
+.prod-name{font-size:13px;font-weight:500;line-height:1.3}
+.prod-tag{font-family:var(--m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--i40)}
+.prod-price{font-family:var(--m);font-size:11px;letter-spacing:.05em;color:var(--g);font-weight:500}
 /* EMAIL */
 .bsi-email{background:var(--ink);padding:20px;margin-top:4px;border-radius:var(--rad)}
 .be-t{font-family:var(--d);font-size:18px;font-weight:900;color:rgba(255,255,255,.9);margin-bottom:6px}
@@ -158,8 +179,14 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 <div class="ann"><div class="ann-track"><span class="ann-item">LED Fototerapi Rehberi · Cilt Tipleri · Anti-Aging Protokoller · Klinik Araştırmalar · LED Fototerapi Rehberi · Cilt Tipleri ·</span><span class="ann-item">LED Fototerapi Rehberi · Cilt Tipleri · Anti-Aging Protokoller · Klinik Araştırmalar ·</span></div></div>
 <nav class="nav">
   <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
-  <ul class="nav-links"><li><a href="glame-collection.html">Alışveriş</a></li><li><a href="glame-about.html">Teknoloji</a></li><li><a href="glame-quiz.html">Cilt Testi</a></li></ul>
-  <a href="glame-search.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none">🔍 Ara</a>
+  <ul class="desk-links"><li><a href="glame-collection.html">Ürünler</a></li><li><a href="glame-quiz.html">Cilt Testi</a></li><li><a href="glame-blog.html">Blog</a></li></ul>
+  <div class="desk-right">
+    <div class="desk-search"><div class="dsb"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input placeholder="Ara..." class="dsb-input"></div></div>
+    <a href="#" class="desk-link-sm">Ürünü Kaydet</a>
+    <a href="glame-tracking.html" class="desk-link-sm">Sipariş Takibi</a>
+    <a href="glame-account.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+    <a href="glame-checkout.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="desk-badge">2</span></a>
+  </div>
 </nav>
 <div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">Journal</span></div>
 
@@ -182,7 +209,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 
   <!-- FEATURED -->
   <div class="feat-post" onclick="showArticle()">
-    <div class="fp-vis"><div class="fp-vis-bg"></div><div class="fp-vis-orb"></div><div style="position:relative;z-index:2;text-align:center;font-size:72px;margin-bottom:24px">💡</div><div class="fp-feat-badge">Öne Çıkan</div><h2 class="fp-h">LED Fototerapi'nin <em>Klinik Temelleri</em></h2><div class="fp-meta">Dr. Aylin Yılmaz · 8 Ocak 2026 · 12 dk okuma</div></div>
+    <div class="fp-vis"><div class="fp-vis-bg"></div><div class="fp-vis-orb"></div><div style="position:relative;z-index:2;text-align:center;font-size:72px;margin-bottom:24px"></div><div class="fp-feat-badge">Öne Çıkan</div><h2 class="fp-h">LED Fototerapi'nin <em>Klinik Temelleri</em></h2><div class="fp-meta">Dr. Aylin Yılmaz · 8 Ocak 2026 · 12 dk okuma</div></div>
     <div class="fp-body"><div class="fp-cat">Bilim & Araştırma</div><p class="fp-excerpt">633nm kırmızı ışık neden kolajen üretimini artırır? 415nm mavi ışık P.acnes bakterilerini nasıl imha eder? 830nm kızılötesi derin dokuya nasıl ulaşır? İstanbul Üniversitesi dermatoloji departmanı ile yürüttüğümüz 12 haftalık klinik çalışmanın detayları.</p><div class="fp-read">Makaleyi Oku <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div><div class="fp-tags"><span class="fp-tag">LED</span><span class="fp-tag">633nm</span><span class="fp-tag">Kolajen</span><span class="fp-tag">Klinik</span><span class="fp-tag">Anti-Aging</span></div></div>
   </div>
 
@@ -200,20 +227,29 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
   <!-- GRID + SIDEBAR -->
   <div class="blog-grid-wrap">
     <div class="blog-grid" id="blogGrid">
-      <div class="blog-card" data-cat="rehber" onclick="showArticle()"><div class="bc-vis">🌿<div class="bc-vis-num">01</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">Kombine Cilt için Haftalık LED Protokolü</div><div class="bc-excerpt">Yağlı T-bölgesi ve kuru yanakları olan ciltler için optimum LED frekansı ve mod rotasyonu.</div><div class="bc-foot"><span>15 Oca 2026</span><span class="bc-foot-read">7 dk →</span></div></div></div>
-      <div class="blog-card" data-cat="bilim" onclick="showArticle()"><div class="bc-vis">🔬<div class="bc-vis-num">02</div></div><div class="bc-body"><div class="bc-cat">Bilim</div><div class="bc-h">Mikro Akım Neden Yüz Konturunu Kaldırır?</div><div class="bc-excerpt">Adenozin trifosfat (ATP) sentezi, kas hafızası ve Dermaring Revive'ın klinik etki mekanizması.</div><div class="bc-foot"><span>10 Oca 2026</span><span class="bc-foot-read">9 dk →</span></div></div></div>
-      <div class="blog-card" data-cat="akne anti-aging" onclick="showArticle()"><div class="bc-vis">💙<div class="bc-vis-num">03</div></div><div class="bc-body"><div class="bc-cat">Bilim</div><div class="bc-h">415nm Mavi Işık: Akne'nin Sessiz Düşmanı</div><div class="bc-excerpt">P.acnes bakterilerindeki porfirin aktivasyonu ve 6 haftalık mavi ışık tedavisinin histolojik bulguları.</div><div class="bc-foot"><span>4 Oca 2026</span><span class="bc-foot-read">11 dk →</span></div></div></div>
-      <div class="blog-card" data-cat="rehber" onclick="showArticle()"><div class="bc-vis">⏰<div class="bc-vis-num">04</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">Sabah mı, Gece mi? LED Seansı İçin En İyi Zaman</div><div class="bc-excerpt">Sirkadiyen ritim, kortizol seviyeleri ve cilt yenilenmesi açısından hangi saatte LED kullanmalısınız?</div><div class="bc-foot"><span>28 Ara 2025</span><span class="bc-foot-read">5 dk →</span></div></div></div>
-      <div class="blog-card" data-cat="epilasyon trend" onclick="showArticle()"><div class="bc-vis">❄️<div class="bc-vis-num">05</div></div><div class="bc-body"><div class="bc-cat">Trend</div><div class="bc-h">Ev IPL'i Kliniğe Karşı: 2026 Karşılaştırması</div><div class="bc-excerpt">Profesyonel IPL ve ev cihazları arasındaki etkinlik farkı gerçekten ne kadar?</div><div class="bc-foot"><span>20 Ara 2025</span><span class="bc-foot-read">8 dk →</span></div></div></div>
-      <div class="blog-card" data-cat="anti-aging rehber" onclick="showArticle()"><div class="bc-vis">🪞<div class="bc-vis-num">06</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">35+ İçin Anti-Aging Başlangıç Protokolü</div><div class="bc-excerpt">İlk kez cihaz kullananlar için adım adım giriş programı. Ne zaman başlanmalı, nasıl ilerlenmeli?</div><div class="bc-foot"><span>12 Ara 2025</span><span class="bc-foot-read">6 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="rehber" onclick="showArticle()"><div class="bc-vis"><div class="bc-vis-num">01</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">Kombine Cilt için Haftalık LED Protokolü</div><div class="bc-excerpt">Yağlı T-bölgesi ve kuru yanakları olan ciltler için optimum LED frekansı ve mod rotasyonu.</div><div class="bc-foot"><span>15 Oca 2026</span><span class="bc-foot-read">7 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="bilim" onclick="showArticle()"><div class="bc-vis"><div class="bc-vis-num">02</div></div><div class="bc-body"><div class="bc-cat">Bilim</div><div class="bc-h">Mikro Akım Neden Yüz Konturunu Kaldırır?</div><div class="bc-excerpt">Adenozin trifosfat (ATP) sentezi, kas hafızası ve Dermaring Revive'ın klinik etki mekanizması.</div><div class="bc-foot"><span>10 Oca 2026</span><span class="bc-foot-read">9 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="akne anti-aging" onclick="showArticle()"><div class="bc-vis"><div class="bc-vis-num">03</div></div><div class="bc-body"><div class="bc-cat">Bilim</div><div class="bc-h">415nm Mavi Işık: Akne'nin Sessiz Düşmanı</div><div class="bc-excerpt">P.acnes bakterilerindeki porfirin aktivasyonu ve 6 haftalık mavi ışık tedavisinin histolojik bulguları.</div><div class="bc-foot"><span>4 Oca 2026</span><span class="bc-foot-read">11 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="rehber" onclick="showArticle()"><div class="bc-vis"><div class="bc-vis-num">04</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">Sabah mı, Gece mi? LED Seansı İçin En İyi Zaman</div><div class="bc-excerpt">Sirkadiyen ritim, kortizol seviyeleri ve cilt yenilenmesi açısından hangi saatte LED kullanmalısınız?</div><div class="bc-foot"><span>28 Ara 2025</span><span class="bc-foot-read">5 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="epilasyon trend" onclick="showArticle()"><div class="bc-vis"><div class="bc-vis-num">05</div></div><div class="bc-body"><div class="bc-cat">Trend</div><div class="bc-h">Ev IPL'i Kliniğe Karşı: 2026 Karşılaştırması</div><div class="bc-excerpt">Profesyonel IPL ve ev cihazları arasındaki etkinlik farkı gerçekten ne kadar?</div><div class="bc-foot"><span>20 Ara 2025</span><span class="bc-foot-read">8 dk →</span></div></div></div>
+      <div class="blog-card" data-cat="anti-aging rehber" onclick="showArticle()"><div class="bc-vis"><div class="bc-vis-num">06</div></div><div class="bc-body"><div class="bc-cat">Rehber</div><div class="bc-h">35+ İçin Anti-Aging Başlangıç Protokolü</div><div class="bc-excerpt">İlk kez cihaz kullananlar için adım adım giriş programı. Ne zaman başlanmalı, nasıl ilerlenmeli?</div><div class="bc-foot"><span>12 Ara 2025</span><span class="bc-foot-read">6 dk →</span></div></div></div>
     </div>
     <div class="blog-side">
-      <div class="bsi-section"><div class="bsi-t">En Çok Okunanlar</div>
-        <div class="pop-item" onclick="showArticle()"><div class="pi-cat">Bilim</div><div class="pi-t">LED Fototerapi'nin Klinik Temelleri</div><div class="pi-meta">12 dk · 4.2k okuma</div></div>
-        <div class="pop-item" onclick="showArticle()"><div class="pi-cat">Rehber</div><div class="pi-t">Kombine Cilt LED Protokolü</div><div class="pi-meta">7 dk · 2.8k okuma</div></div>
-        <div class="pop-item" onclick="showArticle()"><div class="pi-cat">Trend</div><div class="pi-t">Ev IPL vs Klinik IPL</div><div class="pi-meta">8 dk · 1.9k okuma</div></div>
+      <div class="bsi-section"><div class="bsi-t">Ürün Önerisi</div>
+        <a href="glame-pdp.html" class="prod-card">
+          <div class="prod-img"></div>
+          <div class="prod-info"><div class="prod-name">Glame Glow Mask</div><div class="prod-tag">LED Fototerapi</div><div class="prod-price">&#8378;5.000</div></div>
+        </a>
+        <a href="glame-pdp.html" class="prod-card">
+          <div class="prod-img"></div>
+          <div class="prod-info"><div class="prod-name">Dermaring Revive</div><div class="prod-tag">Mikro Akım</div><div class="prod-price">&#8378;3.500</div></div>
+        </a>
+        <a href="glame-pdp.html" class="prod-card">
+          <div class="prod-img"></div>
+          <div class="prod-info"><div class="prod-name">Duo Spin Cleanser</div><div class="prod-tag">Sonik Temizleme</div><div class="prod-price">&#8378;2.200</div></div>
+        </a>
       </div>
-      <div class="bsi-email"><div class="be-t">Journal'a <em>Abone Ol</em></div><div class="be-d">Haftada 1 e-posta. Bilim, protokol ve cilt teknolojisi.</div><input class="be-input" type="email" placeholder="E-posta adresiniz"><button class="be-btn" onclick="this.textContent='✓ Abone olundu!'">Abone Ol →</button></div>
+      <div class="bsi-email"><div class="be-t">Journal'a <em>Abone Ol</em></div><div class="be-d">Haftada 1 e-posta. Bilim, protokol ve cilt teknolojisi.</div><input class="be-input" type="email" placeholder="E-posta adresiniz"><button class="be-btn" onclick="this.textContent='Abone olundu!'">Abone Ol</button></div>
     </div>
   </div>
   <div class="blog-pag"><div class="bp-info">12 yazıdan 6 tanesi gösteriliyor</div><div class="bp-btns"><button class="bp-btn active">1</button><button class="bp-btn">2</button><button class="bp-btn"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div></div>

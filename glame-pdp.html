@@ -23,7 +23,7 @@
   --b:'Inter',sans-serif;
   --m:'JetBrains Mono',monospace;
   --safe-b:env(safe-area-inset-bottom,0px);
-  --nav-h:72px;--ann-h:34px;--desk-nav-h:82px;
+  --nav-h:72px;--ann-h:34px;--desk-nav-h:72px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -38,25 +38,24 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── NAV ── */
-.nav{position:sticky;top:var(--ann-h);z-index:150;display:flex;flex-direction:column;padding:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd);box-shadow:var(--sh)}
-.nav-top{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:0 48px;height:28px;border-bottom:1px solid var(--i08);font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase}
-.nav-top a{color:var(--i40);text-decoration:none;transition:color .2s}
-.nav-top a:hover{color:var(--ink)}
-.nav-main{display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:54px}
-.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.nav{position:sticky;top:0;z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:72px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);box-shadow:0 1px 12px rgba(15,14,14,.04);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:35px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
-.nav-links{display:flex;align-items:center;gap:28px}
-.nav-links a{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--ink)}
-.nav-r{display:flex;align-items:center;gap:14px}
-.nav-search{display:flex;align-items:center;gap:6px;padding:6px 14px;border:var(--brd);border-radius:20px;background:var(--w2);transition:border-color .2s}
-.nav-search:focus-within{border-color:var(--i40)}
-.nav-search input{border:none;background:none;outline:none;font-family:var(--m);font-size:10px;letter-spacing:.08em;color:var(--ink);width:120px}
-.nav-search input::placeholder{color:var(--i40)}
-.nav-search svg{color:var(--i40);flex-shrink:0}
-.ni{color:var(--i70);display:flex;align-items:center;cursor:pointer;transition:color .2s;position:relative}
-.ni:hover{color:var(--ink)}
-.nb{position:absolute;top:-5px;right:-5px;width:15px;height:15px;background:var(--g);border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--m)}
+.desk-links{display:flex;gap:36px;list-style:none}
+.desk-links a{font-family:var(--b);font-size:14px;font-weight:400;letter-spacing:.02em;color:var(--i70);transition:color .2s;text-decoration:none}
+.desk-links a:hover{color:var(--ink)}
+.desk-right{display:flex;align-items:center;gap:16px}
+.desk-icon{position:relative;color:var(--i70);display:flex;align-items:center;transition:color .2s}
+.desk-icon:hover{color:var(--ink)}
+.desk-badge{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--g);border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--m)}
+.desk-search{flex:1;max-width:360px;margin:0 20px}
+.dsb{display:flex;align-items:center;gap:8px;background:var(--w2);border:1px solid var(--i08);border-radius:8px;padding:0 12px;height:38px;transition:border-color .2s}
+.dsb:focus-within{border-color:var(--ink);background:var(--w)}
+.dsb svg{flex-shrink:0;color:var(--i40)}
+.dsb-input{flex:1;border:none;background:transparent;font-family:var(--b);font-size:12px;color:var(--ink);outline:none}
+.dsb-input::placeholder{color:var(--i40)}
+.desk-link-sm{font-family:var(--b);font-size:11px;color:var(--i40);transition:color .2s;white-space:nowrap}
+.desk-link-sm:hover{color:var(--ink)}
 
 /* ── MOB TOP ── */
 .mob-top{display:none;position:sticky;top:var(--ann-h);z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
@@ -303,20 +302,36 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 .bundle-atc{height:52px;background:var(--ink);color:var(--w);border:none;cursor:pointer;font-family:var(--m);font-size:12px;letter-spacing:.18em;text-transform:uppercase;transition:background .25s;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border-radius:var(--rad)}
 .bundle-atc:hover{background:var(--g)}
 
-/* ═══ RELATED ═══ */
-.related-sec{padding:72px 48px;border-bottom:var(--brd)}
-.rel-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--brd);margin-top:44px;border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
-.rel-card{border-right:var(--brd);display:flex;flex-direction:column;cursor:pointer;transition:background .2s;position:relative;overflow:hidden}
-.rel-card:last-child{border-right:none}
-.rel-card:hover{background:var(--w3)}
-.rel-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1)}
-.rel-card:hover::before{transform:scaleX(1)}
-.rel-img{height:160px;background:var(--w2);border-bottom:var(--brd);display:flex;align-items:center;justify-content:center}
-.rel-info{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
-.rel-tag{font-family:var(--m);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:5px}
-.rel-name{font-family:var(--d);font-size:16px;font-weight:700;margin-bottom:5px}
-.rel-desc{font-size:12px;color:var(--i70);margin-bottom:auto;line-height:1.5}
-.rel-price{font-family:var(--d);font-size:18px;font-weight:700;padding-top:12px;border-top:1px solid var(--i08);margin-top:10px}
+/* ═══ FAQ ═══ */
+.faq-sec{padding:72px 48px;border-bottom:var(--brd)}
+.faq-list{margin-top:44px;border:var(--brd);border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
+.faq-item{border-bottom:var(--brd)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 28px;background:none;border:none;cursor:pointer;text-align:left;transition:background .2s}
+.faq-q:hover{background:var(--w2)}
+.faq-q-text{font-family:var(--d);font-size:18px;font-weight:700;line-height:1.3;color:var(--ink)}
+.faq-q-num{font-family:var(--m);font-size:10px;letter-spacing:.14em;color:var(--i40);min-width:28px}
+.faq-arrow{font-family:var(--m);font-size:14px;color:var(--i40);transition:transform .3s cubic-bezier(.16,1,.3,1);flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a-inner{padding:0 28px 24px 56px;font-size:14px;line-height:1.7;color:var(--i70)}
+
+/* ═══ BLOG ═══ */
+.blog-sec{padding:72px 48px;border-bottom:var(--brd)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);border:var(--brd);margin-top:44px;border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh)}
+.blog-card{border-right:var(--brd);display:flex;flex-direction:column;cursor:pointer;transition:background .2s;position:relative;overflow:hidden;text-decoration:none;color:inherit}
+.blog-card:last-child{border-right:none}
+.blog-card:hover{background:var(--w2)}
+.blog-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.blog-card:hover::before{transform:scaleX(1)}
+.blog-card-body{padding:28px 24px;flex:1;display:flex;flex-direction:column}
+.blog-cat{font-family:var(--m);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:10px}
+.blog-title{font-family:var(--d);font-size:20px;font-weight:700;line-height:1.25;margin-bottom:12px;letter-spacing:-.01em}
+.blog-meta{margin-top:auto;padding-top:16px;border-top:1px solid var(--i08);display:flex;align-items:center;justify-content:space-between}
+.blog-time{font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--i40)}
+.blog-link{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;transition:color .2s}
+.blog-card:hover .blog-link{color:var(--g)}
 
 /* ═══ MOB STICKY ATC ═══ */
 .mob-atc{position:fixed;bottom:calc( var(--safe-b));left:0;right:0;z-index:130;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:var(--brd);padding:12px 20px;display:none;align-items:center;gap:12px}
@@ -370,7 +385,7 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
   .clin-split{grid-template-columns:1fr}
   .clin-l{border-right:none;border-bottom:var(--brd);padding:36px 18px}
   .clin-r{padding:36px 18px}
-  .rv-sec,.bundle-sec,.related-sec{padding:48px 18px}
+  .rv-sec,.bundle-sec,.faq-sec,.blog-sec{padding:48px 18px}
   .rv-head{grid-template-columns:1fr;gap:24px}
   .rv-grid{grid-template-columns:1fr}
   .rvc{border-right:none;border-bottom:var(--brd)}
@@ -378,10 +393,11 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
   .bundle-grid{grid-template-columns:1fr}
   .bundle-prods{border-right:none;border-bottom:var(--brd);padding:24px}
   .bundle-r{padding:24px}
-  .rel-grid{grid-template-columns:1fr 1fr}
-  .rel-card:nth-child(2n){border-right:none}
-  .rel-card:nth-child(n){border-bottom:var(--brd)}
-  .rel-card:nth-last-child(-n+2){border-bottom:none}
+  .blog-grid{grid-template-columns:1fr}
+  .blog-card{border-right:none;border-bottom:var(--brd)}
+  .blog-card:last-child{border-bottom:none}
+  .faq-q{padding:18px 20px}
+  .faq-a-inner{padding:0 20px 20px 48px}
   .pdp-ship{grid-template-columns:1fr}
   .ship-i{border-right:none;border-bottom:var(--brd)}
   .ship-i:last-child{border-bottom:none}
@@ -394,9 +410,9 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
   .how-grid{grid-template-columns:repeat(3,1fr)}
   .how-i:nth-child(3n){border-right:none}
   .how-i:nth-child(-n+3){border-bottom:var(--brd)}
-  .rel-grid{grid-template-columns:repeat(2,1fr)}
-  .rel-card:nth-child(2n){border-right:none}
-  .rel-card:nth-child(-n+2){border-bottom:var(--brd)}
+  .blog-grid{grid-template-columns:1fr}
+  .blog-card{border-right:none;border-bottom:var(--brd)}
+  .blog-card:last-child{border-bottom:none}
 }
 </style>
 </head>
@@ -423,27 +439,14 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 
 <!-- DESKTOP NAV -->
 <nav class="nav">
-  <div class="nav-top">
-    <a href="#">Ürünü Kaydet</a>
-    <a href="#">Sipariş Takibi</a>
-  </div>
-  <div class="nav-main">
-    <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
-    <div class="nav-links">
-      <a href="glame-collection.html">Ürünler</a>
-      <a href="glame-about.html">Hakkımızda</a>
-      <a href="glame-quiz.html">Cilt Testi</a>
-      <a href="glame-blog.html">Blog</a>
-      <a href="glame-contact.html">İletişim</a>
-    </div>
-    <div class="nav-r">
-      <div class="nav-search">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input type="text" placeholder="Ara...">
-      </div>
-      <span class="ni"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
-      <span class="ni" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nb">2</span></span>
-    </div>
+  <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
+  <ul class="desk-links"><li><a href="glame-collection.html">Ürünler</a></li><li><a href="glame-quiz.html">Cilt Testi</a></li><li><a href="glame-blog.html">Blog</a></li></ul>
+  <div class="desk-right">
+    <div class="desk-search"><div class="dsb"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input placeholder="Ara..." class="dsb-input"></div></div>
+    <a href="#" class="desk-link-sm">Ürünü Kaydet</a>
+    <a href="glame-tracking.html" class="desk-link-sm">Sipariş Takibi</a>
+    <a href="glame-account.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+    <a href="glame-checkout.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="desk-badge">2</span></a>
   </div>
 </nav>
 
@@ -778,26 +781,88 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
   </div>
 </div>
 
-<!-- ═══ RELATED ═══ -->
-<div class="related-sec">
-  <div style="font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="display:block;width:12px;height:2px;background:var(--g)"></span>Benzer Ürünler</div>
-  <div style="font-family:var(--d);font-size:clamp(28px,3vw,40px);font-weight:900;line-height:1.0;letter-spacing:-.02em">Şunlar da <em style="font-weight:400;color:var(--g)">İlginizi Çekebilir</em></div>
-  <div class="rel-grid fi">
-    <a href="glame-pdp.html?product=dermaring" class="rel-card" style="text-decoration:none;color:inherit">
-      <div class="rel-img"><img src="product-assets/img/dermaring-dekupe.jpg" alt="Dermaring Revive" style="max-height:90px;width:auto;object-fit:contain;mix-blend-mode:multiply"></div>
-      <div class="rel-info"><div class="rel-tag">Anti-Aging</div><div class="rel-name">Dermaring Revive</div><div class="rel-desc">Mikro akım + kızılötesi kombinasyonu</div><div class="rel-price"><sub>₺</sub>3.500</div></div>
+<!-- ═══ FAQ ═══ -->
+<div class="faq-sec">
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="display:block;width:12px;height:2px;background:var(--g)"></span>SSS</div>
+  <div style="font-family:var(--d);font-size:clamp(28px,3vw,40px);font-weight:900;line-height:1.0;letter-spacing:-.02em">Sıkça Sorulan <em style="font-weight:400;color:var(--g)">Sorular</em></div>
+  <div class="faq-list fi">
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span class="faq-q-num">01</span>
+        <span class="faq-q-text">LED Fototerapi güvenli mi?</span>
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Evet, LED fototerapi FDA onaylı, non-invaziv bir cilt bakım yöntemidir. UV ışını içermez ve cildinize zarar vermez. Klinik çalışmalar, düzenli kullanımda herhangi bir yan etki bildirilmediğini göstermektedir. Glow Mask, dermatolojist kontrolünde test edilmiş güvenli dalga boyları kullanır.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span class="faq-q-num">02</span>
+        <span class="faq-q-text">Ne sıklıkla kullanmalıyım?</span>
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Optimum sonuçlar için haftada 3–5 kez, günde 20 dakikalık seanslar önerilir. İlk iki hafta her gün kullanarak cildinizi alıştırabilirsiniz. Cihaz otomatik zamanlayıcı ile donatılmıştır, seans süresi dolduğunda kendiliğinden kapanır.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span class="faq-q-num">03</span>
+        <span class="faq-q-text">Sonuçları ne zaman görürüm?</span>
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Çoğu kullanıcı ilk 2–4 hafta içinde cilt tonunda ve dokusunda gözle görülür iyileşme bildirmektedir. Akne izleri ve hiperpigmentasyon için 6–8 haftalık düzenli kullanım önerilir. Klinik çalışmalarda katılımcıların %89'u 8 hafta sonunda belirgin fark gözlemlemiştir.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span class="faq-q-num">04</span>
+        <span class="faq-q-text">Tüm cilt tipleri için uygun mu?</span>
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Evet, LED fototerapi tüm Fitzpatrick cilt tipleri (I–VI) için uygundur. Hassas ciltler dahil her cilt tipinde güvenle kullanılabilir. Ancak aktif herpes, epilepsi veya fotosensitizan ilaç kullanımı durumunda doktorunuza danışmanızı öneririz.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span class="faq-q-num">05</span>
+        <span class="faq-q-text">Garanti kapsamı nedir?</span>
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Glow Mask, 2 yıl resmi üretici garantisi ile sunulmaktadır. Garanti kapsamında üretim hatası, LED arızası ve elektronik aksamla ilgili tüm sorunlar ücretsiz onarım veya değişim ile karşılanır. Ayrıca 30 gün içinde koşulsuz iade hakkınız bulunmaktadır.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BLOG ═══ -->
+<div class="blog-sec">
+  <div style="font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="display:block;width:12px;height:2px;background:var(--g)"></span>Blog</div>
+  <div style="font-family:var(--d);font-size:clamp(28px,3vw,40px);font-weight:900;line-height:1.0;letter-spacing:-.02em">Blog'dan <em style="font-weight:400;color:var(--g)">İlgili Yazılar</em></div>
+  <div class="blog-grid fi">
+    <a href="glame-blog.html" class="blog-card">
+      <div class="blog-card-body">
+        <div class="blog-cat">Rehber</div>
+        <div class="blog-title">LED Maske Nasıl Kullanılır? Adım Adım Başlangıç Rehberi</div>
+        <div class="blog-meta">
+          <span class="blog-time">7 dk okuma</span>
+          <span class="blog-link">Makaleyi Oku →</span>
+        </div>
+      </div>
     </a>
-    <a href="glame-pdp.html?product=duo-spin" class="rel-card" style="text-decoration:none;color:inherit">
-      <div class="rel-img"><img src="product-assets/img/duo-spin-dekupe.png" alt="Duo Spin Cleanser" style="max-height:90px;width:auto;object-fit:contain;mix-blend-mode:multiply"></div>
-      <div class="rel-info"><div class="rel-tag">Temizleme</div><div class="rel-name">Duo Spin Cleanser</div><div class="rel-desc">Sonik titreşim, 360° dönen başlık</div><div class="rel-price"><sub>₺</sub>2.200</div></div>
+    <a href="glame-blog.html" class="blog-card">
+      <div class="blog-card-body">
+        <div class="blog-cat">Bilim</div>
+        <div class="blog-title">Kırmızı Işık Terapisi: Klinik Çalışmalar Ne Diyor?</div>
+        <div class="blog-meta">
+          <span class="blog-time">5 dk okuma</span>
+          <span class="blog-link">Makaleyi Oku →</span>
+        </div>
+      </div>
     </a>
-    <a href="glame-pdp.html?product=sapphire-ipl" class="rel-card" style="text-decoration:none;color:inherit">
-      <div class="rel-img"><img src="product-assets/img/sapphire-ipl-dekupe.jpg" alt="Sapphire Freeze IPL" style="max-height:90px;width:auto;object-fit:contain;mix-blend-mode:multiply"></div>
-      <div class="rel-info"><div class="rel-tag">Epilasyon</div><div class="rel-name">Sapphire Freeze IPL</div><div class="rel-desc">Safir soğutma, kalıcı tüy azalması</div><div class="rel-price"><sub>₺</sub>4.200</div></div>
-    </a>
-    <a href="glame-pdp.html?product=hair-light" class="rel-card" style="text-decoration:none;color:inherit">
-      <div class="rel-img"><img src="product-assets/img/hair-light-dekupe.jpg" alt="Hair Light Pro" style="max-height:90px;width:auto;object-fit:contain;mix-blend-mode:multiply"></div>
-      <div class="rel-info"><div class="rel-tag">Saç Bakımı</div><div class="rel-name">Hair Light Pro</div><div class="rel-desc">Kızılötesi + mikro akım tarak</div><div class="rel-price"><sub>₺</sub>4.000</div></div>
+    <a href="glame-blog.html" class="blog-card">
+      <div class="blog-card-body">
+        <div class="blog-cat">Cilt Bakımı</div>
+        <div class="blog-title">Akne Sonrası İzlerle Mücadele: LED Fototerapinin Rolü</div>
+        <div class="blog-meta">
+          <span class="blog-time">6 dk okuma</span>
+          <span class="blog-link">Makaleyi Oku →</span>
+        </div>
+      </div>
     </a>
   </div>
 </div>
@@ -1013,19 +1078,6 @@ const PRODUCTS = {
   if(mobAtcDiv) {
     const nameLabel = mobAtcDiv.querySelector('div > div:last-child');
     if(nameLabel && nameLabel.style) nameLabel.textContent = p.name;
-  }
-
-  // Related products — show all except current
-  const relGrid = document.querySelector('.rel-grid');
-  if(relGrid) {
-    const others = Object.keys(PRODUCTS).filter(k => k !== slug);
-    relGrid.innerHTML = others.map(k => {
-      const r = PRODUCTS[k];
-      return '<a href="glame-pdp.html?product='+k+'" class="rel-card" style="text-decoration:none;color:inherit">' +
-        '<div class="rel-img"><img src="'+r.img+'" alt="'+r.name+'" style="max-height:90px;width:auto;object-fit:contain;mix-blend-mode:multiply"></div>' +
-        '<div class="rel-info"><div class="rel-tag">'+r.cat.split('·')[0].trim()+'</div><div class="rel-name">'+r.name+'</div><div class="rel-desc">'+r.desc.substring(0,50)+'…</div><div class="rel-price"><sub>₺</sub>'+r.price+'</div></div>' +
-        '</a>';
-    }).join('');
   }
 
   // Reviews section header
