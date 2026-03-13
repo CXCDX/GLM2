@@ -103,10 +103,10 @@ button { font-family:inherit; }
   backdrop-filter:blur(20px);
   box-shadow:0 1px 12px rgba(15,14,14,.04);
 }
-.logo { font-family:var(--d); font-size:26px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; }
+.logo { font-family:var(--d); font-size:35px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
 .logo em { font-style:italic; color:var(--g); font-weight:400; }
 .desk-links { display:flex; gap:36px; list-style:none; }
-.desk-links a { font-family:var(--b); font-size:13px; letter-spacing:.02em; color:var(--i70); transition:color .2s; }
+.desk-links a { font-family:var(--b); font-size:14px; font-weight:400; letter-spacing:.02em; color:var(--i70); transition:color .2s; }
 .desk-links a:hover { color:var(--ink); }
 .desk-right { display:flex; align-items:center; gap:16px; }
 .desk-cta { font-family:var(--b); font-size:12px; letter-spacing:.04em;
@@ -378,9 +378,10 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 .pc { position:relative; overflow:hidden; display:flex; flex-direction:column; transition:all .3s; border-radius:var(--rad); background:var(--w); box-shadow:var(--sh); }
 .pc:hover { box-shadow:var(--sh-hover); transform:translateY(-4px); }
 .pc.feat { grid-row:1/3; }
-/* subtle top accent on hover */
-.pc::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--g); border-radius:var(--rad) var(--rad) 0 0; transform:scaleX(0); transition:transform .55s cubic-bezier(.16,1,.3,1); }
+/* subtle top accent on hover — rich navy hue */
+.pc::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#0F1F3D,#2C4F82,#1B3A6B,#0F1F3D); background-size:300% 100%; border-radius:var(--rad) var(--rad) 0 0; transform:scaleX(0); transition:transform .55s cubic-bezier(.16,1,.3,1); animation:navyhue 4s ease-in-out infinite; }
 .pc:hover::before { transform:scaleX(1); }
+@keyframes navyhue { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 .pin { padding:28px 24px; display:flex; flex-direction:column; height:100%; }
 .pphoto { flex:1; display:flex; align-items:center; justify-content:center; margin:14px -24px; overflow:hidden; min-height:160px; position:relative; }
 .feat .pphoto { min-height:320px; }
@@ -460,7 +461,7 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
    SMART SKINCARE BANNER
 ════════════════════════════════════════ */
 .smart-banner { background:transparent; border:1px solid var(--i08); border-radius:32px; margin:24px; padding:72px 56px; }
-.smart-inner { display:grid; grid-template-columns:1fr 1fr 1fr; gap:40px; align-items:start; }
+.smart-inner { display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:start; }
 .smart-left { }
 .smart-left h2 { font-family:var(--d); font-size:clamp(28px,3.5vw,44px); font-weight:600; line-height:1.08; margin-bottom:16px; }
 .smart-left h2 em { font-style:italic; font-weight:400; color:var(--g); }
@@ -660,17 +661,17 @@ h2.sec-h em { font-style:italic; font-weight:400; color:var(--g); }
 /* ════════════════════════════════════════
    FOOTER
 ════════════════════════════════════════ */
-footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 0 0; margin-top:24px; }
-.ft-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:48px; margin-bottom:56px; }
+footer { background:rgba(15,14,14,.50); padding:48px 56px 28px; border-radius:32px 32px 0 0; margin-top:24px; }
+.ft-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:36px; margin-bottom:32px; }
 .ft-logo { color:rgba(255,255,255,.9); }
-.ft-desc { font-size:13px; color:rgba(255,255,255,.25); line-height:1.75; margin-top:14px; max-width:220px; }
+.ft-desc { font-size:14px; color:rgba(255,255,255,.35); line-height:1.75; margin-top:14px; max-width:240px; }
 .ft-nl { display:flex; margin-top:18px; border-radius:var(--rad); overflow:hidden; background:rgba(255,255,255,.06); }
 .ft-nl input { flex:1; background:transparent; border:none; padding:11px 14px; font-size:12px; color:rgba(255,255,255,.8); outline:none; font-family:var(--b); }
 .ft-nl input::placeholder { color:rgba(255,255,255,.2); }
 .ft-nl button { background:var(--g); border:none; color:var(--ink); padding:11px 18px; font-size:15px; cursor:pointer; }
-.ft-t { font-family:var(--m); font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:16px; }
+.ft-t { font-family:var(--m); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:14px; }
 .ft-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
-.ft-list a { font-size:13px; color:rgba(255,255,255,.25); transition:color .25s; }
+.ft-list a { font-size:14px; color:rgba(255,255,255,.35); transition:color .25s; }
 .ft-list a:hover { color:rgba(255,255,255,.55); }
 .ft-bot { border-top:1px solid rgba(255,255,255,.08); padding-top:26px; display:flex; align-items:center; justify-content:space-between; }
 .ft-copy { font-family:var(--m); font-size:9px; color:rgba(255,255,255,.2); letter-spacing:.1em; }
@@ -693,12 +694,23 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
 /* ════════════════════════════════════════
    SMART SKINCARE — HALF HEIGHT
 ════════════════════════════════════════ */
-.smart-banner { padding:36px 56px; }
-.smart-inner { gap:24px; }
-.smart-icon-item { padding:10px 14px; background:transparent; box-shadow:none; border:1px solid var(--i08); }
+.smart-banner { padding:48px 56px; }
+.smart-inner { gap:28px; }
+.smart-icon-item { padding:16px 20px; background:transparent; box-shadow:none; border:1px solid var(--i08); border-radius:16px; }
 .smart-icon-item:hover { box-shadow:var(--sh); }
-.smart-icon-circle { width:40px; height:40px; font-size:16px; background:transparent; }
+.smart-icon-circle { width:48px; height:48px; font-size:20px; background:transparent; }
+.smart-icon-text { font-size:15px; font-weight:600; }
+.smart-icon-sub { font-size:13px; }
 .smart-img-placeholder { aspect-ratio:3/4; }
+/* Blog news in smart section */
+.smart-blog-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.smart-blog-card { border-radius:var(--rad); overflow:hidden; border:1px solid var(--i08); transition:all .3s; cursor:pointer; }
+.smart-blog-card:hover { box-shadow:var(--sh-hover); transform:translateY(-2px); }
+.smart-blog-img { aspect-ratio:1; background:var(--w2); display:flex; align-items:center; justify-content:center; font-family:var(--m); font-size:9px; color:var(--i40); letter-spacing:.1em; text-transform:uppercase; }
+.smart-blog-body { padding:14px 16px; }
+.smart-blog-cat { font-family:var(--m); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--g); margin-bottom:4px; }
+.smart-blog-title { font-family:var(--d); font-size:15px; font-weight:600; line-height:1.2; margin-bottom:4px; }
+.smart-blog-meta { font-family:var(--m); font-size:9px; color:var(--i40); }
 /* ════════════════════════════════════════
    QUIZ — COMPACT, BIGGER TEXT
 ════════════════════════════════════════ */
@@ -1007,16 +1019,19 @@ footer { background:var(--ink); padding:80px 56px 40px; border-radius:32px 32px 
   <div class="smart-inner">
     <div class="smart-left">
       <p>Her cilt tipi için kişiselleştirilmiş teknoloji. Dermatoloji uzmanlarıyla geliştirilen protokoller ile evde klinik kalitesinde bakım.</p>
-      <a href="glame-quiz.html" class="btn-primary" style="margin-top:24px;opacity:1;transform:none"><span>Cilt Testini Çöz</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <div class="sec-label" style="margin-top:28px;margin-bottom:12px">Blogdan Haberler</div>
+      <div class="smart-blog-grid">
+        <a href="glame-blog.html" class="smart-blog-card"><div class="smart-blog-img">LED Rehberi</div><div class="smart-blog-body"><div class="smart-blog-cat">Bilim</div><div class="smart-blog-title">LED Fototerapi Klinik Temelleri</div><div class="smart-blog-meta">12 dk okuma</div></div></a>
+        <a href="glame-blog.html" class="smart-blog-card"><div class="smart-blog-img">Mikro Akım</div><div class="smart-blog-body"><div class="smart-blog-cat">Bilim</div><div class="smart-blog-title">Mikro Akım Yüz Konturunu Nasıl Kaldırır?</div><div class="smart-blog-meta">9 dk okuma</div></div></a>
+        <a href="glame-blog.html" class="smart-blog-card"><div class="smart-blog-img">Protokol</div><div class="smart-blog-body"><div class="smart-blog-cat">Rehber</div><div class="smart-blog-title">Kombine Cilt LED Protokolü</div><div class="smart-blog-meta">7 dk okuma</div></div></a>
+        <a href="glame-blog.html" class="smart-blog-card"><div class="smart-blog-img">Anti-Aging</div><div class="smart-blog-body"><div class="smart-blog-cat">Rehber</div><div class="smart-blog-title">35+ Anti-Aging Başlangıç Programı</div><div class="smart-blog-meta">6 dk okuma</div></div></a>
+      </div>
     </div>
     <div class="smart-icons">
       <div class="smart-icon-item"><div class="smart-icon-circle"><svg width="20" height="20" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div><div><div class="smart-icon-text">Elastikiyet</div><div class="smart-icon-sub">Mikro akım ile cilt sıkılaştırma</div></div></div>
       <div class="smart-icon-item"><div class="smart-icon-circle"><svg width="20" height="20" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div><div><div class="smart-icon-text">Sıkılık</div><div class="smart-icon-sub">Kolajen üretimini destekler</div></div></div>
       <div class="smart-icon-item"><div class="smart-icon-circle"><svg width="20" height="20" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div><div><div class="smart-icon-text">Nem</div><div class="smart-icon-sub">Derin nemlendirme teknolojisi</div></div></div>
       <div class="smart-icon-item"><div class="smart-icon-circle"><svg width="20" height="20" fill="none" stroke="var(--g)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 3v18M5.63 5.63l12.74 12.74M3 12h18M5.63 18.37l12.74-12.74"/></svg></div><div><div class="smart-icon-text">Esneklik</div><div class="smart-icon-sub">LED fototerapi ile yenilenme</div></div></div>
-    </div>
-    <div class="smart-visual">
-      <div class="smart-img-placeholder">Görsel + CTA Alanı</div>
     </div>
   </div>
 </section>

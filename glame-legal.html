@@ -11,9 +11,24 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom))}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:var(--ink)}
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
-.logo{font-family:var(--d);font-size:22px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.nav{position:sticky;top:0;z-index:150;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:72px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);box-shadow:0 1px 12px rgba(15,14,14,.04);border-bottom:var(--brd)}
+.logo{font-family:var(--d);font-size:35px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .logo em{font-style:italic;color:var(--g);font-weight:400}
+.desk-links{display:flex;gap:36px;list-style:none}
+.desk-links a{font-family:var(--b);font-size:14px;font-weight:400;letter-spacing:.02em;color:var(--i70);transition:color .2s;text-decoration:none}
+.desk-links a:hover{color:var(--ink)}
+.desk-right{display:flex;align-items:center;gap:16px}
+.desk-icon{position:relative;color:var(--i70);display:flex;align-items:center;transition:color .2s}
+.desk-icon:hover{color:var(--ink)}
+.desk-badge{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--g);border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--m)}
+.desk-search{flex:1;max-width:360px;margin:0 20px}
+.dsb{display:flex;align-items:center;gap:8px;background:var(--w2);border:1px solid var(--i08);border-radius:8px;padding:0 12px;height:38px;transition:border-color .2s}
+.dsb:focus-within{border-color:var(--ink);background:var(--w)}
+.dsb svg{flex-shrink:0;color:var(--i40)}
+.dsb-input{flex:1;border:none;background:transparent;font-family:var(--b);font-size:12px;color:var(--ink);outline:none}
+.dsb-input::placeholder{color:var(--i40)}
+.desk-link-sm{font-family:var(--b);font-size:11px;color:var(--i40);transition:color .2s;white-space:nowrap}
+.desk-link-sm:hover{color:var(--ink)}
 .mob-top{display:none;position:sticky;top:0;z-index:150;align-items:center;justify-content:space-between;padding:0 18px;height:60px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:var(--brd)}
 /* TAB NAV */
 .legal-tabs{display:flex;border-bottom:var(--brd);position:sticky;top:68px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);z-index:90}
@@ -88,8 +103,14 @@ body{background:var(--w);color:var(--ink);font-family:var(--b);font-weight:300;o
 <body>
 <nav class="nav">
   <a href="glame-homepage.html" class="logo">Gl<em>a</em>me</a>
-  <div style="font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--i70)">Yasal Bilgiler</div>
-  <a href="glame-contact.html" style="font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--i70);text-decoration:none">İletişim</a>
+  <ul class="desk-links"><li><a href="glame-collection.html">Ürünler</a></li><li><a href="glame-quiz.html">Cilt Testi</a></li><li><a href="glame-blog.html">Blog</a></li></ul>
+  <div class="desk-right">
+    <div class="desk-search"><div class="dsb"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input placeholder="Ara..." class="dsb-input"></div></div>
+    <a href="#" class="desk-link-sm">Ürünü Kaydet</a>
+    <a href="glame-tracking.html" class="desk-link-sm">Sipariş Takibi</a>
+    <a href="glame-account.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+    <a href="glame-checkout.html" class="desk-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="desk-badge">2</span></a>
+  </div>
 </nav>
 <div class="mob-top"><a href="glame-homepage.html" class="logo" style="font-size:18px">Gl<em>a</em>me</a><span style="font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--i70)">Yasal</span></div>
 
